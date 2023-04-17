@@ -1,0 +1,33 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./resources/src/js/custom/documentation/general/vis-timeline/basic.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/src/js/custom/documentation/general/vis-timeline/basic.js ***!
+  \*****************************************************************************/
+/***/ (() => {
+
+eval("\n\n// Class definition\nvar KTVisTimelineBasic = function () {\n  // Private functions\n  var exampleBasic = function exampleBasic() {\n    // DOM element where the Timeline will be attached\n    var container = document.getElementById(\"kt_docs_vistimeline_basic\");\n\n    // Create a DataSet (allows two way data-binding)\n    var items = new vis.DataSet([{\n      id: 1,\n      content: \"item 1\",\n      start: \"2021-04-20\"\n    }, {\n      id: 2,\n      content: \"item 2\",\n      start: \"2021-04-14\"\n    }, {\n      id: 3,\n      content: \"item 3\",\n      start: \"2021-04-18\"\n    }, {\n      id: 4,\n      content: \"item 4\",\n      start: \"2021-04-16\",\n      end: \"2021-04-19\"\n    }, {\n      id: 5,\n      content: \"item 5\",\n      start: \"2021-04-25\"\n    }, {\n      id: 6,\n      content: \"item 6\",\n      start: \"2021-04-27\",\n      type: \"point\"\n    }]);\n\n    // Configuration for the Timeline\n    var options = {};\n\n    // Create a Timeline\n    var timeline = new vis.Timeline(container, items, options);\n  };\n  return {\n    // Public Functions\n    init: function init() {\n      exampleBasic();\n    }\n  };\n}();\n\n// On document ready\nKTUtil.onDOMContentLoaded(function () {\n  KTVisTimelineBasic.init();\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvc3JjL2pzL2N1c3RvbS9kb2N1bWVudGF0aW9uL2dlbmVyYWwvdmlzLXRpbWVsaW5lL2Jhc2ljLmpzLmpzIiwibWFwcGluZ3MiOiJBQUFhOztBQUViO0FBQ0EsSUFBSUEsa0JBQWtCLEdBQUcsWUFBWTtFQUNqQztFQUNBLElBQUlDLFlBQVksR0FBRyxTQUFmQSxZQUFZQSxDQUFBLEVBQWU7SUFDM0I7SUFDQSxJQUFJQyxTQUFTLEdBQUdDLFFBQVEsQ0FBQ0MsY0FBYyxDQUFDLDJCQUEyQixDQUFDOztJQUVwRTtJQUNBLElBQUlDLEtBQUssR0FBRyxJQUFJQyxHQUFHLENBQUNDLE9BQU8sQ0FBQyxDQUN4QjtNQUFFQyxFQUFFLEVBQUUsQ0FBQztNQUFFQyxPQUFPLEVBQUUsUUFBUTtNQUFFQyxLQUFLLEVBQUU7SUFBYSxDQUFDLEVBQ2pEO01BQUVGLEVBQUUsRUFBRSxDQUFDO01BQUVDLE9BQU8sRUFBRSxRQUFRO01BQUVDLEtBQUssRUFBRTtJQUFhLENBQUMsRUFDakQ7TUFBRUYsRUFBRSxFQUFFLENBQUM7TUFBRUMsT0FBTyxFQUFFLFFBQVE7TUFBRUMsS0FBSyxFQUFFO0lBQWEsQ0FBQyxFQUNqRDtNQUFFRixFQUFFLEVBQUUsQ0FBQztNQUFFQyxPQUFPLEVBQUUsUUFBUTtNQUFFQyxLQUFLLEVBQUUsWUFBWTtNQUFFQyxHQUFHLEVBQUU7SUFBYSxDQUFDLEVBQ3BFO01BQUVILEVBQUUsRUFBRSxDQUFDO01BQUVDLE9BQU8sRUFBRSxRQUFRO01BQUVDLEtBQUssRUFBRTtJQUFhLENBQUMsRUFDakQ7TUFBRUYsRUFBRSxFQUFFLENBQUM7TUFBRUMsT0FBTyxFQUFFLFFBQVE7TUFBRUMsS0FBSyxFQUFFLFlBQVk7TUFBRUUsSUFBSSxFQUFFO0lBQVEsQ0FBQyxDQUNuRSxDQUFDOztJQUVGO0lBQ0EsSUFBSUMsT0FBTyxHQUFHLENBQUMsQ0FBQzs7SUFFaEI7SUFDQSxJQUFJQyxRQUFRLEdBQUcsSUFBSVIsR0FBRyxDQUFDUyxRQUFRLENBQUNiLFNBQVMsRUFBRUcsS0FBSyxFQUFFUSxPQUFPLENBQUM7RUFDOUQsQ0FBQztFQUVELE9BQU87SUFDSDtJQUNBRyxJQUFJLEVBQUUsU0FBQUEsS0FBQSxFQUFZO01BQ2RmLFlBQVksRUFBRTtJQUNsQjtFQUNKLENBQUM7QUFDTCxDQUFDLEVBQUU7O0FBRUg7QUFDQWdCLE1BQU0sQ0FBQ0Msa0JBQWtCLENBQUMsWUFBWTtFQUNsQ2xCLGtCQUFrQixDQUFDZ0IsSUFBSSxFQUFFO0FBQzdCLENBQUMsQ0FBQyIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3Jlc291cmNlcy9zcmMvanMvY3VzdG9tL2RvY3VtZW50YXRpb24vZ2VuZXJhbC92aXMtdGltZWxpbmUvYmFzaWMuanM/N2EyNiJdLCJzb3VyY2VzQ29udGVudCI6WyJcInVzZSBzdHJpY3RcIjtcclxuXHJcbi8vIENsYXNzIGRlZmluaXRpb25cclxudmFyIEtUVmlzVGltZWxpbmVCYXNpYyA9IGZ1bmN0aW9uICgpIHtcclxuICAgIC8vIFByaXZhdGUgZnVuY3Rpb25zXHJcbiAgICB2YXIgZXhhbXBsZUJhc2ljID0gZnVuY3Rpb24gKCkge1xyXG4gICAgICAgIC8vIERPTSBlbGVtZW50IHdoZXJlIHRoZSBUaW1lbGluZSB3aWxsIGJlIGF0dGFjaGVkXHJcbiAgICAgICAgdmFyIGNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwia3RfZG9jc192aXN0aW1lbGluZV9iYXNpY1wiKTtcclxuXHJcbiAgICAgICAgLy8gQ3JlYXRlIGEgRGF0YVNldCAoYWxsb3dzIHR3byB3YXkgZGF0YS1iaW5kaW5nKVxyXG4gICAgICAgIHZhciBpdGVtcyA9IG5ldyB2aXMuRGF0YVNldChbXHJcbiAgICAgICAgICAgIHsgaWQ6IDEsIGNvbnRlbnQ6IFwiaXRlbSAxXCIsIHN0YXJ0OiBcIjIwMjEtMDQtMjBcIiB9LFxyXG4gICAgICAgICAgICB7IGlkOiAyLCBjb250ZW50OiBcIml0ZW0gMlwiLCBzdGFydDogXCIyMDIxLTA0LTE0XCIgfSxcclxuICAgICAgICAgICAgeyBpZDogMywgY29udGVudDogXCJpdGVtIDNcIiwgc3RhcnQ6IFwiMjAyMS0wNC0xOFwiIH0sXHJcbiAgICAgICAgICAgIHsgaWQ6IDQsIGNvbnRlbnQ6IFwiaXRlbSA0XCIsIHN0YXJ0OiBcIjIwMjEtMDQtMTZcIiwgZW5kOiBcIjIwMjEtMDQtMTlcIiB9LFxyXG4gICAgICAgICAgICB7IGlkOiA1LCBjb250ZW50OiBcIml0ZW0gNVwiLCBzdGFydDogXCIyMDIxLTA0LTI1XCIgfSxcclxuICAgICAgICAgICAgeyBpZDogNiwgY29udGVudDogXCJpdGVtIDZcIiwgc3RhcnQ6IFwiMjAyMS0wNC0yN1wiLCB0eXBlOiBcInBvaW50XCIgfSxcclxuICAgICAgICBdKTtcclxuXHJcbiAgICAgICAgLy8gQ29uZmlndXJhdGlvbiBmb3IgdGhlIFRpbWVsaW5lXHJcbiAgICAgICAgdmFyIG9wdGlvbnMgPSB7fTtcclxuXHJcbiAgICAgICAgLy8gQ3JlYXRlIGEgVGltZWxpbmVcclxuICAgICAgICB2YXIgdGltZWxpbmUgPSBuZXcgdmlzLlRpbWVsaW5lKGNvbnRhaW5lciwgaXRlbXMsIG9wdGlvbnMpO1xyXG4gICAgfVxyXG5cclxuICAgIHJldHVybiB7XHJcbiAgICAgICAgLy8gUHVibGljIEZ1bmN0aW9uc1xyXG4gICAgICAgIGluaXQ6IGZ1bmN0aW9uICgpIHtcclxuICAgICAgICAgICAgZXhhbXBsZUJhc2ljKCk7XHJcbiAgICAgICAgfVxyXG4gICAgfTtcclxufSgpO1xyXG5cclxuLy8gT24gZG9jdW1lbnQgcmVhZHlcclxuS1RVdGlsLm9uRE9NQ29udGVudExvYWRlZChmdW5jdGlvbiAoKSB7XHJcbiAgICBLVFZpc1RpbWVsaW5lQmFzaWMuaW5pdCgpO1xyXG59KTtcclxuIl0sIm5hbWVzIjpbIktUVmlzVGltZWxpbmVCYXNpYyIsImV4YW1wbGVCYXNpYyIsImNvbnRhaW5lciIsImRvY3VtZW50IiwiZ2V0RWxlbWVudEJ5SWQiLCJpdGVtcyIsInZpcyIsIkRhdGFTZXQiLCJpZCIsImNvbnRlbnQiLCJzdGFydCIsImVuZCIsInR5cGUiLCJvcHRpb25zIiwidGltZWxpbmUiLCJUaW1lbGluZSIsImluaXQiLCJLVFV0aWwiLCJvbkRPTUNvbnRlbnRMb2FkZWQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/src/js/custom/documentation/general/vis-timeline/basic.js\n");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./resources/src/js/custom/documentation/general/vis-timeline/basic.js"]();
+/******/ 	
+/******/ })()
+;
