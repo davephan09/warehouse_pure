@@ -2,19 +2,20 @@
 <thead>
     <!--begin::Table row-->
     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-        <th class="min-w-125px">Name</th>
-        <th class="min-w-250px">Assigned to</th>
-        <th class="min-w-125px">Created Date</th>
-        <th class="text-end min-w-100px">Actions</th>
+        <th class="min-w-125px">{{trans('common.name')}}</th>
+        <th class="min-w-250px">{{trans('common.assign_to')}}</th>
+        <th class="min-w-125px">{{trans('common.create_date')}}</th>
+        <th class="text-end min-w-100px">{{trans('common.actions')}}</th>
     </tr>
     <!--end::Table row-->
 </thead>
 <!--end::Table head-->
 <!--begin::Table body-->
 <tbody class="fw-bold text-gray-600">
+    @foreach ($listPermission as $permission)
     <tr>
         <!--begin::Name=-->
-        <td>User Management</td>
+        <td>{{ $permission->name }}</td>
         <!--end::Name=-->
         <!--begin::Assigned to=-->
         <td>
@@ -68,6 +69,7 @@
         </td>
         <!--end::Action=-->
     </tr>
+    @endforeach
     <tr>
         <!--begin::Name=-->
         <td>Content Management</td>

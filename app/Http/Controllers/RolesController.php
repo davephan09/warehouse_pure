@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DetailedPermission;
+use App\Repositories\PermissionRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
+use DB;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
+    private $role;
+    private $permission;
+    public function __construct(RoleRepository $role, PermissionRepository $permission)
+    {
+        $this->role = $role;
+        $this->permission = $permission;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,37 +26,67 @@ class RolesController extends Controller
     public function index()
     {
         $data = array();
-        $listRoles = Role::all();
-
+        $listPermission = $this->permission->getAll()->keyBy('name');
+        $listPermission = $listPermission->mapToGroups(function ($value, $key) {
+            list($entity, $action) = explode('.', $key);
+            return [$entity => [$action => $value]];
+        });
+        foreach($listPermission as $key => $permission) {
+            $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
+                return $item;
+            });
+        }
+        $data['listPermission'] = $listPermission;
+        $data['detailedPermission'] = DetailedPermission::asArray();
+        
         return view('roles.index', $data);
     }
     
     public function getData(Request $request)
     {
         $data = array();
+        $roles = $this->role->getAll();
+        $listRoles = $roles->keyBy('id')->mapToGroups(function($item){
+            return [$item->id => $item->name];
+        })->map(function ($item) {
+            return $item[0];
+        })->toArray();
+        $rolesInfo = $roles->groupBy('id');
+        foreach($rolesInfo as $i => $role) {
+            $rolesInfo[$i] = collect($role)->mapToGroups(function($item, $key) {
+                list($permission, $action) = explode('.', $item->permission_name);
+                return [$permission => $action];
+            });
+        };
+        $data['listRoles'] = $listRoles;
+        $data['rolesInfo'] = $rolesInfo;
         $data['htmlListRoles'] = view('roles.list_role', $data)->render();
         return $this->iRespond(true, "", $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        DB::connection()->beginTransaction();
+        try {
+            $name = trim($request->input('name'));
+            $permissionIds = $request->input('permission');
+            if ($name && $permissionIds) {
+                $role = $this->role->create(['name' => $name]);
+                $permissions = $this->permission->getPermissions($permissionIds);
+                $role->syncPermissions($permissions);
+            }
+            DB::connection()->commit();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e);
+            DB::connection()->rollBack();
+            return $this->iRespond(false, 'error');
+        }
+        return $this->iRespond(true, 'success');
     }
 
     /**
@@ -56,7 +97,17 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        //
+        $roleInfo = $this->role->getRoleInfo($id);
+        $data['roleInfo'] = $roleInfo;
+        // dd($roleInfo);
+        return view('roles.detailed_view', $data);
+    }
+
+    public function getDataDetailed(Request $request, $id)
+    {
+        $data = array();
+        $data['htmlUserTable'] = view('roles.detailed_user_table', $data)->render();
+        return $this->iRespond(true, '', $data);
     }
 
     /**

@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
 {
+    private $permission;
+
+    public function __construct(PermissionRepository $permission)
+    {
+        $this->permission = $permission;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,30 +27,34 @@ class PermissionsController extends Controller
     public function getData(Request $request)
     {
         $data = array();
+        $data['listPermission'] = $listPermission = $this->permission->getPermissionList();
         $data['htmlPermissionTable'] = view('permissions.permission_table', $data)->render();
         
-        return $this->iRespond('success', '', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->iRespond(true, '', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $name = trim($request->input('name'));
+            $isCore = filter_var($request->input('is_core'), FILTER_VALIDATE_BOOLEAN);
+            $rs = $this->permission->create([
+                'name' => $name,
+                'is_core' => $isCore
+            ]);
+            if (!$rs) {
+                return $this->iRespond(false, 'error');
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e);
+            return $this->iRespond(false, 'error');
+        }
+        return $this->iRespond(true, 'success');
     }
 
     /**
