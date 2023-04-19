@@ -2,7 +2,7 @@
 <script>var hostUrl = "assets/";</script>
 <!--begin::Global Javascript Bundle(used by all pages)-->
 <script src="{{ url('assets/js/libs/jquery.min.js') }}"></script>
-<script src="{{ url('assets/js/libs/bootstrap.bundle.min.js') }}"></script>
+{{-- <script src="{{ url('assets/js/libs/bootstrap.bundle.min.js') }}"></script> --}}
 <script src="{{ url('assets/js/libs/flatpickr.min.js') }}"></script>
 <script src="{{ url('assets/js/libs/flatpickr.vn.js') }}"></script>
 <script src="{{ url('assets/js/libs/moment.min.js') }}"></script>

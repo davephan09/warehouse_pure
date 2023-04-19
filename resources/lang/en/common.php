@@ -10,5 +10,6 @@ return [
     'assign_to' => 'Assign to',
     'create_date' => 'Create date',
     'actions' => 'Actions',
-    'add_role' => 'Add a role'
+    'add_role' => 'Add a role',
+    'update_role' => 'Update Role'
 ];

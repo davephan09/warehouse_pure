@@ -10,5 +10,6 @@ return [
     'assign_to' => 'Cấp quyền cho',
     'create_date' => 'Ngày tạo',
     'actions' => 'Hành động',
-    'add_role' => 'Thêm mới vai trò'
+    'add_role' => 'Thêm mới vai trò',
+    'update_role' => 'Cập nhật vai trò'
 ];

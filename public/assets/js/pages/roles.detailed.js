@@ -14,6 +14,7 @@ var RolesDetailedClass = function () {
     this.init = function () {
         ele.roleUserTable = $('#kt_roles_view_table')
         ele.searchField = $('#seach-field')
+        ele.userQuantity = $('#user-quantity')
 
         loadData()
     }
@@ -35,7 +36,7 @@ var RolesDetailedClass = function () {
     }
 
     var loadData = function () {
-        // ele.contentPage.LoadingOverlay("show");
+        // ele.roleUserTable.LoadingOverlay("show");
         let params = getParam();
         var _cb = function (rs) {
             var data = rs.data;
@@ -75,6 +76,8 @@ var RolesDetailedClass = function () {
             var text = e.target.value;
             vars.datatable[dttableid].column(2).search(text).draw();
         });
+
+        ele.userQuantity.html(`(${data.listUsers.length})`)
     }
 
     // var checkAll = function () {

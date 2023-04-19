@@ -1,5 +1,5 @@
-<!--begin::Modal - Add role-->
-<div class="modal fade" id="kt_modal_add_role" tabindex="-1" aria-hidden="true">
+<!--begin::Modal - Update role-->
+<div class="modal fade" id="kt_modal_update_role" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-750px">
         <!--begin::Modal content-->
@@ -7,11 +7,10 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bolder">{{__('common.add_role')}}</h2>
+                <h2 class="fw-bolder">{{__('common.update_role')}}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close"
-                    data-bs-dismiss="modal">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -28,14 +27,14 @@
             </div>
             <!--end::Modal header-->
             <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-lg-5 my-7">
+            <div class="modal-body scroll-y mx-5 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_add_role_form" class="form" action="#">
+                <form id="kt_modal_update_role_form" class="form" action="#">
                     <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_role_scroll"
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll"
                         data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
-                        data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_role_header"
-                        data-kt-scroll-wrappers="#kt_modal_add_role_scroll" data-kt-scroll-offset="300px">
+                        data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_role_header"
+                        data-kt-scroll-wrappers="#kt_modal_update_role_scroll" data-kt-scroll-offset="300px">
                         <!--begin::Input group-->
                         <div class="fv-row mb-10">
                             <!--begin::Label-->
@@ -45,7 +44,7 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input class="form-control form-control-solid" placeholder="Enter a role name"
-                                name="role_name" id="role-name"/>
+                                name="role_name" value="Developer" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -68,7 +67,8 @@
                                             </td>
                                             <td>
                                                 <!--begin::Checkbox-->
-                                                <label class="form-check form-check-custom form-check-solid me-9">
+                                                <label
+                                                    class="form-check form-check-sm form-check-custom form-check-solid me-9">
                                                     <input class="form-check-input" type="checkbox" value=""
                                                         id="kt_roles_select_all" />
                                                     <span class="form-check-label" for="kt_roles_select_all">Select
@@ -78,13 +78,13 @@
                                             </td>
                                         </tr>
                                         <!--end::Table row-->
-                                        @foreach($listPermission as $key => $permission)
+                                        @foreach ($listPermission as $key => $permission)
                                         <!--begin::Table row-->
                                         <tr>
                                             <!--begin::Label-->
                                             <td class="text-gray-800">{{ucfirst($key)}}</td>
                                             <!--end::Label-->
-                                            <!--begin::Options-->
+                                            <!--begin::Input group-->
                                             <td>
                                                 <!--begin::Wrapper-->
                                                 <div class="d-flex">
@@ -92,7 +92,7 @@
                                                     <!--begin::Checkbox-->
                                                     <label
                                                         class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                        <input class="form-check-input check-item" type="checkbox" value=""
+                                                        <input class="form-check-input" type="checkbox" value=""
                                                             name="user_management_read" data-id="{{$item->id ?? ''}}"/>
                                                         <span class="form-check-label">{{ucfirst($action)}}</span>
                                                     </label>
@@ -101,7 +101,7 @@
                                                 </div>
                                                 <!--end::Wrapper-->
                                             </td>
-                                            <!--end::Options-->
+                                            <!--end::Input group-->
                                         </tr>
                                         <!--end::Table row-->
                                         @endforeach
@@ -117,9 +117,9 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel"
-                            data-bs-dismiss="modal">{{ trans('common.discard') }}</button>
-                        <button type="button" class="btn btn-primary" data-kt-roles-modal-action="submit" id="submit-btn">
+                        <button type="reset" class="btn btn-light me-3"
+                            data-kt-roles-modal-action="cancel">Discard</button>
+                        <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit">
                             <span class="indicator-label">Submit</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -135,4 +135,4 @@
     </div>
     <!--end::Modal dialog-->
 </div>
-<!--end::Modal - Add role-->
+<!--end::Modal - Update role-->

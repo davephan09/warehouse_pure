@@ -98,14 +98,20 @@ class RolesController extends Controller
     public function show($id)
     {
         $roleInfo = $this->role->getRoleInfo($id);
+        $permissions = $roleInfo->permissions->mapToGroups(function($item, $key) {
+            list($permision, $action) = explode('.', $item->name);
+            return [$permision => $action];
+        });
         $data['roleInfo'] = $roleInfo;
-        // dd($roleInfo);
+        $data['permissions'] = $permissions;
         return view('roles.detailed_view', $data);
     }
 
     public function getDataDetailed(Request $request, $id)
     {
         $data = array();
+        $listUsers = $this->role->find($id)->users()->get(['id', 'username', 'first_name', 'last_name', 'email', 'created_at']);
+        $data['listUsers'] = $listUsers;
         $data['htmlUserTable'] = view('roles.detailed_user_table', $data)->render();
         return $this->iRespond(true, '', $data);
     }

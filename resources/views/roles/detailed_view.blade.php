@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <!--begin::Card title-->
                     <div class="card-title">
-                        <h2 class="mb-0">Developer</h2>
+                        <h2 class="mb-0">{{$roleInfo->name}}</h2>
                     </div>
                     <!--end::Card title-->
                 </div>
@@ -20,25 +20,14 @@
                 <div class="card-body pt-0">
                     <!--begin::Permissions-->
                     <div class="d-flex flex-column text-gray-600">
+                        @foreach ($permissions as $permission => $actions)
+                        @php
+                            $actions = implode(', ', $actions->toArray());
+                        @endphp
                         <div class="d-flex align-items-center py-2">
-                            <span class="bullet bg-primary me-3"></span>Some Admin Controls
+                            <span class="bullet bg-primary me-3"></span>{{ucwords($actions) . ' ' . ucfirst($permission)}}
                         </div>
-                        <div class="d-flex align-items-center py-2">
-                            <span class="bullet bg-primary me-3"></span>View Financial Summaries only
-                        </div>
-                        <div class="d-flex align-items-center py-2">
-                            <span class="bullet bg-primary me-3"></span>View and Edit API Controls
-                        </div>
-                        <div class="d-flex align-items-center py-2">
-                            <span class="bullet bg-primary me-3"></span>View Payouts only
-                        </div>
-                        <div class="d-flex align-items-center py-2">
-                            <span class="bullet bg-primary me-3"></span>View and Edit Disputes
-                        </div>
-                        <div class="d-flex align-items-center py-2 d-none">
-                            <span class='bullet bg-primary me-3'></span>
-                            <em>and 3 more...</em>
-                        </div>
+                        @endforeach
                     </div>
                     <!--end::Permissions-->
                 </div>
@@ -535,7 +524,7 @@
                     <!--begin::Card title-->
                     <div class="card-title">
                         <h2 class="d-flex align-items-center">Users Assigned
-                            <span class="text-gray-600 fs-6 ms-1">(14)</span>
+                            <span class="text-gray-600 fs-6 ms-1" id="user-quantity"></span>
                         </h2>
                     </div>
                     <!--end::Card title-->
@@ -592,6 +581,7 @@
 @endsection
 
 @section('pageJs')
+    {{-- <script src="{{ url('assets/js/custom/apps/user-management/roles/view/view.js') }}"></script> --}}
     <script src="{{ url('assets/js/pages/roles.detailed.js') }}"></script>
     <script>
         $(document).ready(function() {
