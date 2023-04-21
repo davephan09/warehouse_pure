@@ -12,6 +12,7 @@ var RolesClass = function () {
     this.init = function () {
         ele.contentPage = $('#content-page');
         ele.submitBtn = $('#submit-btn', $('#kt_modal_add_role'))
+        ele.updateBtn = $('#update-btn', $('#kt_modal_update_role'))
         ele.roleName = $('#role-name')
         ele.checkAll = $('#kt_roles_select_all', $('#kt_modal_add_role'))
         ele.checkItems = $('.check-item', $('#kt_modal_add_role'))
@@ -20,6 +21,7 @@ var RolesClass = function () {
         ele.checkAllE = $('#kt_roles_select_all', $('#kt_modal_update_role'))
         ele.checkItemsE = $('.check-item', $('#kt_modal_update_role'))
         ele.modalUpdate = $('#kt_modal_update_role')
+        ele.idRole = $('#id-role')
 
         loadData();
     }
@@ -28,6 +30,7 @@ var RolesClass = function () {
         checkAll()
         createRole()
         syncRole()
+        updateRole()
     }
 
     var getParam = function () {
@@ -92,6 +95,7 @@ var RolesClass = function () {
         $(document).on('click', '.edit-btn', function () {
             var $id = $(this).data('id')
             ele.roleNameEdit.val(listRoles[$id])
+            ele.idRole.val($id)
             $.each(ele.checkItemsE, function(i, val) {
                 if (rolePermission[$id].includes($(this).data('id'))) {
                     $(this).prop('checked', true);
@@ -102,7 +106,26 @@ var RolesClass = function () {
 
     var updateRole = function () {
         ele.updateBtn.on('click', function() {
-            var name = ele.roleName.val()
+            var params = {
+                id : ele.idRole.val(),
+                name : ele.roleNameEdit.val(),
+                permission : []
+            }
+            $.each(ele.checkItemsE, function (i, val) {
+                if ($(this).prop('checked')) {
+                    params.permission.push($(this).data('id'))
+                }
+            })
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData();
+                    ele.modalUpdate.modal('hide')
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);
         })
     }
 }

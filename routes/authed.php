@@ -15,6 +15,7 @@ Route::prefix('roles')->group(function() {
     Route::get('/', [RolesController::class, 'index'])->name('roles.index');
     Route::get('get-data', [RolesController::class, 'getData'])->name('roles.getData');
     Route::post('store', [RolesController::class, 'store'])->name('roles.store');
+    Route::post('update', [RolesController::class, 'update'])->name('roles.update');
     Route::get('{role}/show', [RolesController::class, 'show'])->name('roles.show');
     Route::get('{role}/get-data-detail', [RolesController::class, 'getDataDetailed'])->name('roles.getDataDetailed');
 });

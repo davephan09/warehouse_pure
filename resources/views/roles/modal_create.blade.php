@@ -7,7 +7,7 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bolder">{{__('common.add_role')}}</h2>
+                <h2 class="fw-bolder">{{__('role_permission.add_role')}}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close"
@@ -120,7 +120,7 @@
                         <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel"
                             data-bs-dismiss="modal">{{ trans('common.discard') }}</button>
                         <button type="button" class="btn btn-primary" data-kt-roles-modal-action="submit" id="submit-btn">
-                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-label">{{trans('common.submit')}}</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>

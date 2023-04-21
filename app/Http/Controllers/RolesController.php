@@ -7,6 +7,7 @@ use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
@@ -103,10 +104,23 @@ class RolesController extends Controller
     public function show($id)
     {
         $roleInfo = $this->role->getRoleInfo($id);
+        $permissionRole = $roleInfo->permissions->pluck('id')->toArray();
         $permissions = $roleInfo->permissions->mapToGroups(function($item, $key) {
             list($permision, $action) = explode('.', $item->name);
             return [$permision => $action];
         });
+        $listPermission = $this->permission->getAll()->keyBy('name');
+        $listPermission = $listPermission->mapToGroups(function ($value, $key) {
+            list($entity, $action) = explode('.', $key);
+            return [$entity => [$action => $value]];
+        });
+        foreach($listPermission as $key => $permission) {
+            $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
+                return $item;
+            });
+        }
+        $data['permissionRole'] = $permissionRole;
+        $data['listPermission'] = $listPermission;
         $data['roleInfo'] = $roleInfo;
         $data['permissions'] = $permissions;
         return view('roles.detailed_view', $data);
@@ -136,12 +150,35 @@ class RolesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $rules = [
+            'id' =>'required',
+            'name' => 'required|max:191',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+        }
+        DB::connection()->beginTransaction();
+        try {
+            $id = intval($request->input('id'));
+            $name = trim($request->input('name'));
+            $permissionIds = $request->input('permission');
+            $role = $this->role->find($id);
+            if ($permissionIds && $role) {
+                $role->update(['name' => $name]);
+                $permissions = $this->permission->getPermissions($permissionIds);
+                $role->syncPermissions($permissions);
+            }
+            DB::connection()->commit();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e);
+            DB::connection()->rollBack();
+            return $this->iRespond(false, 'error');
+        }
+        return $this->iRespond(true, 'success');
     }
 
     /**

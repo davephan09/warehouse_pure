@@ -15,13 +15,19 @@ var RolesDetailedClass = function () {
         ele.roleUserTable = $('#kt_roles_view_table')
         ele.searchField = $('#seach-field')
         ele.userQuantity = $('#user-quantity')
+        ele.checkAll = $('#kt_roles_select_all') 
+        ele.checkItems = $('.check-item')
+        ele.roleNameEdit = $('#role-name-edit')
+        ele.modalUpdate = $('#kt_modal_update_role')
+        ele.idRole = $('#id-role')
+        ele.updateBtn = $('#update-btn', $('#kt_modal_update_role'))
 
         loadData()
     }
 
     this.bindEvents = function () {
-        // checkAll()
-        // createRole()
+        checkAll()
+        updateRole()
     }
 
     var getParam = function () {
@@ -80,34 +86,33 @@ var RolesDetailedClass = function () {
         ele.userQuantity.html(`(${data.listUsers.length})`)
     }
 
-    // var checkAll = function () {
-    //     $.app.checkboxAll(ele.checkAll, ele.checkItems)
-    // }
+    var updateRole = function () {
+        ele.updateBtn.on('click', function() {
+            var params = {
+                id : ele.idRole.val(),
+                name : ele.roleNameEdit.val(),
+                permission : []
+            }
+            $.each(ele.checkItems, function (i, val) {
+                if ($(this).prop('checked')) {
+                    params.permission.push($(this).data('id'))
+                }
+            })
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData();
+                    ele.modalUpdate.modal('hide')
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);
+        })
+    }
 
-    // var createRole = function () {
-    //     ele.submitBtn.on('click', function() {
-    //         var name = ele.roleName.val()
-    //         var params = {
-    //             name : name,
-    //             permission : []
-    //         }
-    //         $.each(ele.checkItems, function (i, val) {
-    //             if ($(this).prop('checked')) {
-    //                 params.permission.push($(this).data('id'))
-    //             }
-    //         })
-    //         var _cb = function(rs) {
-    //             if (rs.status) {
-    //                 $.app.pushNoty('success', rs.message)
-    //                 ele.modalCreate.modal('hide')
-    //                 loadData();
-    //             } else {
-    //                 $.app.pushNoty('error', rs.message)
-    //             }
-    //         }
-    //         $.app.ajax($.app.vars.url + '/roles/store', 'POST', params, '', null, _cb);
-    //     })
-    // }
-
+    var checkAll = function () {
+        $.app.checkboxAll(ele.checkAll, ele.checkItems)
+    }
 
 }
