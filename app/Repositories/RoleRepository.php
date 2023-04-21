@@ -14,7 +14,7 @@ class RoleRepository extends Repository
     {
         $listRole = $this->model->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
                                 ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-                                ->get(['roles.*', 'permissions.name as permission_name']);
+                                ->get(['roles.*', 'permissions.name as permission_name', 'permissions.id as permission_id']);
         return $listRole;
     }
 

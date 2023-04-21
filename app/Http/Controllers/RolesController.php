@@ -58,8 +58,13 @@ class RolesController extends Controller
                 return [$permission => $action];
             });
         };
+        $rolePermission = $roles->groupBy('id')->mapWithKeys(function ($item, $key) {
+            return [$key => collect($item)->pluck('permission_id')];
+        });
+        
         $data['listRoles'] = $listRoles;
         $data['rolesInfo'] = $rolesInfo;
+        $data['rolePermission'] = $rolePermission;
         $data['htmlListRoles'] = view('roles.list_role', $data)->render();
         return $this->iRespond(true, "", $data);
     }

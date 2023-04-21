@@ -43,8 +43,8 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class="form-control form-control-solid" placeholder="Enter a role name"
-                                name="role_name" value="Developer" />
+                            <input class="form-control form-control-solid" placeholder="Enter a role name" id="role-name-edit"
+                                name="role_name" value="" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -61,7 +61,7 @@
                                     <tbody class="text-gray-600 fw-bold">
                                         <!--begin::Table row-->
                                         <tr>
-                                            <td class="text-gray-800">Administrator Access
+                                            <td class="text-gray-800">{{__('common.admin_asset')}}
                                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                                     title="Allows a full access to the system"></i>
                                             </td>
@@ -92,7 +92,7 @@
                                                     <!--begin::Checkbox-->
                                                     <label
                                                         class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                        <input class="form-check-input" type="checkbox" value=""
+                                                        <input class="form-check-input check-item" type="checkbox" value=""
                                                             name="user_management_read" data-id="{{$item->id ?? ''}}"/>
                                                         <span class="form-check-label">{{ucfirst($action)}}</span>
                                                     </label>
@@ -117,10 +117,10 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3"
-                            data-kt-roles-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                        <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
+                            data-kt-roles-modal-action="cancel">{{__('common.discard')}}</button>
+                        <button type="button" class="btn btn-primary" data-kt-roles-modal-action="submit">
+                            <span class="indicator-label">{{__('common.submit')}}</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
