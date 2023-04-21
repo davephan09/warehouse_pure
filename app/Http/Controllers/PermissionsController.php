@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use DB;
 
 class PermissionsController extends Controller
 {
@@ -27,7 +29,9 @@ class PermissionsController extends Controller
     public function getData(Request $request)
     {
         $data = array();
-        $data['listPermission'] = $listPermission = $this->permission->getPermissionList();
+        $listPermission = $this->permission->getAll()->keyBy('id');
+        $data['listPermission'] = $listPermission;
+        // $data['listPermission'] = $listPermission = $this->permission->getPermissionList();
         $data['htmlPermissionTable'] = view('permissions.permission_table', $data)->render();
         
         return $this->iRespond(true, '', $data);
@@ -41,6 +45,13 @@ class PermissionsController extends Controller
     public function store(Request $request)
     {
         try {
+            $rules = [
+                'name' => 'required|max:191',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
             $name = trim($request->input('name'));
             $isCore = filter_var($request->input('is_core'), FILTER_VALIDATE_BOOLEAN);
             $rs = $this->permission->create([
@@ -83,12 +94,30 @@ class PermissionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $rules = [
+            'id' =>'required',
+            'name' => 'required|max:191',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+        }
+        DB::connection()->beginTransaction();
+        try {
+            $id = intval($request->input('id'));
+            $name = trim($request->input('name'));
+            $role = $this->permission->find($id);
+            $role->update(['name' => $name]);
+            DB::connection()->commit();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e);
+            DB::connection()->rollBack();
+            return $this->iRespond(false, 'error');
+        }
+        return $this->iRespond(true, 'success');
     }
 
     /**

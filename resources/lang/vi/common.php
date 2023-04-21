@@ -8,5 +8,9 @@ return [
     'name' => 'Tên',
     'assign_to' => 'Cấp quyền cho',
     'create_date' => 'Ngày tạo',
-    'actions' => 'Hành động'
+    'actions' => 'Hành động',
+    'are_you_sure' => 'Bạn có chắn chắn thực hiện thao tác này?',
+    'update' => 'Cập nhật',
+    'agree' => 'Đồng ý',
+    'cancel' => 'Hủy'
 ];

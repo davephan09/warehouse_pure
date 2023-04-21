@@ -9,5 +9,8 @@ return [
     'assign_to' => 'Assign to',
     'create_date' => 'Create date',
     'actions' => 'Actions',
-
+    'are_you_sure' => 'Are you sure?',
+    'update' => 'Update',
+    'cancel' => 'Cancel',
+    'agree' => 'Agree'
 ];

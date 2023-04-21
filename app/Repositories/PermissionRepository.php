@@ -18,6 +18,12 @@ class PermissionRepository extends Repository
         return $permissionList;
     }
 
+    public function getAll()
+    {
+        $permissionList = $this->model->with('roles')->get();
+        return $permissionList;
+    }
+
     public function getPermissions($permissionIds)
     {
         $permissions = $this->model->whereIn('id', $permissionIds)->get();

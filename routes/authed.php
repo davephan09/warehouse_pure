@@ -24,5 +24,5 @@ Route::prefix('permissions')->group(function() {
     Route::get('/', [PermissionsController::class, 'index'])->name('permissions.index');
     Route::get('get-data', [PermissionsController::class, 'getData'])->name('permissions.getData');
     Route::post('store', [PermissionsController::class, 'store'])->name('permissions.store');
-
+    Route::post('update', [PermissionsController::class, 'update'])->name('permission.update');
 });

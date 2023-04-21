@@ -3,6 +3,7 @@ var PermissionsClass = function () {
     var vars = {
         datatable : {},
     };
+    var permission = {}
 
     this.run = function () {
         this.init();
@@ -10,18 +11,25 @@ var PermissionsClass = function () {
     }
 
     this.init = function () {
-        ele.permissionTable = $('#kt_permissions_table');
-        ele.searchField = $('#search-permission');
+        ele.permissionTable = $('#kt_permissions_table')
+        ele.searchField = $('#search-permission')
+        ele.modalCreate = $('#kt_modal_add_permission')
+        ele.modalUpdate = $('#kt_modal_update_permission')
         ele.submitButton = $('#submit-btn')
-        ele.permissionName = $('#permission-name')
-        ele.permissionCore = $('#kt_permissions_core');
-        ele.modalCreate = $('#kt_modal_add_permission');
+        ele.permissionName = $('#permission-name', ele.modalCreate)
+        ele.permissionCore = $('#kt_permissions_core')
+        ele.nameUpdate = $('#name-permission', ele.modalUpdate)
+        ele.updateBtn = $('#update-modal-btn', ele.modalUpdate)
+        ele.permissionId = $('#permission-id')
 
         loadData();
     }
 
     this.bindEvents = function () {
         submitPermission()
+        syncPermission()
+        updatePermission()
+        coreBtn()
     }
 
     var getParam = function () {
@@ -40,6 +48,7 @@ var PermissionsClass = function () {
         var _cb = function(rs) {
             var data = rs.data;
             drawContent(data);
+            permission = data.listPermission
         }
         $.app.ajax($.app.vars.url + '/permissions/get-data', 'GET', params, '', null, _cb);
     }
@@ -95,6 +104,45 @@ var PermissionsClass = function () {
                 }
             }
             $.app.ajax($.app.vars.url + '/permissions/store', 'POST', params, '', null, _cb);
+        })
+    }
+
+    var syncPermission = function () {
+        $(document).on('click', '.update-btn', function () {
+            var $id = $(this).data('id')
+            ele.nameUpdate.val(permission[$id].name)
+            ele.permissionId.val($id)
+        })
+    }
+
+    var updatePermission = function () {
+        ele.updateBtn.on('click', function() {
+            var params = {
+                id : ele.permissionId.val(),
+                name : ele.nameUpdate.val()
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData();
+                    ele.modalUpdate.modal('hide')
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('role_permission.update_permission'),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/permissions/update', 'POST', params, '', null, _cb);
+                }
+            })
+        })
+    }
+
+    var coreBtn = function () {
+        $(document).on('click', '.btn-core-permission', function() {
+            $.app.pushNoty('error', Lang.get('role_permission.core_permission_noti'))
         })
     }
 }
