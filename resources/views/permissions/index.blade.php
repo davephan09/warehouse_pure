@@ -28,6 +28,7 @@
             <!--end::Card title-->
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
+                @can('permission.create')
                 <!--begin::Button-->
                 <button type="button" class="btn btn-light-primary" data-bs-toggle="modal"
                     data-bs-target="#kt_modal_add_permission">
@@ -46,6 +47,7 @@
                     <!--end::Svg Icon-->Add Permission
                 </button>
                 <!--end::Button-->
+                @endcan
             </div>
             <!--end::Card toolbar-->
         </div>

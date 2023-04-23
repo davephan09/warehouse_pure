@@ -31,6 +31,7 @@
         <!--begin::Action=-->
         <td class="text-end">
             @if(!$permission->is_core)
+            @can('permission.update')
             <!--begin::Update-->
             <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-bs-toggle="modal" data-id="{{$permission->id}}"
                 data-bs-target="#kt_modal_update_permission">
@@ -49,6 +50,8 @@
                 <!--end::Svg Icon-->
             </button>
             <!--end::Update-->
+            @endcan
+            @can('permission.delete')
             <!--begin::Delete-->
             <button class="btn btn-icon btn-active-light-primary w-30px h-30px"
                 data-kt-permissions-table-filter="delete_row">
@@ -69,6 +72,7 @@
                 <!--end::Svg Icon-->
             </button>
             <!--end::Delete-->
+            @endcan
             @else 
             <button type="button" class="btn btn-sm btn-light-danger btn-danger btn-core-permission">Core</button>
             @endif

@@ -12,5 +12,7 @@ return [
     'are_you_sure' => 'Are you sure?',
     'update' => 'Update',
     'cancel' => 'Cancel',
-    'agree' => 'Agree'
+    'agree' => 'Agree',
+    'error_404' => 'Seems there is nothing here',
+    'return_home' => 'Return Home'
 ];

@@ -7,6 +7,7 @@ use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -14,6 +15,7 @@ class RolesController extends Controller
 {
     private $role;
     private $permission;
+    private $user;
     public function __construct(RoleRepository $role, PermissionRepository $permission)
     {
         $this->role = $role;
@@ -26,35 +28,39 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $data = array();
-        $listPermission = $this->permission->getAll()->keyBy('name');
-        $listPermission = $listPermission->mapToGroups(function ($value, $key) {
-            list($entity, $action) = explode('.', $key);
-            return [$entity => [$action => $value]];
-        });
-        foreach($listPermission as $key => $permission) {
-            $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
-                return $item;
+        $user = Auth::user();
+        if ($user->can('roles.read')) {
+            $data = array();
+            $listPermission = $this->permission->getAll()->keyBy('name');
+            $listPermission = $listPermission->mapToGroups(function ($value, $key) {
+                list($entity, $action) = explode('.', $key);
+                return [$entity => [$action => $value]];
             });
+            foreach ($listPermission as $key => $permission) {
+                $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
+                    return $item;
+                });
+            }
+            $data['listPermission'] = $listPermission;
+            $data['detailedPermission'] = DetailedPermission::asArray();
+
+            return view('roles.index', $data);
         }
-        $data['listPermission'] = $listPermission;
-        $data['detailedPermission'] = DetailedPermission::asArray();
-        
-        return view('roles.index', $data);
+        return response()->view('errors.404', [], 404);
     }
-    
+
     public function getData(Request $request)
     {
         $data = array();
         $roles = $this->role->getAll();
-        $listRoles = $roles->keyBy('id')->mapToGroups(function($item){
+        $listRoles = $roles->keyBy('id')->mapToGroups(function ($item) {
             return [$item->id => $item->name];
         })->map(function ($item) {
             return $item[0];
         })->toArray();
         $rolesInfo = $roles->groupBy('id');
-        foreach($rolesInfo as $i => $role) {
-            $rolesInfo[$i] = collect($role)->mapToGroups(function($item, $key) {
+        foreach ($rolesInfo as $i => $role) {
+            $rolesInfo[$i] = collect($role)->mapToGroups(function ($item, $key) {
                 list($permission, $action) = explode('.', $item->permission_name);
                 return [$permission => $action];
             });
@@ -62,7 +68,7 @@ class RolesController extends Controller
         $rolePermission = $roles->groupBy('id')->mapWithKeys(function ($item, $key) {
             return [$key => collect($item)->pluck('permission_id')];
         });
-        
+
         $data['listRoles'] = $listRoles;
         $data['rolesInfo'] = $rolesInfo;
         $data['rolePermission'] = $rolePermission;
@@ -77,22 +83,26 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        DB::connection()->beginTransaction();
-        try {
-            $name = trim($request->input('name'));
-            $permissionIds = $request->input('permission');
-            if ($name && $permissionIds) {
-                $role = $this->role->create(['name' => $name]);
-                $permissions = $this->permission->getPermissions($permissionIds);
-                $role->syncPermissions($permissions);
+        $user = Auth::user();
+        if ($user->can('roles.create')) {
+            DB::connection()->beginTransaction();
+            try {
+                $name = trim($request->input('name'));
+                $permissionIds = $request->input('permission');
+                if ($name && $permissionIds) {
+                    $role = $this->role->create(['name' => $name]);
+                    $permissions = $this->permission->getPermissions($permissionIds);
+                    $role->syncPermissions($permissions);
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
             }
-            DB::connection()->commit();
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error($e);
-            DB::connection()->rollBack();
-            return $this->iRespond(false, 'error');
+            return $this->iRespond(true, 'success');
         }
-        return $this->iRespond(true, 'success');
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -103,27 +113,31 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $roleInfo = $this->role->getRoleInfo($id);
-        $permissionRole = $roleInfo->permissions->pluck('id')->toArray();
-        $permissions = $roleInfo->permissions->mapToGroups(function($item, $key) {
-            list($permision, $action) = explode('.', $item->name);
-            return [$permision => $action];
-        });
-        $listPermission = $this->permission->getAll()->keyBy('name');
-        $listPermission = $listPermission->mapToGroups(function ($value, $key) {
-            list($entity, $action) = explode('.', $key);
-            return [$entity => [$action => $value]];
-        });
-        foreach($listPermission as $key => $permission) {
-            $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
-                return $item;
+        $user = Auth::user();        
+        if ($user->can('roles.read')) {
+            $roleInfo = $this->role->getRoleInfo($id);
+            $permissionRole = $roleInfo->permissions->pluck('id')->toArray();
+            $permissions = $roleInfo->permissions->mapToGroups(function ($item, $key) {
+                list($permision, $action) = explode('.', $item->name);
+                return [$permision => $action];
             });
+            $listPermission = $this->permission->getAll()->keyBy('name');
+            $listPermission = $listPermission->mapToGroups(function ($value, $key) {
+                list($entity, $action) = explode('.', $key);
+                return [$entity => [$action => $value]];
+            });
+            foreach ($listPermission as $key => $permission) {
+                $listPermission[$key] = collect($permission)->mapWithKeys(function ($item) {
+                    return $item;
+                });
+            }
+            $data['permissionRole'] = $permissionRole;
+            $data['listPermission'] = $listPermission;
+            $data['roleInfo'] = $roleInfo;
+            $data['permissions'] = $permissions;
+            return view('roles.detailed_view', $data);
         }
-        $data['permissionRole'] = $permissionRole;
-        $data['listPermission'] = $listPermission;
-        $data['roleInfo'] = $roleInfo;
-        $data['permissions'] = $permissions;
-        return view('roles.detailed_view', $data);
+        return response()->view('errors.404', [], 404);
     }
 
     public function getDataDetailed(Request $request, $id)
@@ -153,32 +167,36 @@ class RolesController extends Controller
      */
     public function update(Request $request)
     {
-        $rules = [
-            'id' =>'required',
-            'name' => 'required|max:191',
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
-        }
-        DB::connection()->beginTransaction();
-        try {
-            $id = intval($request->input('id'));
-            $name = trim($request->input('name'));
-            $permissionIds = $request->input('permission');
-            $role = $this->role->find($id);
-            if ($permissionIds && $role) {
-                $role->update(['name' => $name]);
-                $permissions = $this->permission->getPermissions($permissionIds);
-                $role->syncPermissions($permissions);
+        $user = Auth::user();
+        if ($user->can('roles.update')) {
+            $rules = [
+                'id' => 'required',
+                'name' => 'required|max:191',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
-            DB::connection()->commit();
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error($e);
-            DB::connection()->rollBack();
-            return $this->iRespond(false, 'error');
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                $name = trim($request->input('name'));
+                $permissionIds = $request->input('permission');
+                $role = $this->role->find($id);
+                if ($permissionIds && $role) {
+                    $role->update(['name' => $name]);
+                    $permissions = $this->permission->getPermissions($permissionIds);
+                    $role->syncPermissions($permissions);
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
         }
-        return $this->iRespond(true, 'success');
+        return response()->view('errors.404', [], 404);
     }
 
     /**

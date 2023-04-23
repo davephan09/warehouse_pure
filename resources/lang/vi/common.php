@@ -12,5 +12,7 @@ return [
     'are_you_sure' => 'Bạn có chắn chắn thực hiện thao tác này?',
     'update' => 'Cập nhật',
     'agree' => 'Đồng ý',
-    'cancel' => 'Hủy'
+    'cancel' => 'Hủy',
+    'error_404' => 'Có vẻ như không có gì ở đây cả',
+    'return_home' => 'Quay lại trang chủ'
 ];
