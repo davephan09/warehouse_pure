@@ -29,7 +29,7 @@ class RolesController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->can('roles.read')) {
+        if ($user->can('role.read')) {
             $data = array();
             $listPermission = $this->permission->getAll()->keyBy('name');
             $listPermission = $listPermission->mapToGroups(function ($value, $key) {
@@ -84,16 +84,22 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('roles.create')) {
+        if ($user->can('role.create')) {
+            $rules = [
+                'name' => 'required|max:191|unique:roles',
+                'permission' => 'required'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
             DB::connection()->beginTransaction();
             try {
                 $name = trim($request->input('name'));
                 $permissionIds = $request->input('permission');
-                if ($name && $permissionIds) {
-                    $role = $this->role->create(['name' => $name]);
-                    $permissions = $this->permission->getPermissions($permissionIds);
-                    $role->syncPermissions($permissions);
-                }
+                $role = $this->role->create(['name' => $name]);
+                $permissions = $this->permission->getPermissions($permissionIds);
+                $role->syncPermissions($permissions);
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -114,7 +120,7 @@ class RolesController extends Controller
     public function show($id)
     {
         $user = Auth::user();        
-        if ($user->can('roles.read')) {
+        if ($user->can('role.read')) {
             $roleInfo = $this->role->getRoleInfo($id);
             $permissionRole = $roleInfo->permissions->pluck('id')->toArray();
             $permissions = $roleInfo->permissions->mapToGroups(function ($item, $key) {
@@ -168,7 +174,7 @@ class RolesController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('roles.update')) {
+        if ($user->can('role.update')) {
             $rules = [
                 'id' => 'required',
                 'name' => 'required|max:191',
@@ -202,11 +208,27 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('role.delete')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $role = $this->role->find($id);
+                    $role->delete();
+                    $role->syncPermissions([]);
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }

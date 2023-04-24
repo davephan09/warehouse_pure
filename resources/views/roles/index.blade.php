@@ -13,7 +13,7 @@
 @endsection
 
 @section('pageJs')
-    <script src="{{ url('assets/js/custom/apps/user-management/roles/list/add.js') }}"></script>
+    {{-- <script src="{{ url('assets/js/custom/apps/user-management/roles/list/add.js') }}"></script> --}}
     {{-- <script src="{{ url('assets/js/custom/apps/user-management/roles/list/update-role.js') }}"></script> --}}
     <script src="{{ url('assets/js/pages/roles.index.js') }}"></script>
     <script>

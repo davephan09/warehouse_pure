@@ -53,7 +53,7 @@
             @endcan
             @can('permission.delete')
             <!--begin::Delete-->
-            <button class="btn btn-icon btn-active-light-primary w-30px h-30px"
+            <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="{{$permission->id}}"
                 data-kt-permissions-table-filter="delete_row">
                 <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                 <span class="svg-icon svg-icon-3">

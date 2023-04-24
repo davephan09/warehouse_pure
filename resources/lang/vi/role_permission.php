@@ -5,5 +5,7 @@ return [
     'update_role' => 'Cập nhật vai trò',
     'admin_asset' => 'Quyền quản trị viên',
     'update_permission' => 'Cập nhật quyền',
-    'core_permission_noti' => 'Đây là quyền mặc định. Bạn không thể cập nhật hay xóa quyền này'
+    'core_permission_noti' => 'Đây là quyền mặc định. Bạn không thể cập nhật hay xóa quyền này',
+    'delete_role' => 'Xóa vai trò',
+    'delete_permission' => 'Xóa quyền'
 ];

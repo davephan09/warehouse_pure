@@ -32,12 +32,14 @@
                     <!--end::Permissions-->
                 </div>
                 <!--end::Card body-->
+                @can('role.update')
                 <!--begin::Card footer-->
                 <div class="card-footer pt-0">
                     <button type="button" class="btn btn-light btn-active-primary" data-bs-toggle="modal"
                         data-bs-target="#kt_modal_update_role">Edit Role</button>
                 </div>
                 <!--end::Card footer-->
+                @endcan
             </div>
             <!--end::Card-->
             <!--begin::Modal-->
@@ -58,6 +60,7 @@
                         </h2>
                     </div>
                     <!--end::Card title-->
+                    @can('user.read')
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
                         <!--begin::Search-->
@@ -91,6 +94,7 @@
                         <!--end::Group actions-->
                     </div>
                     <!--end::Card toolbar-->
+                    @endcan
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->

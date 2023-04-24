@@ -5,5 +5,7 @@ return [
     'update_role' => 'Update Role',
     'admin_asset' => 'Administrator Access',
     'update_permission' => 'Update Permission',
-    'core_permission_noti' => 'This is core permission, you can not update or delete'
+    'core_permission_noti' => 'This is the core permission, you can not update or delete',
+    'delete_role' => 'Remove Role',
+    'delete_permission' => 'Remove Permission'
 ];

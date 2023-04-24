@@ -31,6 +31,7 @@ var RolesClass = function () {
         createRole()
         syncRole()
         updateRole()
+        removeRole()
     }
 
     var getParam = function () {
@@ -126,6 +127,29 @@ var RolesClass = function () {
                 }
             }
             $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);
+        })
+    }
+
+    var removeRole = function () {
+        $(document).on('click', '.remove-role', function () {
+            var params = {
+                id : $(this).data('id')
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('role_permission.delete_role'),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/roles/delete', 'POST', params, '', null, _cb);
+                }
+            })
         })
     }
 }

@@ -30,6 +30,7 @@ var PermissionsClass = function () {
         syncPermission()
         updatePermission()
         coreBtn()
+        deletePermission()
     }
 
     var getParam = function () {
@@ -143,6 +144,29 @@ var PermissionsClass = function () {
     var coreBtn = function () {
         $(document).on('click', '.btn-core-permission', function() {
             $.app.pushNoty('error', Lang.get('role_permission.core_permission_noti'))
+        })
+    }
+
+    var deletePermission  = function () {
+        $(document).on('click', '.delete-btn', function() {
+            var params = {
+                id : $(this).data('id')
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData();
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('role_permission.delete_permission'),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/permissions/delete', 'POST', params, '', null, _cb);
+                }
+            })
         })
     }
 }

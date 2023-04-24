@@ -49,11 +49,18 @@
         <!--end::Card body-->
         <!--begin::Card footer-->
         <div class="card-footer flex-wrap pt-0">
+            @can('role.read')
             <a href="{{route('roles.show', ['role' => $key])}}"
                 class="btn btn-light btn-active-primary my-1 me-2">View Role</a>
+            @endcan
+            @can('role.update')
             <button type="button" class="btn btn-light btn-active-light-primary my-1 edit-btn" data-bs-toggle="modal" data-id="{{$key}}"
                 data-bs-target="#kt_modal_update_role">Edit Role</button>
-        </div>
+            @endcan
+            @can('role.delete')
+            <button type="button" class="btn btn-light btn-active-light-danger my-1 remove-role" data-id="{{$key}}">Remove</button>
+            @endcan
+            </div>
         <!--end::Card footer-->
     </div>
     <!--end::Card-->
@@ -61,6 +68,7 @@
 <!--end::Col-->
 @endforeach
 
+@can('role.create')
 <!--begin::Add new card-->
 <div class="ol-md-4">
     <!--begin::Card-->
@@ -84,3 +92,4 @@
     <!--begin::Card-->
 </div>
 <!--begin::Add new card-->
+@endcan

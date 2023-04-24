@@ -18,11 +18,13 @@ Route::prefix('roles')->group(function() {
     Route::post('update', [RolesController::class, 'update'])->name('roles.update');
     Route::get('{role}/show', [RolesController::class, 'show'])->name('roles.show');
     Route::get('{role}/get-data-detail', [RolesController::class, 'getDataDetailed'])->name('roles.getDataDetailed');
+    Route::post('delete', [RolesController::class, 'destroy'])->name('roles.destroy');
 });
 
 Route::prefix('permissions')->group(function() {
     Route::get('/', [PermissionsController::class, 'index'])->name('permissions.index');
     Route::get('get-data', [PermissionsController::class, 'getData'])->name('permissions.getData');
     Route::post('store', [PermissionsController::class, 'store'])->name('permissions.store');
-    Route::post('update', [PermissionsController::class, 'update'])->name('permission.update');
+    Route::post('update', [PermissionsController::class, 'update'])->name('permissions.update');
+    Route::post('delete', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 });

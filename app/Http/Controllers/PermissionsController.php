@@ -53,7 +53,7 @@ class PermissionsController extends Controller
         if ($user->can('permission.create')) {
             try {
                 $rules = [
-                    'name' => 'required|max:191',
+                    'name' => 'required|max:191|unique:permissions',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -136,11 +136,27 @@ class PermissionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('permission.delete')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $permission = $this->permission->find($id);
+                    $permission->delete();
+                    $permission->syncPermissions([]);
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }
