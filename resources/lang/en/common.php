@@ -16,5 +16,8 @@ return [
     'error_404' => 'Seems there is nothing here',
     'return_home' => 'Return Home',
     'home' => 'Home',
-    'user_management' => 'User Management'
+    'user_management' => 'User Management',
+    'full_name' => 'Full name',
+    'phone' => 'Phone',
+    'email' => 'Email',
 ];

@@ -12,5 +12,7 @@ return [
     'permission' => 'Quyền',
     'role_list' => 'Danh sách vai trò',
     'role_detail' => 'Chi tiết vai trò',
-    'permission_list' => 'Danh sách quyền'
+    'permission_list' => 'Danh sách quyền',
+    'user' => 'Người dùng',
+    'user_list' => 'Danh sách người dùng'
 ];

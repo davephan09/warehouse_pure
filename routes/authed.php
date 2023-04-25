@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('users')->group(function() {
-    Route::get('/', function ()
-    {
-       return view('users.index'); 
-    })->name('users.index');
+    Route::get('/', [UsersController::class, 'index'])->name('users.index');
+    Route::get('get-data', [UsersController::class, 'getData'])->name('users.getData');
 });
 
 Route::get('dashboard', function () {

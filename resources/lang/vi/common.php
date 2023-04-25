@@ -16,5 +16,8 @@ return [
     'error_404' => 'Có vẻ như không có gì ở đây cả',
     'return_home' => 'Quay lại trang chủ',
     'home' => 'Trang chủ',
-    'user_management' => 'Quản lý người dùng'
+    'user_management' => 'Quản lý người dùng',
+    'full_name' => 'Họ và tên',
+    'phone' => 'Số điện thoại',
+    'email' => 'Email',
 ];

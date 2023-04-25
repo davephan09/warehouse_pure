@@ -12,5 +12,7 @@ return [
     'permission' => 'Permissions',
     'role_list' => 'Roles List',
     'role_detail' => 'Role Detail',
-    'permission_list' => 'Permissions List'
+    'permission_list' => 'Permissions List',
+    'user' => 'Users',
+    'user_list' => 'Users List'
 ];
