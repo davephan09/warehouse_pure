@@ -1758,7 +1758,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion mb-1">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion mb-1">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen051.svg-->
@@ -1779,66 +1779,24 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
-                        <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion mb-1">
-                            <span class="menu-link">
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{route('users.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Users</span>
-                                <span class="menu-arrow"></span>
-                            </span>
-                            <div class="menu-sub menu-sub-accordion">
-                                <div class="menu-item">
-                                    <a class="menu-link active"
-                                        href="../../demo1/dist/apps/user-management/users/list.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Users List</span>
-                                    </a>
-                                </div>
-                                <div class="menu-item">
-                                    <a class="menu-link"
-                                        href="../../demo1/dist/apps/user-management/users/view.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">View User</span>
-                                    </a>
-                                </div>
-                            </div>
+                            </a>
                         </div>
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <span class="menu-link">
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{route('roles.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Roles</span>
-                                <span class="menu-arrow"></span>
-                            </span>
-                            <div class="menu-sub menu-sub-accordion">
-                                <div class="menu-item">
-                                    <a class="menu-link"
-                                        href="../../demo1/dist/apps/user-management/roles/list.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Roles List</span>
-                                    </a>
-                                </div>
-                                <div class="menu-item">
-                                    <a class="menu-link"
-                                        href="../../demo1/dist/apps/user-management/roles/view.html">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">View Role</span>
-                                    </a>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link" href="../../demo1/dist/apps/user-management/permissions.html">
+                            <a class="menu-link" href="{{route('permissions.index')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -2430,7 +2388,7 @@
         <!--end::Aside Menu-->
     </div>
     <!--end::Aside menu-->
-    <!--begin::Footer-->
+    {{-- <!--begin::Footer-->
     <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
         <a href="../../demo1/dist/documentation/getting-started.html" class="btn btn-custom btn-primary w-100"
             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
@@ -2455,6 +2413,6 @@
             <!--end::Svg Icon-->
         </a>
     </div>
-    <!--end::Footer-->
+    <!--end::Footer--> --}}
 </div>
 <!--end::Aside-->

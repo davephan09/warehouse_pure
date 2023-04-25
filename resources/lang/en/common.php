@@ -14,5 +14,7 @@ return [
     'cancel' => 'Cancel',
     'agree' => 'Agree',
     'error_404' => 'Seems there is nothing here',
-    'return_home' => 'Return Home'
+    'return_home' => 'Return Home',
+    'home' => 'Home',
+    'user_management' => 'User Management'
 ];

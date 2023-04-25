@@ -7,5 +7,10 @@ return [
     'update_permission' => 'Cập nhật quyền',
     'core_permission_noti' => 'Đây là quyền mặc định. Bạn không thể cập nhật hay xóa quyền này',
     'delete_role' => 'Xóa vai trò',
-    'delete_permission' => 'Xóa quyền'
+    'delete_permission' => 'Xóa quyền',
+    'role' => 'Vai trò',
+    'permission' => 'Quyền',
+    'role_list' => 'Danh sách vai trò',
+    'role_detail' => 'Chi tiết vai trò',
+    'permission_list' => 'Danh sách quyền'
 ];

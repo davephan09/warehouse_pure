@@ -14,5 +14,7 @@ return [
     'agree' => 'Đồng ý',
     'cancel' => 'Hủy',
     'error_404' => 'Có vẻ như không có gì ở đây cả',
-    'return_home' => 'Quay lại trang chủ'
+    'return_home' => 'Quay lại trang chủ',
+    'home' => 'Trang chủ',
+    'user_management' => 'Quản lý người dùng'
 ];

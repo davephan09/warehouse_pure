@@ -25,7 +25,7 @@ class PermissionsController extends Controller
     {
         $user = Auth::user();
         if ($user->can('permission.read')) {
-            $data = array();
+            $data['title'] = trans('role_permission.permission_list');
             return view('permissions.index', $data);
         }
         return response()->view('errors.404', [], 404);

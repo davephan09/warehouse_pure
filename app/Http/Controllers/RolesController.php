@@ -43,6 +43,7 @@ class RolesController extends Controller
             }
             $data['listPermission'] = $listPermission;
             $data['detailedPermission'] = DetailedPermission::asArray();
+            $data['title'] = trans('role_permission.role_list');
 
             return view('roles.index', $data);
         }
@@ -137,6 +138,7 @@ class RolesController extends Controller
                     return $item;
                 });
             }
+            $data['title'] = trans('role_permission.role_detail');
             $data['permissionRole'] = $permissionRole;
             $data['listPermission'] = $listPermission;
             $data['roleInfo'] = $roleInfo;

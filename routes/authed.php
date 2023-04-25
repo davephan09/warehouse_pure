@@ -8,8 +8,12 @@ Route::prefix('users')->group(function() {
     Route::get('/', function ()
     {
        return view('users.index'); 
-    });
+    })->name('users.index');
 });
+
+Route::get('dashboard', function () {
+    return view('welcome');
+})->name('dashboard');
 
 Route::prefix('roles')->group(function() {
     Route::get('/', [RolesController::class, 'index'])->name('roles.index');
