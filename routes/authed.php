@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,9 @@ Route::prefix('permissions')->group(function() {
     Route::post('store', [PermissionsController::class, 'store'])->name('permissions.store');
     Route::post('update', [PermissionsController::class, 'update'])->name('permissions.update');
     Route::post('delete', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
+});
+
+Route::prefix('suppliers')->group(function() {
+    Route::get('/', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('get-data', [SupplierController::class, 'getData'])->name('suppliers.getData');
 });

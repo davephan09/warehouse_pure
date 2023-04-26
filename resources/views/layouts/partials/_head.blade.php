@@ -18,6 +18,7 @@
 	<link href="{{ url('assets/css/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css">
     <link href="{{ url('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('assets/plugins/global/plugins-custom.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
     
     @yield('style')

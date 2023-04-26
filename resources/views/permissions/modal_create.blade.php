@@ -5,7 +5,7 @@
         <!--begin::Modal header-->
         <div class="modal-header">
             <!--begin::Modal title-->
-            <h2 class="fw-bolder">{{__('common.add_permission')}}</h2>
+            <h2 class="fw-bolder">{{__('role_permission.add_permission')}}</h2>
             <!--end::Modal title-->
             <!--begin::Close-->
             <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-permissions-modal-action="close"
