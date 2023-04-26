@@ -36,4 +36,5 @@ Route::prefix('permissions')->group(function() {
 Route::prefix('suppliers')->group(function() {
     Route::get('/', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('get-data', [SupplierController::class, 'getData'])->name('suppliers.getData');
+    Route::post('store', [SupplierController::class, 'store'])->name('suppliers.store');
 });

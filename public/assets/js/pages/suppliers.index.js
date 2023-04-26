@@ -16,6 +16,8 @@ var SupplierClass = function () {
         ele.provinceSelect = $('#province-select')
         ele.districtSelect = $('#district-select')
         ele.wardSelect = $('#ward-select')
+        ele.btnCreate = $('#kt_modal_add_customer_submit')
+        ele.modalCreate = $('#kt_modal_add_customer')
 
         loadData()
     }
@@ -23,6 +25,7 @@ var SupplierClass = function () {
     this.bindEvents = function () {
         renderDistrict()
         renderWard()
+        createSupplier()
     }
 
     var getParam = function () {
@@ -92,6 +95,40 @@ var SupplierClass = function () {
                 html += `<option value="${val.code}">${val.name}</option>`
             })
             ele.wardSelect.html(html);
+        })
+    }
+
+    var createSupplier = function () {
+        ele.btnCreate.on('click', function() {console.log('test')
+            var params = {
+                name : JSON.stringify($('input[name="name"]').val()),
+                phone : JSON.stringify($('input[name="phone"]').val()),
+                email : JSON.stringify($('input[name="email"]').val()),
+                province : $('select[name="province"]').val(),
+                district : $('select[name="district"]').val(),
+                ward : $('select[name="ward"]').val(),
+                detail_address : JSON.stringify($('input[name="address_detail"]').val()),
+                bank_code : $('select[name="bank"]').val(),
+                account_number : JSON.stringify($('input[name="account_number"]').val()),
+                note: JSON.stringify($('input[name="description"]').val()),
+                active: $('input[name="active"]').val(),
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    ele.modalCreate.modal('hide')
+                    $.app.pushNoty('success', rs.message)
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('supply.add_supplier'),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/suppliers/store', 'POST', params, '', null, _cb)
+                }
+            })
         })
     }
 }

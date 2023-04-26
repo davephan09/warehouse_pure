@@ -188,7 +188,7 @@
                                 <label class=" fs-6 fw-bold mb-2">{{__('common.bank')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select name="province" aria-label="{{__('common.select_bank')}}" 
+                                <select name="bank" aria-label="{{__('common.select_bank')}}" 
                                 data-control="select2"
                                 data-placeholder="{{__('common.select_bank')}} ..."
                                 data-dropdown-parent="#kt_modal_add_customer" 
@@ -196,7 +196,7 @@
                                 class="form-select form-select-solid fw-bolder">
                                     <option value=""></option>
                                     @forelse ($banks as $bank)
-                                    <option value="{{$bank->id}}">{{$bank->shortName . ' - ' . $bank->name}}</option>
+                                    <option value="{{$bank->code}}">{{$bank->shortName . ' - ' . $bank->name}}</option>
                                     @empty
                                     @endforelse
                                 </select>

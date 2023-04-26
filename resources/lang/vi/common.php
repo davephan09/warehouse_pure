@@ -36,5 +36,6 @@ return [
     'bank' => 'Ngân hàng',
     'select_bank' => 'Chọn ngân hàng',
     'account_number' => 'Số tài khoản',
-    'type_account_number' => 'Nhập số tài khoản'
+    'type_account_number' => 'Nhập số tài khoản',
+    'add_new' => 'Thêm mới',
 ];

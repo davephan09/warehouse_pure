@@ -43,7 +43,7 @@
         <!--end::Company=-->
         <!--begin::Payment method=-->
         <td data-filter="mastercard">
-            <img src="assets/media/svg/card-logos/mastercard.svg" class="w-35px me-3" alt="" />**** 6975
+            <img src="https://api.vietqr.io/img/VCB.png" class="w-35px me-3" alt="" />**** 6975
         </td>
         <!--end::Payment method=-->
         <!--begin::Date=-->

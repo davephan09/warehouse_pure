@@ -138,9 +138,11 @@
                 </span>
                 <!--end::Svg Icon-->Export</button>
                 <!--end::Export-->
+                @can('supplier.create')
                 <!--begin::Add customer-->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">Add Customer</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">{{__('common.add_new')}}</button>
                 <!--end::Add customer-->
+                @endcan
             </div>
             <!--end::Toolbar-->
             <!--begin::Group actions-->

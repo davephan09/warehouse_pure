@@ -36,5 +36,6 @@ return [
     'bank' => 'Bank',
     'select_bank' => 'Select bank',
     'account_number' => 'Account number',
-    'type_account_number' => 'Type account number'
+    'type_account_number' => 'Type account number',
+    'add_new' => 'Add new',
 ];

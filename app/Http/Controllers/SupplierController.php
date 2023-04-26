@@ -7,6 +7,7 @@ use App\Libraries\Bank;
 use App\Repositories\SupplierRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
@@ -64,12 +65,32 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('supplier.create')) {
+            $rules = [
+                'name' => 'required|max:255|unique:suppliers',
+                'phone' => 'max:40',
+                'email' => 'max:40',
+                'detail_address' => 'max:255',
+                'account_number' => 'max:40',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $request->merge(['user_add' => $user->id]);
+                $this->supplier->create($request->all());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404); 
     }
 
     /**
