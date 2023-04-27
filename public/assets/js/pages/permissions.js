@@ -97,11 +97,11 @@ var PermissionsClass = function () {
             }
             var _cb = function (rs) {
                 if (rs.status) {
-                    $.app.pushNoty('success', rs.message)
+                    $.app.pushNoty('success')
                     ele.modalCreate.modal('hide')
                     loadData();
                 } else {
-                    $.app.pushNoty('error', rs.message)
+                    $.app.pushNoty('error')
                 }
             }
             $.app.ajax($.app.vars.url + '/permissions/store', 'POST', params, '', null, _cb);
@@ -126,9 +126,9 @@ var PermissionsClass = function () {
                 if (rs.status) {
                     loadData();
                     ele.modalUpdate.modal('hide')
-                    $.app.pushNoty('success', rs.message)
+                    $.app.pushNoty('success')
                 } else {
-                    $.app.pushNoty('error', rs.message)
+                    $.app.pushNoty('error')
                 }
             }
             $.app.pushConfirmNoti({
@@ -155,9 +155,9 @@ var PermissionsClass = function () {
             var _cb = function (rs) {
                 if (rs.status) {
                     loadData();
-                    $.app.pushNoty('success', rs.message)
+                    $.app.pushNoty('success')
                 } else {
-                    $.app.pushNoty('error', rs.message)
+                    $.app.pushNoty('error')
                 }
             }
             $.app.pushConfirmNoti({

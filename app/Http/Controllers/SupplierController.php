@@ -31,22 +31,30 @@ class SupplierController extends Controller
             $data['address'] = $address;
             $bankApi = new Bank();
             $banks = $bankApi->getBanks();
-            $data['banks'] = $banks;
+            $data['banks'] = collect($banks)->keyBy('code')->toArray();
             $data['title'] = trans('common.supplier_list');
             return view('suppliers.index', $data);
         }
         return response()->view('errors.404', [], 404);
     }
 
-    public function getData()
+    public function getData(Request $request)
     {
         $data = array();
         $addressApi = new Address();
         $address = $addressApi->getAddress();
-        $address = collect($address)->keyBy('code')->map(function($item) {
-            $item->districts = collect($item->districts)->keyBy('code');
-            return $item;
+        $address = collect($address)->keyBy('code')->map(function($province) {
+            $province->districts = collect($province->districts)->keyBy('code')->map(function($district) {
+                $district->wards = collect($district->wards)->keyBy('code');
+                return $district;
+            });
+            return $province;
         });
+        $suppliers = $this->supplier->getAll();
+        $bankApi = new Bank();
+        $banks = $bankApi->getBanks();
+        $data['suppliers'] = $suppliers;
+        $data['banks'] = collect($banks)->keyBy('code')->toArray();
         $data['address'] = $address;
         $data['htmlSupplierTable'] = view('suppliers.supplier_table', $data)->render();
         return $this->iRespond(true, '', $data);
@@ -71,7 +79,7 @@ class SupplierController extends Controller
         $user = Auth::user();
         if($user->can('supplier.create')) {
             $rules = [
-                'name' => 'required|max:255|unique:suppliers',
+                'name' => 'required|max:255|min:3|unique:suppliers',
                 'phone' => 'max:40',
                 'email' => 'max:40',
                 'detail_address' => 'max:255',
@@ -82,7 +90,10 @@ class SupplierController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $request->merge(['user_add' => $user->id]);
+                $request->merge([
+                    'user_add' => $user->id,
+                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
+                ]);
                 $this->supplier->create($request->all());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -119,12 +130,59 @@ class SupplierController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('supplier.update')) {
+            $rules = [
+                'name' => 'required|max:255|min:3',
+                'phone' => 'max:40',
+                'email' => 'max:40',
+                'detail_address' => 'max:255',
+                'account_number' => 'max:40',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $request->merge([
+                    'user_add' => $user->id,
+                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
+                ]);
+                $this->supplier->create($request->all());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('supplier.update')) {
+            $rules = [
+                'id' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $id = intval($request->input('id'));
+                $active = filter_var($request->active, FILTER_VALIDATE_BOOLEAN);
+                $this->supplier->find($id)->update(['active' => $active]);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**

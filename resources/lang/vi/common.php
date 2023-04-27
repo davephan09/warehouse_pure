@@ -38,4 +38,7 @@ return [
     'account_number' => 'Số tài khoản',
     'type_account_number' => 'Nhập số tài khoản',
     'add_new' => 'Thêm mới',
+    'update_active' => 'Cập nhật trạng thái',
+    'wanna_active_true' => 'Bạn muốn bật trạng thái hoạt động của đối tượng này?',
+    'wanna_active_false' => 'Bạn muốn tắt trạng thái hoạt động của đối tượng này?'
 ];

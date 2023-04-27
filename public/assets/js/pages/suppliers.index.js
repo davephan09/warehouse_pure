@@ -26,6 +26,7 @@ var SupplierClass = function () {
         renderDistrict()
         renderWard()
         createSupplier()
+        changeActive()
     }
 
     var getParam = function () {
@@ -60,18 +61,18 @@ var SupplierClass = function () {
             responsive: true,
             autoWidth: false,
             columnDefs: [{
-                targets: [0, 6],
+                targets: [3, 6],
                 orderable: false,
                 visible: true
             }],
             order: [
-                [1, 'asc']
+                [0, 'asc']
             ],
         });
 
         ele.searchField.on('keyup', function (e) {
             var text = e.target.value
-            vars.datatable[dttableid].column(1).search(text).draw()
+            vars.datatable[dttableid].column(0).search(text).draw()
         });
     }
 
@@ -111,15 +112,15 @@ var SupplierClass = function () {
                 bank_code : $('select[name="bank"]').val(),
                 account_number : JSON.stringify($('input[name="account_number"]').val()),
                 note: JSON.stringify($('input[name="description"]').val()),
-                active: $('input[name="active"]').val(),
+                active: $('input[name="active"]').prop('checked'),
             }
             var _cb = function (rs) {
                 if (rs.status) {
                     loadData()
                     ele.modalCreate.modal('hide')
-                    $.app.pushNoty('success', rs.message)
+                    $.app.pushNoty('success')
                 } else {
-                    $.app.pushNoty('error', rs.message)
+                    $.app.pushNoty('error')
                 }
             }
             $.app.pushConfirmNoti({
@@ -127,6 +128,38 @@ var SupplierClass = function () {
                 'text' : Lang.get('supply.add_supplier'),
                 'callback' : function () {
                     $.app.ajax($.app.vars.url + '/suppliers/store', 'POST', params, '', null, _cb)
+                }
+            })
+        })
+    }
+
+    var changeActive = function () {
+        $(document).on('change', '.is-active-btn', function () {
+            var $this = $(this)
+            var params = {
+                id : $this.val(),
+                active : $(this).prop('checked')
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.update_active'),
+                'text' : (params.active ? Lang.get('common.wanna_active_true') : Lang.get('common.wanna_active_false')),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/suppliers/change-status', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
+                    if ($this.attr('checked')) {
+                        $this.prop('checked', true)
+                    } else {
+                        $this.prop('checked', false)
+                    }
                 }
             })
         })

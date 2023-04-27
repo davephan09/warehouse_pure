@@ -102,9 +102,9 @@ var RolesDetailedClass = function () {
                 if (rs.status) {
                     loadData();
                     ele.modalUpdate.modal('hide')
-                    $.app.pushNoty('success', rs.message)
+                    $.app.pushNoty('success')
                 } else {
-                    $.app.pushNoty('error', rs.message)
+                    $.app.pushNoty('error')
                 }
             }
             $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);

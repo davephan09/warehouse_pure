@@ -37,4 +37,6 @@ Route::prefix('suppliers')->group(function() {
     Route::get('/', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('get-data', [SupplierController::class, 'getData'])->name('suppliers.getData');
     Route::post('store', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::post('update', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::post('change-status', [SupplierController::class, 'changeStatus'])->name('suppliers.changeStatus');
 });

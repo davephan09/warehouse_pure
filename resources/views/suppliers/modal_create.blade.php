@@ -244,7 +244,7 @@
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <!--begin::Input-->
                                     <input class="form-check-input" name="active" type="checkbox"
-                                        value="1" id="kt_modal_add_customer_billing" checked="checked" />
+                                        value="1" id="kt_modal_add_customer_billing" checked />
                                     <!--end::Input-->
                                 </label>
                                 <!--end::Switch-->
