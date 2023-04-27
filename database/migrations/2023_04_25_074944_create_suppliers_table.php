@@ -23,7 +23,7 @@ class CreateSuppliersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->text('note')->nullable();
-            $table->tinyInteger('active');
+            $table->boolean('active')->default(false);
             $table->integer('user_add');
             $table->timestamps();
         });
