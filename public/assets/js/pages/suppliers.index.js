@@ -35,6 +35,7 @@ var SupplierClass = function () {
         ele.activeUpdate = $('#kt_modal_update_customer_billing', ele.modalUpdate)
         ele.filterBtn = $('#filter-btn')
         ele.filterSelect = $('#filter-select')
+        ele.idUpdate = $('#id-update')
 
         loadData()
     }
@@ -202,7 +203,7 @@ var SupplierClass = function () {
         $(document).on('click', '.update-btn', function() {
             var $id = $(this).data('id')
             var supplier = suppliers[$id]
-            ele.btnUpdate.attr('data-id', supplier.id)
+            ele.idUpdate.val(supplier.id)
             ele.nameUpdate.val(JSON.parse(supplier.name))
             ele.phoneUpdate.val(JSON.parse(supplier.phone))
             ele.emailUpdate.val(JSON.parse(supplier.email))
@@ -267,10 +268,8 @@ var SupplierClass = function () {
 
     var updateSupplier = function () {
         ele.btnUpdate.on('click', function () {
-            console.log($id + 'old')
-            var $id = $(this).data('id')
+            var $id = ele.idUpdate.val()
             var supplier = suppliers[$id]
-            console.log($id, supplier)
             var params = {
                 name : JSON.stringify(ele.nameUpdate.val()),
                 phone : JSON.stringify(ele.phoneUpdate.val()),

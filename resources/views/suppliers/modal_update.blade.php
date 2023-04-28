@@ -242,6 +242,7 @@
                             <!--begin::Wrapper-->
                         </div>
                         <!--end::Input group-->
+                        <input hidden type="text" name="" value="" id="id-update"/>
                     </div>
                     <!--end::Scroll-->
                 </div>
