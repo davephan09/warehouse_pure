@@ -50,7 +50,7 @@ class SupplierController extends Controller
             });
             return $province;
         });
-        $suppliers = $this->supplier->getAll();
+        $suppliers = $this->supplier->getAll()->keyBy('id');
         $bankApi = new Bank();
         $banks = $bankApi->getBanks();
         $data['suppliers'] = $suppliers;
@@ -147,11 +147,22 @@ class SupplierController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $request->merge([
+                $id = intval($request->input('id'));
+                $supplier = $this->supplier->find($id);
+                $supplier->update([
+                    'name' => $request->input('name'),
+                    'phone' => $request->input('phone'),
+                    'email' => $request->input('email'),
+                    'province' => $request->input('province'),
+                    'district' => $request->input('district'),
+                    'ward' => $request->input('ward'),
+                    'detail_address' => $request->input('detail_address'),
+                    'bank_code' => $request->input('bank_code'),
+                    'account_number' => $request->input('account_number'),
+                    'note' => $request->input('note'),
+                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
                     'user_add' => $user->id,
-                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
                 ]);
-                $this->supplier->create($request->all());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');

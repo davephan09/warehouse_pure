@@ -169,6 +169,7 @@
 <!--end::Card-->
 <!--begin::Modals-->
 @include('suppliers.modal_create')
+@include('suppliers.modal_update')
 <!--begin::Modal - Adjust Balance-->
 <div class="modal fade" id="kt_customers_export_modal" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
