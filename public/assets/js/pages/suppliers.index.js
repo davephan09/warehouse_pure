@@ -33,6 +33,8 @@ var SupplierClass = function () {
         ele.accountNumberUpdate = $('#account-number', ele.modalUpdate)
         ele.descriptionUpdate = $('#description-update', ele.modalUpdate)
         ele.activeUpdate = $('#kt_modal_update_customer_billing', ele.modalUpdate)
+        ele.filterBtn = $('#filter-btn')
+        ele.filterSelect = $('#filter-select')
 
         loadData()
     }
@@ -46,10 +48,19 @@ var SupplierClass = function () {
         updateSupplier()
         renderDistrictE()
         renderWardE()
+        filter()
     }
 
     var getParam = function () {
+        var params = {
+            status : $('input[name="status"]:checked').val(),
+            province : ele.filterSelect.val()
+        }
 
+        for(var i in params) {
+            if(!params[i]) params[i] = ''
+        }
+        return params
     }
 
     var loadData = function () {
@@ -255,8 +266,10 @@ var SupplierClass = function () {
 
     var updateSupplier = function () {
         ele.btnUpdate.on('click', function () {
+            console.log($id + 'old')
             var $id = $(this).data('id')
             var supplier = suppliers[$id]
+            console.log($id, supplier)
             var params = {
                 name : JSON.stringify(ele.nameUpdate.val()),
                 phone : JSON.stringify(ele.phoneUpdate.val()),
@@ -285,8 +298,17 @@ var SupplierClass = function () {
                 'text' : Lang.get('supply.update_supplier') + ' ' + JSON.parse(supplier.name),
                 'callback' : function () {
                     $.app.ajax($.app.vars.url + '/suppliers/update', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
+
                 }
             })
+        })
+    }
+
+    var filter = function () {
+        ele.filterBtn.on('click', function() {
+            loadData()
         })
     }
 }

@@ -41,5 +41,11 @@ return [
     'update_active' => 'Update status',
     'wanna_active_true' => 'Do you want to active status for this object?',
     'wanna_active_false' => 'Do you want to unactive status for this object?',
-    'delete' => 'Delete'
+    'delete' => 'Delete',
+    'filter' => 'Filters',
+    'filter_option' => 'Filter Options',
+    'status' => 'Status',
+    'active' => 'Active',
+    'unactive' => 'Unactive',
+    'all' => 'All',
 ];

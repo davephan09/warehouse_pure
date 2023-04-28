@@ -53,6 +53,7 @@
         <!--end::Company=-->
         <!--begin::Action=-->
         <td class="text-end">
+            @can('supplier.update')
             <!--begin::Update-->
             <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-bs-toggle="modal" data-id="{{$supplier->id}}"
                 data-bs-target="#kt_modal_update_customer" title="{{__('common.update')}}">
@@ -71,6 +72,8 @@
                 <!--end::Svg Icon-->
             </button>
             <!--end::Update-->
+            @endcan
+            @can('supplier.delete')
             <!--begin::Delete-->
             <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="{{$supplier->id}}" title="{{__('common.delete')}}"
                 data-kt-permissions-table-filter="delete_row">
@@ -91,6 +94,7 @@
                 <!--end::Svg Icon-->
             </button>
             <!--end::Delete-->
+            @endcan
         </td>
         <!--end::Action=-->
     </tr>

@@ -40,6 +40,8 @@ class SupplierController extends Controller
 
     public function getData(Request $request)
     {
+        $status = trim($request->input('status'));
+        $provinceInput = intval($request->input('province'));
         $data = array();
         $addressApi = new Address();
         $address = $addressApi->getAddress();
@@ -50,7 +52,7 @@ class SupplierController extends Controller
             });
             return $province;
         });
-        $suppliers = $this->supplier->getAll()->keyBy('id');
+        $suppliers = $this->supplier->getSuppliers($status, $provinceInput)->keyBy('id');
         $bankApi = new Bank();
         $banks = $bankApi->getBanks();
         $data['suppliers'] = $suppliers;

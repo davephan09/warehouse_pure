@@ -41,5 +41,11 @@ return [
     'update_active' => 'Cập nhật trạng thái',
     'wanna_active_true' => 'Bạn muốn bật trạng thái hoạt động của đối tượng này?',
     'wanna_active_false' => 'Bạn muốn tắt trạng thái hoạt động của đối tượng này?',
-    'delete' => 'Xóa'
+    'delete' => 'Xóa',
+    'filter' => 'Bộ lọc',
+    'filter_option' => 'Tùy chọn bộ lọc',
+    'status' => 'Trạng thái',
+    'active' => 'Hoạt động',
+    'unactive' => 'Ngừng hoạt động',
+    'all' => 'Tất cả',
 ];
