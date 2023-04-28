@@ -49,6 +49,7 @@ var SupplierClass = function () {
         renderDistrictE()
         renderWardE()
         filter()
+        deleteSupplier()
     }
 
     var getParam = function () {
@@ -309,6 +310,31 @@ var SupplierClass = function () {
     var filter = function () {
         ele.filterBtn.on('click', function() {
             loadData()
+        })
+    }
+
+    var deleteSupplier = function () {
+        $(document).on('click', '.delete-btn', function () {
+            var $id = $(this).data('id')
+            var supplier = suppliers[$id]
+            var params = {
+                id : $id
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('supply.delete_supplier') + ': ' + JSON.parse(supplier.name),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/suppliers/delete', 'POST', params, '', null, _cb)
+                },
+            })
         })
     }
 }

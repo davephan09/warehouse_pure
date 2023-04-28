@@ -8,5 +8,6 @@ return [
     'type_supplier_email' => 'Type email address',
     'type_supplier_phone' => 'Type phone number',
     'description' => 'Description',
-    'update_supplier' => 'Update Supplier'
+    'update_supplier' => 'Update Supplier',
+    'delete_supplier' => 'Remove Supplier',
 ];

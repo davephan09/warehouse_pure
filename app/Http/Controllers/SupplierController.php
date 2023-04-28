@@ -201,11 +201,22 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('supplier.delete')) {
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $this->supplier->find($id)->delete();
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }

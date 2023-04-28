@@ -8,5 +8,6 @@ return [
     'type_supplier_email' => 'Nhập email',
     'type_supplier_phone' => 'Nhập số điện thoại',
     'description' => 'Mô tả',
-    'update_supplier' => 'Cập nhật Nhà cung cấp'
+    'update_supplier' => 'Cập nhật Nhà cung cấp',
+    'delete_supplier' => 'Xóa Nhà cung cấp',
 ];

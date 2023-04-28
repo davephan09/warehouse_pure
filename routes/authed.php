@@ -39,4 +39,5 @@ Route::prefix('suppliers')->group(function() {
     Route::post('store', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::post('update', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::post('change-status', [SupplierController::class, 'changeStatus'])->name('suppliers.changeStatus');
+    Route::post('delete', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 });
