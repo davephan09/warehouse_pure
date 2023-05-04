@@ -310,7 +310,7 @@ var SupplierClass = function () {
 
     var filter = function () {
         ele.filterBtn.on('click', function() {
-            loadData()
+            loadData(ele.supplierTable)
         })
     }
 
