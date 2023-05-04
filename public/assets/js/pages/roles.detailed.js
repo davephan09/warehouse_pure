@@ -22,7 +22,7 @@ var RolesDetailedClass = function () {
         ele.idRole = $('#id-role')
         ele.updateBtn = $('#update-btn', $('#kt_modal_update_role'))
 
-        loadData()
+        loadData(ele.roleUserTable)
     }
 
     this.bindEvents = function () {
@@ -41,14 +41,14 @@ var RolesDetailedClass = function () {
         return params
     }
 
-    var loadData = function () {
+    var loadData = function (target) {
         // ele.roleUserTable.LoadingOverlay("show");
         let params = getParam();
         var _cb = function (rs) {
             var data = rs.data;
             drawContent(data);
         };
-        $.app.ajax($.app.vars.url + '/roles/' + roleId + '/get-data-detail', 'GET', params, '', null, _cb);
+        $.app.ajax($.app.vars.url + '/roles/' + roleId + '/get-data-detail', 'GET', params, target, null, _cb);
     }
 
     var drawContent = function (data) {
@@ -93,6 +93,7 @@ var RolesDetailedClass = function () {
                 name : ele.roleNameEdit.val(),
                 permission : []
             }
+            var target = $('.modal-content', ele.modalUpdate)
             $.each(ele.checkItems, function (i, val) {
                 if ($(this).prop('checked')) {
                     params.permission.push($(this).data('id'))
@@ -107,7 +108,7 @@ var RolesDetailedClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);
+            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, target, null, _cb);
         })
     }
 

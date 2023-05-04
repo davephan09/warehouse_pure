@@ -22,7 +22,7 @@ var PermissionsClass = function () {
         ele.updateBtn = $('#update-modal-btn', ele.modalUpdate)
         ele.permissionId = $('#permission-id')
 
-        loadData();
+        loadData(ele.permissionTable);
     }
 
     this.bindEvents = function () {
@@ -44,14 +44,14 @@ var PermissionsClass = function () {
         return params;
     }
 
-    var loadData = function () {
+    var loadData = function (target) {
         var params = getParam();
         var _cb = function(rs) {
             var data = rs.data;
             drawContent(data);
             permission = data.listPermission
         }
-        $.app.ajax($.app.vars.url + '/permissions/get-data', 'GET', params, '', null, _cb);
+        $.app.ajax($.app.vars.url + '/permissions/get-data', 'GET', params, target, null, _cb);
     }
 
     var drawContent = function(data) {
@@ -91,6 +91,7 @@ var PermissionsClass = function () {
         ele.submitButton.on('click', function() {
             var name = ele.permissionName.val()
             var core = ele.permissionCore.prop('checked')
+            var target = $('.modal-content', ele.modalCreate)
             var params ={
                 name : name,
                 is_core : core
@@ -104,7 +105,7 @@ var PermissionsClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            $.app.ajax($.app.vars.url + '/permissions/store', 'POST', params, '', null, _cb);
+            $.app.ajax($.app.vars.url + '/permissions/store', 'POST', params, target, null, _cb);
         })
     }
 
@@ -122,6 +123,7 @@ var PermissionsClass = function () {
                 id : ele.permissionId.val(),
                 name : ele.nameUpdate.val()
             }
+            var target = $('.modal-content', ele.modalUpdate)
             var _cb = function (rs) {
                 if (rs.status) {
                     loadData();
@@ -135,7 +137,7 @@ var PermissionsClass = function () {
                 'title' : Lang.get('common.are_you_sure'),
                 'text' : Lang.get('role_permission.update_permission'),
                 'callback' : function () {
-                    $.app.ajax($.app.vars.url + '/permissions/update', 'POST', params, '', null, _cb);
+                    $.app.ajax($.app.vars.url + '/permissions/update', 'POST', params, target, null, _cb);
                 }
             })
         })

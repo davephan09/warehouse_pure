@@ -37,7 +37,7 @@ var SupplierClass = function () {
         ele.filterSelect = $('#filter-select')
         ele.idUpdate = $('#id-update')
 
-        loadData()
+        loadData(ele.supplierTable)
     }
 
     this.bindEvents = function () {
@@ -65,7 +65,7 @@ var SupplierClass = function () {
         return params
     }
 
-    var loadData = function () {
+    var loadData = function (target) {
         var params = getParam()
         var _cb = function (rs) {
             var data = rs.data
@@ -74,7 +74,7 @@ var SupplierClass = function () {
             suppliers = data.suppliers
             banks = data.banks
         }
-        $.app.ajax($.app.vars.url + '/suppliers/get-data', 'GET', params, '', null, _cb)
+        $.app.ajax($.app.vars.url + '/suppliers/get-data', 'GET', params, target, null, _cb)
     }
 
     var drawContent = function (data) {
@@ -148,6 +148,7 @@ var SupplierClass = function () {
                 note: JSON.stringify($('input[name="description"]', ele.modalCreate).val()),
                 active: $('input[name="active"]', ele.modalCreate).prop('checked'),
             }
+            var target = $('.modal-content', ele.modalCreate)
             var _cb = function (rs) {
                 if (rs.status) {
                     loadData()
@@ -161,7 +162,7 @@ var SupplierClass = function () {
                 'title' : Lang.get('common.are_you_sure'),
                 'text' : Lang.get('supply.add_supplier'),
                 'callback' : function () {
-                    $.app.ajax($.app.vars.url + '/suppliers/store', 'POST', params, '', null, _cb)
+                    $.app.ajax($.app.vars.url + '/suppliers/store', 'POST', params, target, null, _cb)
                 }
             })
         })
@@ -284,6 +285,7 @@ var SupplierClass = function () {
                 active: ele.activeUpdate.prop('checked'),
                 id: $id,
             }
+            var target = $('.modal-content', ele.modalUpdate)
             var _cb = function (rs) {
                 if (rs.status) {
                     loadData()
@@ -297,7 +299,7 @@ var SupplierClass = function () {
                 'title' : Lang.get('common.are_you_sure'),
                 'text' : Lang.get('supply.update_supplier') + ' ' + JSON.parse(supplier.name),
                 'callback' : function () {
-                    $.app.ajax($.app.vars.url + '/suppliers/update', 'POST', params, '', null, _cb)
+                    $.app.ajax($.app.vars.url + '/suppliers/update', 'POST', params, target, null, _cb)
                 },
                 'unConfirm' : function () {
 

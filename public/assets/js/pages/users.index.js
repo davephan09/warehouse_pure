@@ -13,7 +13,7 @@ var UsersClass = function () {
         ele.userTable = $('#kt_table_users')
         ele.searchField = $('#search-user')
 
-        loadData()
+        loadData(ele.userTable)
     }
 
     this.bindEvents = function () {
@@ -24,13 +24,13 @@ var UsersClass = function () {
 
     }
 
-    var loadData = function () {
+    var loadData = function (target) {
         var params = getParam()
         var _cb = function (rs) {
             var data = rs.data
             drawContent(data)
         }
-        $.app.ajax($.app.vars.url + '/users/get-data', 'GET', params, '', null, _cb);
+        $.app.ajax($.app.vars.url + '/users/get-data', 'GET', params, target, null, _cb);
     }
     
     var drawContent = function (data) {

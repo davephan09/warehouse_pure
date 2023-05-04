@@ -23,7 +23,7 @@ var RolesClass = function () {
         ele.modalUpdate = $('#kt_modal_update_role')
         ele.idRole = $('#id-role')
 
-        loadData();
+        loadData(ele.contentPage);
     }
 
     this.bindEvents = function () {
@@ -45,7 +45,7 @@ var RolesClass = function () {
         return params;
     }
 
-    var loadData = function () {
+    var loadData = function (target) {
         // ele.contentPage.LoadingOverlay("show");
         let params = getParam();
         var _cb = function (rs) {
@@ -55,7 +55,7 @@ var RolesClass = function () {
             listRoles = data.listRoles
             rolePermission = data.rolePermission
         };
-        $.app.ajax($.app.vars.url + '/roles/get-data', 'GET', params, '', null, _cb);
+        $.app.ajax($.app.vars.url + '/roles/get-data', 'GET', params, target, null, _cb);
     }
 
     var drawContent = function (data) {
@@ -74,6 +74,7 @@ var RolesClass = function () {
                 name : name,
                 permission : []
             }
+            var target = $('.modal-content', ele.modalCreate)
             $.each(ele.checkItems, function (i, val) {
                 if ($(this).prop('checked')) {
                     params.permission.push($(this).data('id'))
@@ -88,7 +89,7 @@ var RolesClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            $.app.ajax($.app.vars.url + '/roles/store', 'POST', params, '', null, _cb);
+            $.app.ajax($.app.vars.url + '/roles/store', 'POST', params, target, null, _cb);
         })
     }
 
@@ -112,6 +113,7 @@ var RolesClass = function () {
                 name : ele.roleNameEdit.val(),
                 permission : []
             }
+            var target = $('.modal-content', ele.modalUpdate)
             $.each(ele.checkItemsE, function (i, val) {
                 if ($(this).prop('checked')) {
                     params.permission.push($(this).data('id'))
@@ -126,7 +128,7 @@ var RolesClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, '', null, _cb);
+            $.app.ajax($.app.vars.url + '/roles/update', 'POST', params, target, null, _cb);
         })
     }
 
