@@ -13,6 +13,7 @@ var CategoryProductCreateClass = function () {
         ele.description = $('#description')
         ele.submitBtn = $('#kt_ecommerce_add_category_submit')
         ele.parentCat = $('#kt_ecommerce_add_category_store_template')
+        ele.statusColor = $('#kt_ecommerce_add_category_status')
 
         // loadData()
     }
@@ -20,6 +21,7 @@ var CategoryProductCreateClass = function () {
     this.bindEvents = function () {
         drawContent()
         createCategory()
+        changeStatus()
     }
 
     // var getParam = function () {
@@ -67,6 +69,12 @@ var CategoryProductCreateClass = function () {
                 }
             }
             $.app.ajax($.app.vars.url + '/categories/product/store', 'POST', params, target, null, _cb)
+        })
+    }
+
+    var changeStatus = function () {
+        ele.status.on('change', function () {
+            ele.statusColor.toggleClass('bg-success').toggleClass('bg-danger')
         })
     }
 }
