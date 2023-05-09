@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SupplierController;
@@ -40,4 +41,11 @@ Route::prefix('suppliers')->group(function() {
     Route::post('update', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::post('change-status', [SupplierController::class, 'changeStatus'])->name('suppliers.changeStatus');
     Route::post('delete', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+});
+
+Route::prefix('categories/product')->group(function() {
+    Route::get('/', [CategoryProductController::class, 'index'])->name('category.product.index');
+    Route::get('get-data', [CategoryProductController::class, 'getData'])->name('category.product.getData');
+    Route::get('create', [CategoryProductController::class, 'create'])->name('category.product.create');
+    Route::post('store', [CategoryProductController::class, 'store'])->name('category.product.store');
 });
