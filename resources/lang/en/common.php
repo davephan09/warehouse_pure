@@ -59,5 +59,6 @@ return [
     'choose_parent_category_des' => 'Choose a parent category for the product category. If this is the root category, you select "No parent category".',
     'general' => 'General',
     'description' => 'Description',
-    'category' => 'Category'
+    'category' => 'Category',
+    'hide' => 'Hide',
 ];

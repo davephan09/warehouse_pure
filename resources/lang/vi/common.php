@@ -59,5 +59,6 @@ return [
     'choose_parent_category_des' => 'Chọn một danh mục cha cho danh mục sản phẩm. Nếu đây là danh mục gốc thì bạn chọn "Không có danh mục cha"',
     'general' => 'Tổng quan',
     'description' => 'Mô tả',
-    'category' => 'Danh mục'
+    'category' => 'Danh mục',
+    'hide' => 'Ẩn',
 ];

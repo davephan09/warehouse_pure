@@ -12,6 +12,7 @@ var CategoryProductClass = function () {
     this.init = function () {
         ele.categoryTable = $('#kt_ecommerce_category_table')
         ele.searchField = $('#search-field')
+        ele.statusFilter = $('#status-filter')
         
         loadData(ele.categoryTable)
     }
@@ -59,14 +60,20 @@ var CategoryProductClass = function () {
                 orderable: false,
                 visible: true
             }],
-            // order: [
-            //     [1, 'asc']
-            // ],
         });
 
         ele.searchField.on('keyup', function (e) {
             var text = e.target.value;
             vars.datatable[dttableid].column(1).search(text).draw();
         });
+
+        ele.statusFilter.on('change', function (e) {
+            var status = e.target.value;
+            if (status === 'all') {
+                vars.datatable[dttableid].column(2).search('').draw();
+            } else {
+                vars.datatable[dttableid].column(2).search('^'+status+'$', true, false).draw();
+            }
+        })
     }
 }
