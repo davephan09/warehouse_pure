@@ -61,4 +61,5 @@ return [
     'description' => 'Mô tả',
     'category' => 'Danh mục',
     'hide' => 'Ẩn',
+    'are_you_update' => 'Bạn muốn cập nhật đối tượng này?'
 ];

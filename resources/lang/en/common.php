@@ -61,4 +61,5 @@ return [
     'description' => 'Description',
     'category' => 'Category',
     'hide' => 'Hide',
+    'are_you_update' => 'You want to update this object?'
 ];

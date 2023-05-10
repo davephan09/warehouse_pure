@@ -48,4 +48,6 @@ Route::prefix('categories/product')->group(function() {
     Route::get('get-data', [CategoryProductController::class, 'getData'])->name('category.product.getData');
     Route::get('create', [CategoryProductController::class, 'create'])->name('category.product.create');
     Route::post('store', [CategoryProductController::class, 'store'])->name('category.product.store');
+    Route::get('show/{id}', [CategoryProductController::class, 'show'])->name('category.product.show');
+    Route::post('update', [CategoryProductController::class, 'update'])->name('category.product.update');
 });

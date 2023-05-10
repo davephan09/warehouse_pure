@@ -86,11 +86,18 @@ class CategoryProductController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('category_product.update')) {
+            $id = intval($id);
+            $data['title'] = trans('category.update');
+            $data['category'] = $this->category->find($id);
+            $data['productCategories'] = $this->category->getAll();
+            return view('category_product.update', $data);
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -108,12 +115,34 @@ class CategoryProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('category_product.update')) {
+            try {
+                $rules = [
+                    'name' => 'required|max:191',
+                    'id' => 'required|numeric'
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                $id = intval($request->input('id'));
+                $category = $this->category->find($id);
+                $request->merge([
+                    'user_add' => $user->id,
+                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
+                ]);
+                $category->update($request->all());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**

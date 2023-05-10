@@ -34,7 +34,7 @@ class Helper
                             </td>
                             <td class="text-end">';
                 if ($user->can('category_product.update')) {
-                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-id="' . $cat->id . '" title="'. __('common.update') .'">
+                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-name="' . $cat->name . '" data-id="' . $cat->id . '" title="'. __('common.update') .'">
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
@@ -46,7 +46,7 @@ class Helper
                             </button>';
                 }
                 if ($user->can('category_product.delete')) {
-                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="{{$supplier->id}}" title="' . __('common.delete') . '"
+                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="' . $cat->id . '" title="' . __('common.delete') . '"
                                 data-kt-permissions-table-filter="delete_row">
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -68,14 +68,14 @@ class Helper
         return $html;
     }
 
-    public static function renderMultilevelOption($categories, $parent_id = 0, $char = '')
+    public static function renderMultilevelOption($categories, $parent_id = 0, $char = '', $id = -1)
     {
         $html = '';
         foreach ($categories as $key => $cat) {
             if ($cat->parent_id == $parent_id) {
-                $html .= '<option value="' . $cat->id . '">' . $char . ' ' . $cat->name . '</option>';
+                $html .= '<option value="' . $cat->id . '"' . ($cat->id == $id ? 'selected' : '') . '>' . $char . ' ' . $cat->name . '</option>';
                 unset($categories[$key]);
-                $html .= self::renderMultilevelOption($categories, $cat->id, $char . '--');
+                $html .= self::renderMultilevelOption($categories, $cat->id, $char . '--', $id);
             }
         }
         return $html;

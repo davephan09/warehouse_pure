@@ -9,4 +9,5 @@ return [
     'no_parent' => 'No parent category',
     'category_name' => 'Category name',
     'search' => 'Search Category',
+    'update' => 'Update Product Category',
 ];

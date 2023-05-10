@@ -18,7 +18,7 @@ var CategoryProductClass = function () {
     }
 
     this.bindEvents = function () {
-
+        editConfirm()
     }
 
     var getParam = function () {
@@ -74,6 +74,20 @@ var CategoryProductClass = function () {
             } else {
                 vars.datatable[dttableid].column(2).search('^'+status+'$', true, false).draw();
             }
+        })
+    }
+
+    var editConfirm = function () {
+        $(document).on('click', '.update-btn', function () {
+            let $id = $(this).data('id')
+            let name = $(this).data('name')
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_update'),
+                'text' : Lang.get('common.category_product') + ': ' + name,
+                'callback' : function () {
+                    window.location.href = $.app.vars.url + '/categories/product/show/' + $id
+                }
+            })
         })
     }
 }

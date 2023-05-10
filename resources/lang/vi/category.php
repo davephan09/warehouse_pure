@@ -9,4 +9,5 @@ return [
     'no_parent' => 'Không có danh mục cha',
     'type_name' => 'Nhập tên danh mục',
     'search' => 'Tìm kiếm danh mục',
+    'update' => 'Cập nhật Danh mục sản phẩm',
 ];

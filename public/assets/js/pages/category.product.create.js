@@ -14,6 +14,7 @@ var CategoryProductCreateClass = function () {
         ele.submitBtn = $('#kt_ecommerce_add_category_submit')
         ele.parentCat = $('#kt_ecommerce_add_category_store_template')
         ele.statusColor = $('#kt_ecommerce_add_category_status')
+        ele.catId = $('#cat-id')
 
         // loadData()
     }
@@ -54,12 +55,13 @@ var CategoryProductCreateClass = function () {
     var createCategory = function () {
         ele.submitBtn.on('click', function () {
             var target = ele.submitBtn
+            var type = $(this).data('type')
             var params = {
                 name : ele.name.val(),
                 thumb : '',
                 active : ele.status.val(),
                 description : ele.description.val(),
-                parent_id : ele.parentCat.val()
+                parent_id : ele.parentCat.val() === 'no_parent' ? null : ele.parentCat.val()
             }
             var _cb = function (rs) {
                 if (rs.status) {
@@ -68,7 +70,12 @@ var CategoryProductCreateClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            $.app.ajax($.app.vars.url + '/categories/product/store', 'POST', params, target, null, _cb)
+            if (type == 'create') {
+                $.app.ajax($.app.vars.url + '/categories/product/store', 'POST', params, target, null, _cb)
+            } else {
+                params.id = ele.catId.val()
+                $.app.ajax($.app.vars.url + '/categories/product/update', 'POST', params, target, null, _cb)
+            }
         })
     }
 
