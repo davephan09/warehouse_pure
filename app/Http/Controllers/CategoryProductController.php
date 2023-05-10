@@ -31,6 +31,7 @@ class CategoryProductController extends Controller
     public function getData(Request $request)
     {
         $data = array();
+        $data['categories'] = $this->category->getAll();
         $data['htmlCategoryTable'] = view('category_product.category_table', $data)->render();
         return $this->iRespond(true, "", $data);
     }

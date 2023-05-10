@@ -48,4 +48,16 @@ return [
     'active' => 'Hoạt động',
     'unactive' => 'Ngừng hoạt động',
     'all' => 'Tất cả',
+    'category_product' => 'Danh mục sản phẩm',
+    'thumbnail' => 'Hình ảnh',
+    'change_avatar' => 'Thay đổi hình ảnh',
+    'cancel_avatar' => 'Hủy',
+    'remove_avatar' => 'Xóa hình ảnh',
+    'parent_category' => 'Danh mục cha',
+    'choose_parent_category' => 'Chọn danh mục cha',
+    'select_an_option' => 'Chọn thông tin',
+    'choose_parent_category_des' => 'Chọn một danh mục cha cho danh mục sản phẩm. Nếu đây là danh mục gốc thì bạn chọn "Không có danh mục cha"',
+    'general' => 'Tổng quan',
+    'description' => 'Mô tả',
+    'category' => 'Danh mục'
 ];

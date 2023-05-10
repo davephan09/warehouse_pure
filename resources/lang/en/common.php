@@ -48,4 +48,16 @@ return [
     'active' => 'Active',
     'unactive' => 'Unactive',
     'all' => 'All',
+    'category_product' => 'Product Category',
+    'thumbnail' => 'Thumbnail',
+    'change_avatar' => 'Change avatar',
+    'cancel_avatar' => 'Cancel avatar',
+    'remove_avatar' => 'Remove avatar',
+    'parent_category' => 'Parent Category',
+    'choose_parent_category' => 'Select a parent category',
+    'select_an_option' => 'Select an option',
+    'choose_parent_category_des' => 'Choose a parent category for the product category. If this is the root category, you select "No parent category".',
+    'general' => 'General',
+    'description' => 'Description',
+    'category' => 'Category'
 ];

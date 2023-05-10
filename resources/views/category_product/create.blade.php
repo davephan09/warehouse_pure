@@ -183,10 +183,7 @@
                 <!--begin::Select2-->
                 <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_store_template">
                     <option></option>
-                    @forelse ($productCategories as $cat)
-                    <option value="{{$cat->id}}">{{$cat->name}}</option>
-                    @empty
-                    @endforelse
+                    {!!\App\Helpers\Helper::renderMultilevelOption($productCategories)!!}
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->
