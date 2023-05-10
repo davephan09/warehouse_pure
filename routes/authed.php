@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UsersController;
@@ -50,4 +51,11 @@ Route::prefix('categories/product')->group(function() {
     Route::post('store', [CategoryProductController::class, 'store'])->name('category.product.store');
     Route::get('show/{id}', [CategoryProductController::class, 'show'])->name('category.product.show');
     Route::post('update', [CategoryProductController::class, 'update'])->name('category.product.update');
+    Route::post('delete', [CategoryProductController::class, 'destroy'])->name('category.product.destroy');
 });
+
+Route::prefix('product')->group(function() {
+    Route::get('/', [ProductController::class, 'index'])->name('product.index');
+    Route::get('create', [ProductController::class, 'create'])->name('product.create');
+    Route::get('store', [ProductController::class, 'store'])->name('product.store');
+})

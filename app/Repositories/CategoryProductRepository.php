@@ -10,4 +10,8 @@ class CategoryProductRepository extends Repository
         return CategoryProduct::class;
     }
 
+    public function getAllActive()
+    {
+        return $this->model->where('active', 1)->get();
+    }
 }

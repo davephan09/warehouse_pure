@@ -46,7 +46,7 @@ class Helper
                             </button>';
                 }
                 if ($user->can('category_product.delete')) {
-                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="' . $cat->id . '" title="' . __('common.delete') . '"
+                    $html .= '<button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-name="' . $cat->name . '" data-id="' . $cat->id . '" title="' . __('common.delete') . '"
                                 data-kt-permissions-table-filter="delete_row">
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -10,4 +10,5 @@ return [
     'type_name' => 'Nhập tên danh mục',
     'search' => 'Tìm kiếm danh mục',
     'update' => 'Cập nhật Danh mục sản phẩm',
+    'delete' => 'Xóa Danh mục sản phẩm'
 ];

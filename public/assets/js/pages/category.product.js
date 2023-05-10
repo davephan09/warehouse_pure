@@ -19,6 +19,7 @@ var CategoryProductClass = function () {
 
     this.bindEvents = function () {
         editConfirm()
+        deleteCategory()
     }
 
     var getParam = function () {
@@ -86,6 +87,31 @@ var CategoryProductClass = function () {
                 'text' : Lang.get('common.category_product') + ': ' + name,
                 'callback' : function () {
                     window.location.href = $.app.vars.url + '/categories/product/show/' + $id
+                }
+            })
+        })
+    }
+
+    var deleteCategory = function () {
+        $(document).on('click', '.delete-btn', function () {
+            let $id = $(this).data('id')
+            let name = $(this).data('name')
+            let params = {
+                id : $id
+            }
+            let _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' :  Lang.get('category.delete') + ': ' + name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/categories/product/delete', 'POST', params, '', null, _cb);
                 }
             })
         })

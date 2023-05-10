@@ -10,4 +10,5 @@ return [
     'category_name' => 'Category name',
     'search' => 'Search Category',
     'update' => 'Update Product Category',
+    'delete' => 'Delete Product Category'
 ];

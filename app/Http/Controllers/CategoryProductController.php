@@ -6,6 +6,7 @@ use App\Repositories\CategoryProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class CategoryProductController extends Controller
 {
@@ -148,11 +149,26 @@ class CategoryProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('category_product.delete')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $category = $this->category->find($id);
+                    $category->delete();
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }
