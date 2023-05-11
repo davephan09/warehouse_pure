@@ -8,6 +8,7 @@ use BenSampo\Enum\Enum;
 final class DetailedPermission extends Enum implements LocalizedEnum
 {
     const Read = 0;
-    const Write = 1;
-    const Delete = 2;
+    const Create = 1;
+    const Update = 2;
+    const Delete = 3;
 }
