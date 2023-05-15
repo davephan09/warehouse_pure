@@ -1,0 +1,23 @@
+<?php
+return [
+    'thumb_rule' => 'Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted',
+    'add' => 'Add New Product',
+    'status_des' => 'Set the product status.',
+    'detail' => 'Product Details',
+    'category_des' => 'Add product to a category.',
+    'create_category' => 'Create new category',
+    'name' => 'Product name',
+    'name_des' => 'A product name is required and recommended to be unique.',
+    'summary_des' => 'Set a summary to the product for better visibility.',
+    'description_des' => 'Set a description to the product for better detaied informations.',
+    'media_des' => 'Set the product media gallery.',
+    'code' => 'Product code',
+    'code_example' => 'Example: BL-07',
+    'code_des' => 'Enter the product SKU.',
+    'quantity_des' => 'Enter the product quantity.',
+    'add_variation' => 'Add Product Variations',
+    'select_variation' => 'Select a variation',
+    'add_another_variation' => 'Add another variation',
+    'add_new_variation' => 'Add new variation',
+    'list' => 'Products',
+];

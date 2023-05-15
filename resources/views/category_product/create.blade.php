@@ -87,10 +87,10 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_category_status_select">
+                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_status_select">
                     <option></option>
                     <option value="1" selected="selected">{{__('common.active')}}</option>
-                    <option value="0">{{__('common.unactive')}}</option>
+                    <option value="0">{{__('common.inactive')}}</option>
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->

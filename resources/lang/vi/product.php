@@ -1,0 +1,23 @@
+<?php
+return [
+    'thumb_rule' => 'Đăng ảnh mô tả cho sản phẩm. Chỉ cho phép tải lên file *.png, *.jpg và *.jpeg.',
+    'add' => 'Thêm sản phẩm mới',
+    'status_des' => 'Chọn trạng thái sản phẩm.',
+    'detail' => 'Chi tiết sản phẩm',
+    'category_des' => 'Chọn một danh mục cho sản phẩm.',
+    'create_category' => 'Tạo danh mục mới',
+    'name' => 'Tên sản phẩm',
+    'name_des' => 'Tên sản phẩm là bắt buộc và không được trùng với các sản phẩm trước đó.',
+    'summary_des' => 'Tóm tắt ngắn về sản phẩm giúp phân loại sản phẩm tốt hơn.',
+    'description_des' => 'Mô tả chi tiết cho sản phẩm có thể giúp quản lý sản phẩm tốt hơn.',
+    'media_des' => 'Thêm thư viện ảnh cho sản phẩm.',
+    'code' => 'Mã sản phẩm',
+    'code_example' => 'Ví dụ: BL-07',
+    'code_des' => 'Nhập SKU - Mã sản phẩm.',
+    'quantity_des' => 'Nhập số lượng sản phẩm.',
+    'add_variation' => 'Thêm đặc điểm chi tiết của sản phẩm',
+    'select_variation' => 'Chọn một đặc điểm',
+    'add_another_variation' => 'Thêm đặc điểm',
+    'add_new_variation' => 'Thêm đặc điểm mới',
+    'list' => 'Danh sách sản phẩm',
+];
