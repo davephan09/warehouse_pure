@@ -54,8 +54,8 @@ Route::prefix('categories/product')->group(function() {
     Route::post('delete', [CategoryProductController::class, 'destroy'])->name('category.product.destroy');
 });
 
-Route::prefix('product')->group(function() {
+Route::prefix('products')->group(function() {
     Route::get('/', [ProductController::class, 'index'])->name('product.index');
     Route::get('create', [ProductController::class, 'create'])->name('product.create');
-    Route::get('store', [ProductController::class, 'store'])->name('product.store');
-})
+    Route::post('store', [ProductController::class, 'store'])->name('product.store');
+});
