@@ -86,7 +86,7 @@ class Helper
         if ($status) {
             return trans('common.active');
         }
-        return trans('common.unactive');
+        return trans('common.inactive');
     }
 
     public static function renderStatusColor($status)

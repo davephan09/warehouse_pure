@@ -102,7 +102,7 @@
                                     <!--begin::Option-->
                                     <label class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
                                         <input class="form-check-input" type="radio" name="status" value="0" />
-                                        <span class="form-check-label text-gray-600">{{__('common.unactive')}}</span>
+                                        <span class="form-check-label text-gray-600">{{__('common.inactive')}}</span>
                                     </label>
                                     <!--end::Option-->
                                 </div>

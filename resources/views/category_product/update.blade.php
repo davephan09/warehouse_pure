@@ -90,7 +90,7 @@
                 <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_category_status_select">
                     <option></option>
                     <option value="1" {{$category->active == 1 ? 'selected' : ''}}>{{__('common.active')}}</option>
-                    <option value="0" {{$category->active == 0 ? 'selected' : ''}}>{{__('common.unactive')}}</option>
+                    <option value="0" {{$category->active == 0 ? 'selected' : ''}}>{{__('common.inactive')}}</option>
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->
