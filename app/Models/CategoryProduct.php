@@ -11,4 +11,9 @@ class CategoryProduct extends Model
     protected $table = 'category_products';
     public $timestamps = true;
     protected $fillable = ['name', 'parent_id', 'description', 'thumb', 'active', 'user_add'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id', 'id');
+    }
 }
