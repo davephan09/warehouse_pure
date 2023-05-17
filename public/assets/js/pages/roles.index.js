@@ -22,6 +22,8 @@ var RolesClass = function () {
         ele.checkItemsE = $('.check-item', $('#kt_modal_update_role'))
         ele.modalUpdate = $('#kt_modal_update_role')
         ele.idRole = $('#id-role')
+        ele.formCreate = $('#kt_modal_add_role_form')
+        ele.formUpdate = $('#kt_modal_update_role_form')
 
         loadData(ele.contentPage);
     }
@@ -68,7 +70,7 @@ var RolesClass = function () {
     }
 
     var createRole = function () {
-        ele.submitBtn.on('click', function() {
+        ele.formCreate.on('submit', function() {
             var name = ele.roleName.val()
             var params = {
                 name : name,
@@ -107,7 +109,7 @@ var RolesClass = function () {
     }
 
     var updateRole = function () {
-        ele.updateBtn.on('click', function() {
+        ele.formUpdate.on('submit', function() {
             var params = {
                 id : ele.idRole.val(),
                 name : ele.roleNameEdit.val(),

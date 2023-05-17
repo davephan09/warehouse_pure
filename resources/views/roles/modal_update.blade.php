@@ -29,7 +29,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_update_role_form" class="form" action="#">
+                <form id="kt_modal_update_role_form" class="form" action="javascript:void(0)">
                     <!--begin::Scroll-->
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll"
                         data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
@@ -120,7 +120,7 @@
                     <div class="text-center pt-15">
                         <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
                             data-kt-roles-modal-action="cancel">{{__('common.discard')}}</button>
-                        <button type="button" class="btn btn-primary" data-kt-roles-modal-action="submit" id="update-btn">
+                        <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit" id="update-btn">
                             <span class="indicator-label">{{__('common.submit')}}</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
