@@ -61,7 +61,7 @@
             <!--end::Notice-->
             <!--end::Notice-->
             <!--begin::Form-->
-            <form id="kt_modal_update_permission_form" class="form" action="#">
+            <form id="kt_modal_update_permission_form" class="form" action="javascript:void(0)">
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Label-->
@@ -82,7 +82,7 @@
                 <div class="text-center pt-15">
                     <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
                         data-kt-permissions-modal-action="cancel">{{__('common.discard')}}</button>
-                    <button type="button" class="btn btn-primary" data-kt-permissions-modal-action="submit" id="update-modal-btn">
+                    <button type="submit" class="btn btn-primary" data-kt-permissions-modal-action="submit" id="update-modal-btn">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

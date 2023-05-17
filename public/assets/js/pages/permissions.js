@@ -21,6 +21,8 @@ var PermissionsClass = function () {
         ele.nameUpdate = $('#name-permission', ele.modalUpdate)
         ele.updateBtn = $('#update-modal-btn', ele.modalUpdate)
         ele.permissionId = $('#permission-id')
+        ele.formCreate = $('#kt_modal_add_permission_form')
+        ele.formUpdate = $('#kt_modal_update_permission_form')
 
         loadData(ele.permissionTable);
     }
@@ -88,11 +90,11 @@ var PermissionsClass = function () {
     }
 
     var submitPermission = function () {
-        ele.submitButton.on('click', function() {
+        ele.formCreate.on('submit', function() {
             var name = ele.permissionName.val()
             var core = ele.permissionCore.prop('checked')
             var target = $('.modal-content', ele.modalCreate)
-            var params ={
+            var params = {
                 name : name,
                 is_core : core
             }
@@ -118,7 +120,7 @@ var PermissionsClass = function () {
     }
 
     var updatePermission = function () {
-        ele.updateBtn.on('click', function() {
+        ele.formUpdate.on('submit', function() {
             var params = {
                 id : ele.permissionId.val(),
                 name : ele.nameUpdate.val()

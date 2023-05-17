@@ -28,7 +28,7 @@
         <!--begin::Modal body-->
         <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
             <!--begin::Form-->
-            <form id="kt_modal_add_permission_form" class="form" action="#">
+            <form id="kt_modal_add_permission_form" class="form" action="javascript:void(0)">
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Label-->
@@ -65,7 +65,7 @@
                 <div class="text-center pt-15">
                     <button type="reset" class="btn btn-light me-3" data-kt-permissions-modal-action="cancel"
                         data-bs-dismiss="modal">{{ trans('common.discard') }}</button>
-                    <button type="button" class="btn btn-primary" data-kt-permissions-modal-action="submit" id="submit-btn">
+                    <button type="submit" class="btn btn-primary" data-kt-permissions-modal-action="submit" id="submit-btn">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
