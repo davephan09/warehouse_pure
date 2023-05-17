@@ -36,6 +36,8 @@ var SupplierClass = function () {
         ele.filterBtn = $('#filter-btn')
         ele.filterSelect = $('#filter-select')
         ele.idUpdate = $('#id-update')
+        ele.formCreate = $('#kt_modal_add_customer_form')
+        ele.formUpdate = $('#kt_modal_update_customer_form')
 
         loadData(ele.supplierTable)
     }
@@ -134,7 +136,7 @@ var SupplierClass = function () {
     }
 
     var createSupplier = function () {
-        ele.btnCreate.on('click', function() {
+        ele.formCreate.on('submit', function() {
             var params = {
                 name : JSON.stringify($('input[name="name"]', ele.modalCreate).val()),
                 phone : JSON.stringify($('input[name="phone"]', ele.modalCreate).val()),
@@ -268,7 +270,7 @@ var SupplierClass = function () {
     }
 
     var updateSupplier = function () {
-        ele.btnUpdate.on('click', function () {
+        ele.formUpdate.on('submit', function () {
             var $id = ele.idUpdate.val()
             var supplier = suppliers[$id]
             var params = {

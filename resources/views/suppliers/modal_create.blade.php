@@ -5,7 +5,7 @@
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" action="#" id="kt_modal_add_customer_form"
+            <form class="form" action="javascript:void(0)" id="kt_modal_add_customer_form"
                 data-kt-redirect="../../demo1/dist/apps/customers/list.html">
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_add_customer_header">
@@ -263,7 +263,7 @@
                         class="btn btn-light me-3">{{__('common.discard')}}</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="button" id="kt_modal_add_customer_submit" class="btn btn-primary">
+                    <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
