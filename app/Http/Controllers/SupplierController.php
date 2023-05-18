@@ -137,8 +137,9 @@ class SupplierController extends Controller
     {
         $user = Auth::user();
         if ($user->can('supplier.update')) {
+            $id = intval($request->input('id'));
             $rules = [
-                'name' => 'required|max:255|min:3',
+                'name' => 'required|max:255|min:3|unique:suppliers,name,' . $id,
                 'phone' => 'max:40',
                 'email' => 'max:40',
                 'detail_address' => 'max:255',
@@ -149,7 +150,6 @@ class SupplierController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $id = intval($request->input('id'));
                 $supplier = $this->supplier->find($id);
                 $supplier->update([
                     'name' => $request->input('name'),

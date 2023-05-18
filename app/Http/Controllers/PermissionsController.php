@@ -108,9 +108,10 @@ class PermissionsController extends Controller
     {
         $user = Auth::user();
         if ($user->can('permission.update')) {
+            $id = intval($request->input('id'));
             $rules = [
                 'id' => 'required',
-                'name' => 'required|max:191',
+                'name' => 'required|max:191|unique:permissions,name,' . $id,
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -118,7 +119,6 @@ class PermissionsController extends Controller
             }
             DB::connection()->beginTransaction();
             try {
-                $id = intval($request->input('id'));
                 $name = trim($request->input('name'));
                 $role = $this->permission->find($id);
                 $role->update(['name' => $name]);

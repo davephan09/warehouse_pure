@@ -177,9 +177,10 @@ class RolesController extends Controller
     {
         $user = Auth::user();
         if ($user->can('role.update')) {
+            $id = intval($request->input('id'));
             $rules = [
                 'id' => 'required',
-                'name' => 'required|max:191',
+                'name' => 'required|max:191|unique:roles,name,' . $id,
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -187,7 +188,6 @@ class RolesController extends Controller
             }
             DB::connection()->beginTransaction();
             try {
-                $id = intval($request->input('id'));
                 $name = trim($request->input('name'));
                 $permissionIds = $request->input('permission');
                 $role = $this->role->find($id);

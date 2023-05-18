@@ -122,15 +122,15 @@ class CategoryProductController extends Controller
         $user = Auth::user();
         if ($user->can('category_product.update')) {
             try {
+                $id = intval($request->input('id'));
                 $rules = [
-                    'name' => 'required|max:191',
+                    'name' => 'required|max:191|unique:category_products,name,' . $id,
                     'id' => 'required|numeric'
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $id = intval($request->input('id'));
                 $category = $this->category->find($id);
                 $request->merge([
                     'user_add' => $user->id,
