@@ -15,6 +15,7 @@ var CategoryProductCreateClass = function () {
         ele.parentCat = $('#kt_ecommerce_add_category_store_template')
         ele.statusColor = $('#kt_ecommerce_add_category_status')
         ele.catId = $('#cat-id')
+        ele.formSubmit = $('#kt_ecommerce_add_category_form')
 
         // loadData()
     }
@@ -53,9 +54,9 @@ var CategoryProductCreateClass = function () {
     }
 
     var createCategory = function () {
-        ele.submitBtn.on('click', function () {
+        ele.formSubmit.on('click', function () {
             var target = ele.submitBtn
-            var type = $(this).data('type')
+            var type = $(ele.submitBtn, $(this)).data('type')
             var params = {
                 name : ele.name.val(),
                 thumb : '',

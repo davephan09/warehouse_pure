@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-<form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row" >
+<form id="kt_ecommerce_add_category_form" action="javascript:void(0)" class="form d-flex flex-column flex-lg-row" >
     <!--begin::Aside column-->
     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
         <!--begin::Thumbnail settings-->
@@ -182,7 +182,7 @@
             <a href="{{route('category.product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="button" data-type="update" id="kt_ecommerce_add_category_submit" class="btn btn-primary">
+            <button type="submit" data-type="update" id="kt_ecommerce_add_category_submit" class="btn btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
