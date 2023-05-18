@@ -125,6 +125,38 @@
 
         };
 
+        
+        this.pushNotyCallback = function (options) {
+            if (!options.type) type = 'success';
+            if (options.type == 'success' && !options.text) options.text = Lang.get('common.Successfully');
+            if (options.type == 'error' && !options.text) options.text = Lang.get('common.error_try_again');
+
+
+            var classBtn = ' btn-primary';
+            if (options.type == 'error'){
+                classBtn = 'btn-warning';
+            }
+
+            Swal.fire({
+                text: options.text,
+                icon: options.type,
+                buttonsStyling: false,
+                confirmButtonText: Lang.get('common.Ok'),
+                customClass: {
+                    confirmButton: "btn " + classBtn
+                },
+                showCloseButton: true,
+
+            }).then(function (result) {
+                if (result.value) {
+                    if (options.callback) options.callback();
+                } else {
+                    options.unConfirm();
+
+                }
+            });
+        }
+
 
         this.pushConfirmNoti = function (options) {
 
