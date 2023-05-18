@@ -23,6 +23,8 @@ var ProductCreateClass = function() {
         ele.quantity = $('input[name="warehouse"]')
         ele.variation = $('select[name="product_option[]"]')
         ele.var_value = $('input[name="product_option_value[]"]')
+        ele.formSubmit = $('#kt_ecommerce_add_product_form')
+        ele.productId = $('#product-id')
     }
 
     this.bindEvents = () => {
@@ -64,7 +66,8 @@ var ProductCreateClass = function() {
     }
 
     var createProduct = () => {
-        ele.btnCreate.on('click', function() {
+        ele.formSubmit.on('submit', function() {
+            var type = $(ele.btnCreate, $(this)).data('type')
             var params = {
                 'thumb' : ele.thumb.val(),
                 'active' : ele.status.val(),
@@ -86,13 +89,23 @@ var ProductCreateClass = function() {
             })
             let _cb = (rs) => {
                 if (rs.status) {
-                    $.app.pushNoty('success')
+                    $.app.pushNotyCallback({
+                        'type' : 'success',
+                        'callback' : function () {
+                            window.location.href = $.app.vars.url + '/products/'
+                        }
+                    })
                 } else {
                     $.app.pushNoty('error')
                 }
             }
 
-            $.app.ajax($.app.vars.url + '/products/store', 'POST', params, target, null, _cb);
+            if(type === 'create') {
+                $.app.ajax($.app.vars.url + '/products/store', 'POST', params, target, null, _cb);
+            } else {
+                params.id = ele.productId.val()
+                $.app.ajax($.app.vars.url + '/products/update', 'POST', params, target, null, _cb);
+            }
         })
     }
 }

@@ -20,4 +20,10 @@ return [
     'add_another_variation' => 'Add another variation',
     'add_new_variation' => 'Add new variation',
     'list' => 'Products',
+    'add_btn' => 'Add Product',
+    'sku' => 'SKU',
+    'quantity' => 'Quantity',
+    'price' => 'Price',
+    'search' => 'Search Product',
+    'update' => 'Update Product',
 ];

@@ -33,6 +33,18 @@ class ProductController extends Controller
         return response()->view('errors.404', [], 404);
     }
 
+    public function getData(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('product.read')) {
+            $products = $this->product->getProducts();
+            $data['products'] = $products;
+            $data['htmlProductTable'] = view('product.product_table', $data)->render();
+            return $this->iRespond(true, '', $data);
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -86,11 +98,21 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('product.update')) {
+            $id = intval($id);
+            $data['title'] = trans('product.update');
+            list($product, $varValue) = $this->product->getProduct($id);
+            $data['product'] = $product;
+            $data['varValue'] = $varValue;
+            $data['categories'] = $this->category->getAllActive();
+            $data['variations'] = Variation::get(['id', 'name'])->toArray();
+            return view('product.update', $data);
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -101,19 +123,44 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('product.update')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                $rules = [
+                    'product_name' => 'required|max:191|unique:products,product_name,' . $id,
+                    'product_code' => 'max:40|unique:products,product_code,' . $id,
+                    'quantity' => 'required',
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                $product = $this->product->find($id);
+                $variations = $request->input('variation');
+                $varValues = $request->input('var_value');
+                $this->product->updateProduct($request, $product);
+                $this->product->addVariation($product, $variations, $varValues);
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**

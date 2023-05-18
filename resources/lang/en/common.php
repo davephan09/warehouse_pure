@@ -77,5 +77,6 @@ return [
     'size' => 'Size',
     'height' => 'Height',
     'weight' => 'Weight',
-    'material' => 'Material'
+    'material' => 'Material',
+    'product' => 'Product'
 ];

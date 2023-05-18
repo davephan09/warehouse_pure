@@ -9,12 +9,12 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = 'products';
-    protected $fillable = ['product_name', 'product_code', 'category_id', 'quantity', 'summary', 'description', 'active', 'user_add'];
+    protected $fillable = ['product_name', 'product_code', 'category_id', 'quantity', 'thumb', 'summary', 'description', 'active', 'user_add'];
     public $timestamps = true;
 
     public function category()
     {
-        return $this->belongsTo(CategoryProduct::class, 'id', 'category_id');
+        return $this->belongsTo(CategoryProduct::class, 'category_id', 'id');
     }
 
     public function variations()

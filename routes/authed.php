@@ -56,6 +56,9 @@ Route::prefix('categories/product')->group(function() {
 
 Route::prefix('products')->group(function() {
     Route::get('/', [ProductController::class, 'index'])->name('product.index');
+    Route::get('get-data', [ProductController::class, 'getData'])->name('product.getData');
     Route::get('create', [ProductController::class, 'create'])->name('product.create');
     Route::post('store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('show/{id}', [ProductController::class, 'show'])->name('product.show');
+    Route::post('update', [ProductController::class, 'update'])->name('product.update');
 });

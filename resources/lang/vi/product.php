@@ -20,4 +20,10 @@ return [
     'add_another_variation' => 'Thêm đặc điểm',
     'add_new_variation' => 'Thêm đặc điểm mới',
     'list' => 'Danh sách sản phẩm',
+    'add_btn' => 'Thêm mới',
+    'sku' => 'SKU - Mã sản phẩm',
+    'quantity' => 'Số lượng',
+    'price' => 'Giá tiền',
+    'search' => 'Tìm kiếm sản phẩm',
+    'update' => 'Cập nhật sản phẩm',
 ];

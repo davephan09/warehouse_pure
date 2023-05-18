@@ -77,5 +77,6 @@ return [
     'size' => 'Kích cỡ',
     'height' => 'Chiều cao',
     'weight' => 'Trọng lượng',
-    'material' => 'Chất liệu'
+    'material' => 'Chất liệu',
+    'product' => 'Sản phẩm'
 ];
