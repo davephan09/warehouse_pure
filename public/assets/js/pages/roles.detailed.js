@@ -21,6 +21,7 @@ var RolesDetailedClass = function () {
         ele.modalUpdate = $('#kt_modal_update_role')
         ele.idRole = $('#id-role')
         ele.updateBtn = $('#update-btn', $('#kt_modal_update_role'))
+        ele.formUpdate = $('#kt_modal_update_role_form')
 
         loadData(ele.roleUserTable)
     }
@@ -87,7 +88,7 @@ var RolesDetailedClass = function () {
     }
 
     var updateRole = function () {
-        ele.updateBtn.on('click', function() {
+        ele.formUpdate.on('click', function() {
             var params = {
                 id : ele.idRole.val(),
                 name : ele.roleNameEdit.val(),
