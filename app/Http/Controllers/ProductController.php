@@ -165,12 +165,25 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('product.delete')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $this->product->deleteProduct($id);
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }

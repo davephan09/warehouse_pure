@@ -19,6 +19,7 @@ var ProductClass = function () {
 
     this.bindEvents = function () {
         handleUpdate()
+        handleDelete()
     }
 
     var getParam = () => {
@@ -80,13 +81,37 @@ var ProductClass = function () {
     var handleUpdate = function() {
         $(document).on('click', '.update-btn', function() {
             let $id = $(this).data('id')
-            console.log($id)
             let name = $(this).data('name')
             $.app.pushConfirmNoti({
                 'title' : Lang.get('common.are_you_update'),
                 'text' : Lang.get('common.product') + ': ' + name,
                 'callback' : function () {
                     window.location.href = $.app.vars.url + '/products/show/' + $id
+                }
+            })
+        })
+    }
+
+    var handleDelete = function() {
+        $(document).on('click', '.delete-btn', function() {
+            let $id = $(this).data('id')
+            let name = $(this).data('name')
+            var params = {
+                id : $id
+            }
+            let _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_delete'),
+                'text' : Lang.get('common.product') + ': ' + name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/products/delete', 'POST', params, '', null, _cb);
                 }
             })
         })

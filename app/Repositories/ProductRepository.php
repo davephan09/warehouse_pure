@@ -20,7 +20,7 @@ class ProductRepository extends Repository
             'summary' => trim($request->input('summary')),
             'description' => trim($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
-            'catId' => intval($request->input('category_id')),
+            'category_id' => intval($request->input('category_id')),
             'product_code' => trim($request->input('product_code')),
             'quantity' => intval($request->input('quantity')),
             'user_add' => Auth::user()->id,
@@ -48,9 +48,13 @@ class ProductRepository extends Repository
         $variation = DB::table('product_has_variations')->where('product_id', $id)->get(['variation_id', 'value']);
         $varValue = $variation->keyBy('variation_id')->toArray();
         $varIds = $variation->pluck('variation_id');
-        $product = $this->model->with('variations')->with('category')->where('id', $id)->whereHas('variations', function($query) use ($varIds) {
-            $query->whereIn('id', $varIds);
-        })->first();
+        $product = $this->model->with('variations')->with('category')->where('id', $id);
+        if ($variation->isNotEmpty()) {        
+            $product = $product->whereHas('variations', function($query) use ($varIds) {
+                $query->whereIn('id', $varIds);
+            });
+        }
+        $product = $product->first();
         return [$product, $varValue];
     }
 
@@ -61,10 +65,18 @@ class ProductRepository extends Repository
             'summary' => trim($request->input('summary')),
             'description' => trim($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
-            'catId' => intval($request->input('category_id')),
+            'category_id' => intval($request->input('category_id')),
             'product_code' => trim($request->input('product_code')),
             'quantity' => intval($request->input('quantity')),
             'user_add' => Auth::user()->id,
         ]);
+    }
+
+    public function deleteProduct($id)
+    {
+        $product = $this->model->find($id);
+        $product->delete();
+        $product->variations()->detach();
+        return true;
     }
 }

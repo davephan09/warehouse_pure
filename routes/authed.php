@@ -61,4 +61,5 @@ Route::prefix('products')->group(function() {
     Route::post('store', [ProductController::class, 'store'])->name('product.store');
     Route::get('show/{id}', [ProductController::class, 'show'])->name('product.show');
     Route::post('update', [ProductController::class, 'update'])->name('product.update');
+    Route::post('delete', [ProductController::class, 'destroy'])->name('product.destroy');
 });
