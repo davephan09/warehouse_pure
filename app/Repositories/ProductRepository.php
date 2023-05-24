@@ -32,6 +32,7 @@ class ProductRepository extends Repository
     public function addTag($product, $tags)
     {
         if(!empty($tags)) {
+            $product->tags()->detach();
             $product->tags()->attach($tags);
         }
     }

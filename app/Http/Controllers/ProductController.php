@@ -154,9 +154,11 @@ class ProductController extends Controller
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
                 $product = $this->product->find($id);
+                $tags = $request->input('tags');
                 $variations = $request->input('variation');
                 $varValues = $request->input('var_value');
                 $this->product->updateProduct($request, $product);
+                $this->product->addTag($product, $tags);
                 $this->product->addVariation($product, $variations, $varValues);
                 DB::connection()->commit();
             } catch (\Exception $e) {
