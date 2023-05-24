@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Variation;
 use App\Repositories\CategoryProductRepository;
 use App\Repositories\ProductRepository;
@@ -55,6 +56,7 @@ class ProductController extends Controller
         if ($user->can('product.create')) {
             $data['title'] = trans('product.add');
             $data['categories'] = $this->category->getAllActive();
+            $data['tags'] = Tag::get(['id', 'name']);
             $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.create', $data);
         }
@@ -81,7 +83,9 @@ class ProductController extends Controller
                 }
                 $variations = $request->input('variation');
                 $varValues = $request->input('var_value');
+                $tags = $request->input('tags');
                 $product = $this->product->addProduct($request);
+                $this->product->addTag($product, $tags);
                 $this->product->addVariation($product, $variations, $varValues);
                 DB::connection()->commit();
             } catch (\Exception $e) {
@@ -107,7 +111,9 @@ class ProductController extends Controller
             $data['title'] = trans('product.update');
             list($product, $varValue) = $this->product->getProduct($id);
             $data['product'] = $product;
+            $data['productTags'] = $product->tags->pluck('id')->toArray();
             $data['varValue'] = $varValue;
+            $data['tags'] = Tag::get(['id', 'name']);
             $data['categories'] = $this->category->getAllActive();
             $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.update', $data);

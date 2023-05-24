@@ -28,6 +28,13 @@ class ProductRepository extends Repository
         return $product;
     }
 
+    public function addTag($product, $tags)
+    {
+        if(!empty($tags)) {
+            $product->tags()->attach($tags);
+        }
+    }
+
     public function addVariation($product , $variations, $varValues)
     {
         $product->variations()->detach();
@@ -48,7 +55,7 @@ class ProductRepository extends Repository
         $variation = DB::table('product_has_variations')->where('product_id', $id)->get(['variation_id', 'value']);
         $varValue = $variation->keyBy('variation_id')->toArray();
         $varIds = $variation->pluck('variation_id');
-        $product = $this->model->with('variations')->with('category')->where('id', $id);
+        $product = $this->model->with('variations')->with('category')->with('tags')->where('id', $id);
         if ($variation->isNotEmpty()) {        
             $product = $product->whereHas('variations', function($query) use ($varIds) {
                 $query->whereIn('id', $varIds);

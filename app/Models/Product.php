@@ -17,6 +17,11 @@ class Product extends Model
         return $this->belongsTo(CategoryProduct::class, 'category_id', 'id');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_has_tags', 'product_id', 'tag_id');
+    }
+
     public function variations()
     {
         return $this->belongsToMany(Variation::class, 'product_has_variations', 'product_id', 'variation_id')->withPivot('value');

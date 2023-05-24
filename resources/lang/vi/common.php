@@ -78,5 +78,6 @@ return [
     'height' => 'Chiều cao',
     'weight' => 'Trọng lượng',
     'material' => 'Chất liệu',
-    'product' => 'Sản phẩm'
+    'product' => 'Sản phẩm',
+    'tags' => 'Thẻ tags',
 ];

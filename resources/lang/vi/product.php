@@ -26,4 +26,5 @@ return [
     'price' => 'Giá tiền',
     'search' => 'Tìm kiếm sản phẩm',
     'update' => 'Cập nhật sản phẩm',
+    'tag_des' => 'Gắn thẻ tag vào sản phẩm.',
 ];

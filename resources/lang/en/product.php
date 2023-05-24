@@ -26,4 +26,5 @@ return [
     'price' => 'Price',
     'search' => 'Search Product',
     'update' => 'Update Product',
+    'tag_des' => 'Add tags to a product.',
 ];

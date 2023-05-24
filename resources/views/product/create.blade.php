@@ -138,9 +138,13 @@
                 <!--end::Svg Icon-->{{__('product.create_category')}}</a>
                 <!--end::Button-->
                 <!--begin::Input group-->
-                {{-- <label class="form-label d-block">Tags</label>
-                <input id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" class="form-control mb-2" value="" />
-                <div class="text-muted fs-7">Add tags to a product.</div> --}}
+                <label class="form-label d-block">{{__('common.tags')}}</label>
+                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
+                    @foreach($tags as $key => $tag)
+                        <option value="{{$tag->id}}">{{$tag->name}}</option>
+                    @endforeach
+                </select>
+                <div class="text-muted fs-7">{{__('product.tag_des')}}</div>
                 <!--end::Input group-->
             </div>
             <!--end::Card body-->
@@ -409,7 +413,7 @@
 @endsection
 
 @section('pageJs')
-    <script src="https://cdn.tiny.cloud/1/3upvjsx9sauhrqg81rqh2m9quvaxwf3qrlq7vr21ssaso6ua/tinymce/6/tinymce.min.js"></script>\
+    <script src="https://cdn.tiny.cloud/1/3upvjsx9sauhrqg81rqh2m9quvaxwf3qrlq7vr21ssaso6ua/tinymce/6/tinymce.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
     <script src="{{ url('assets/js/pages/product.create.js') }}"></script>
     <script>

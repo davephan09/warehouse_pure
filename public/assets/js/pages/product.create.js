@@ -25,6 +25,7 @@ var ProductCreateClass = function() {
         ele.var_value = $('input[name="product_option_value[]"]')
         ele.formSubmit = $('#kt_ecommerce_add_product_form')
         ele.productId = $('#product-id')
+        ele.tagField = $('#kt_ecommerce_add_product_tags')
     }
 
     this.bindEvents = () => {
@@ -72,6 +73,7 @@ var ProductCreateClass = function() {
                 'thumb' : ele.thumb.val(),
                 'active' : ele.status.val(),
                 'category_id' : ele.category.val(),
+                'tags' : ele.tagField.val(),
                 'product_name' : ele.name.val(),
                 'summary' : ele.summary.val(),
                 'description' : ele.description.val(),
