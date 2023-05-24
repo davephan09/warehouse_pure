@@ -123,7 +123,7 @@
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->
-                <div class="text-muted fs-7 mb-7">{{__('product.category_des')}}</div>
+                <div class="text-muted fs-7 mb-5">{{__('product.category_des')}}</div>
                 <!--end::Description-->
                 <!--end::Input group-->
                 <!--begin::Button-->
@@ -144,7 +144,17 @@
                         <option value="{{$tag->id}}">{{$tag->name}}</option>
                     @endforeach
                 </select>
-                <div class="text-muted fs-7">{{__('product.tag_des')}}</div>
+                <div class="text-muted fs-7 mb-5">{{__('product.tag_des')}}</div>
+                <!--begin::Button-->
+                <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_tag" class="btn btn-light-primary btn-sm mb-3">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr087.svg-->
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor" />
+                            <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->{{__('product.create_tag')}}</button>
                 <!--end::Input group-->
             </div>
             <!--end::Card body-->
@@ -410,6 +420,9 @@
     <!--end::Main column-->
 </form>
 <!--end::Form-->
+
+@include('product.modal_create_tag')
+
 @endsection
 
 @section('pageJs')

@@ -27,4 +27,8 @@ return [
     'search' => 'Tìm kiếm sản phẩm',
     'update' => 'Cập nhật sản phẩm',
     'tag_des' => 'Gắn thẻ tag vào sản phẩm.',
+    'create_tag' => 'Tạo tag mới',
+    'add_new_tag' => 'Thêm thẻ tag mới',
+    'add_new_tag_des' => 'Nhập tên tag mới',
+    'tag_name' => 'Tên thẻ tag',
 ];

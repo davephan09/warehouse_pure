@@ -192,4 +192,25 @@ class ProductController extends Controller
         }
         return response()->view('errors.404', [], 404);
     }
+
+    public function createTag(Request $request)
+    {
+        try {
+            $rules = [
+                'name' => 'required|min:1|max:100|unique:tags',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            $name = trim($request->input('name'));
+            if (!empty($name)) {
+                $this->product->createTag($name);
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e);
+            return $this->iRespond(false, 'error');
+        }
+        return $this->iRespond(true, 'success');
+    }
 }

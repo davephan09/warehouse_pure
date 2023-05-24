@@ -26,6 +26,9 @@ var ProductCreateClass = function() {
         ele.formSubmit = $('#kt_ecommerce_add_product_form')
         ele.productId = $('#product-id')
         ele.tagField = $('#kt_ecommerce_add_product_tags')
+        ele.addTagForm = $('#kt_modal_add_tag_form')
+        ele.tagNameCreate = $('#tag-name')
+        ele.addTagBtn = $('#submit-tag-btn')
     }
 
     this.bindEvents = () => {
@@ -33,6 +36,7 @@ var ProductCreateClass = function() {
         duplicateVar()
         removeVar()
         createProduct()
+        createTag()
     }
 
     var drawContent = () => {
@@ -108,6 +112,23 @@ var ProductCreateClass = function() {
                 params.id = ele.productId.val()
                 $.app.ajax($.app.vars.url + '/products/update', 'POST', params, target, null, _cb);
             }
+        })
+    }
+
+    var createTag = () => {
+        ele.addTagForm.on('submit', function () {
+            var params = {
+                name : ele.tagNameCreate.val(),
+            }
+            var target = ele.addTagBtn
+            var _cb = function (rs) {
+                if (rs.status) {
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.ajax($.app.vars.url + '/products/create-tag', 'POST', params, target, null, _cb)
         })
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use App\Models\Tag;
 use App\Models\Variation;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -85,5 +86,10 @@ class ProductRepository extends Repository
         $product->delete();
         $product->variations()->detach();
         return true;
+    }
+
+    public function createTag($name)
+    {
+        Tag::create(['name' => $name]);
     }
 }

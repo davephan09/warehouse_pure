@@ -27,4 +27,8 @@ return [
     'search' => 'Search Product',
     'update' => 'Update Product',
     'tag_des' => 'Add tags to a product.',
+    'create_tag' => 'Create new tag',
+    'add_new_tag' => 'Add new tag',
+    'add_new_tag_des' => 'Enter a tag name',
+    'tag_name' => 'Tag name',
 ];
