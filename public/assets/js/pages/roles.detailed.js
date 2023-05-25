@@ -88,7 +88,7 @@ var RolesDetailedClass = function () {
     }
 
     var updateRole = function () {
-        ele.formUpdate.on('click', function() {
+        ele.formUpdate.on('submit', function() {
             var params = {
                 id : ele.idRole.val(),
                 name : ele.roleNameEdit.val(),
