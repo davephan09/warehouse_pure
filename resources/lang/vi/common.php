@@ -80,4 +80,6 @@ return [
     'material' => 'Chất liệu',
     'product' => 'Sản phẩm',
     'tags' => 'Thẻ tags',
+    'brands' => 'Thương hiệu',
+    'upload_one_thumb' => 'Chỉ tải lên 1 file'
 ];

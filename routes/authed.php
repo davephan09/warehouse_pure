@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
@@ -63,4 +64,9 @@ Route::prefix('products')->group(function() {
     Route::post('update', [ProductController::class, 'update'])->name('product.update');
     Route::post('delete', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('create-tag', [ProductController::class, 'createTag'])->name('product.createTag');
+});
+
+Route::prefix('brands')->group(function() {
+    Route::get('/', [BrandController::class, 'index'])->name('brand.index');
+    Route::post('store', [BrandController::class, 'store'])->name('brand.store');
 });
