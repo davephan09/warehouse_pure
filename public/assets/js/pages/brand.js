@@ -32,6 +32,7 @@ var BrandClass = function () {
         handleStatus()
         syncBrand()
         updateBrand()
+        handleUpdateStatus()
     }
 
     var getParam = function () {
@@ -120,17 +121,18 @@ var BrandClass = function () {
             var $id = $(this).data('id')
             var brand = brands[$id]
             ele.nameInputE.val(brand.name)
-            ele.statusE.val(brand.active)
+            brand.active ? ele.statusE.prop('checked', true) : ele.statusE.prop('checked', false)
             ele.brandId.val(brand.id)
         })
     }
 
     var updateBrand = function () {
         ele.formUpdate.on('submit', function () {
+            var $id = ele.brandId.val()
             var params = {
                 'name' : ele.nameInputE.val(),
                 'active' : ele.statusE.prop('checked'),
-                'id' : ele.brandId.val(),
+                'id' : $id,
             }
             var _cb = function (rs) {
                 if (rs.status) {
@@ -142,7 +144,49 @@ var BrandClass = function () {
                 }
             }
             var target = ele.formUpdate
-            $.app.ajax($.app.vars.url + '/brands/update', 'POST', params, target, null, _cb)
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('brand.update_brand') + ': ' + brands[parseInt($id)].name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/brands/update', 'POST', params, target, null, _cb)
+                },
+                'unConfirm' : function () {
+
+                }
+            })
+        })
+    }
+
+    var handleUpdateStatus = function () {
+        $(document).on('click', '.is-active-btn', function () {
+            var $this = $(this)
+            var $id = $this.val()
+            var params = {
+                id : $id,
+                active : $(this).prop('checked')
+            }
+            var _cb = function(rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.update_active') + ': ' + brands[parseInt($id)].name,
+                'text' : (params.active ? Lang.get('common.wanna_active_true') : Lang.get('common.wanna_active_false')),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/brands/update-status', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
+                    if ($this.attr('checked')) {
+                        $this.prop('checked', true)
+                    } else {
+                        $this.prop('checked', false)
+                    }
+                }
+            })
         })
     }
 }

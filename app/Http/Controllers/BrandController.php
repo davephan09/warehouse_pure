@@ -126,6 +126,30 @@ class BrandController extends Controller
         return false;
     }
 
+    public function updateStatus(Request $request)
+    {
+        $user = Auth::user();
+        if($user->can('brand.update')) {
+            $rules = [
+                'id' => 'required',
+                'active' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $brand = $this->brand->updateStatusBrand($request);
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has update status for brand: ' . $brand->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
+    }
+
     /**
      * Remove the specified resource from storage.
      *

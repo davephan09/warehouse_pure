@@ -43,4 +43,15 @@ class BrandRepository extends Repository
         ]);
         return $brand;
     }
+
+    public function updateStatusBrand($request)
+    {
+        $id = intval($request->input('id'));
+        $brand = $this->model->find($id);
+        $isUpdate = $brand->update([
+            'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
+            'user_add' => Session::get('user')->id,
+        ]);
+        return $brand;
+    }
 }
