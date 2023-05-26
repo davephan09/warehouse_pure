@@ -32,7 +32,7 @@ class BrandController extends Controller
     {
         $user = Auth::user();
         if ($user->can('brand.read')) {
-            $data['brands'] = $this->brand->getAll();
+            $data['brands'] = $this->brand->getBrands($request);
             $data['htmlBrandTable'] = view('brand.brand_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }

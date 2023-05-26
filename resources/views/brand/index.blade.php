@@ -41,9 +41,9 @@
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <div class="w-100 mw-150px">
                 <select class="form-select form-select-solid" name="filter_status" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" tabindex="-1" aria-hidden="true">
-                    <option value="all">{{__('common.all')}}</option>
-                    <option value="{{__('common.active')}}">{{__('common.active')}}</option>
-                    <option value="{{__('common.inactive')}}">{{__('common.inactive')}}</option>
+                    <option value="10">{{__('common.all')}}</option>
+                    <option value="1">{{__('common.active')}}</option>
+                    <option value="0">{{__('common.inactive')}}</option>
                 </select>
             </div>
             @can('brand.create')

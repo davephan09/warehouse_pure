@@ -15,17 +15,24 @@ var BrandClass = function () {
         ele.modalCreate = $('#kt_modal_add_brand')
         ele.nameInput = $('#name-input')
         ele.status = $('#kt_modal_add_customer_billing')
+        ele.searchField = $('#search-field')
+        ele.statusFilter = $('#status-filter')
         
-        // loadData()
+        loadData()
     }
 
     this.bindEvents = function () {
         addBrand()
+        handleStatus()
     }
 
     var getParam = function () {
         var params = {
-
+            'status' : ele.statusFilter.val()
+        }
+        
+        for(var i in params){
+            if(!params[i]) params[i] = ''
         }
         return params
     }
@@ -62,7 +69,15 @@ var BrandClass = function () {
                 orderable: false,
                 visible: true
             }],
+            order: [
+                [2, 'desc']
+            ],
         });
+
+        ele.searchField.on('keyup', function (e) {
+            var text = e.target.value
+            vars.datatable[dttableid].column(0).search(text, true, false, true).draw()
+        }); 
     }
 
     var addBrand = function () {
@@ -82,6 +97,12 @@ var BrandClass = function () {
             }
             var target = ele.formCreate
             $.app.ajax($.app.vars.url + '/brands/store', 'POST', params, target, null, _cb)
+        })
+    }
+
+    var handleStatus = function () {
+        ele.statusFilter.on('change', function () {
+            loadData()
         })
     }
 }

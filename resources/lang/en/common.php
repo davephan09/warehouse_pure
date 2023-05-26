@@ -30,7 +30,7 @@ return [
     'select_ward' => 'Select a ward',
     'address_detail' => 'Address Details',
     'type_address_detail' => 'Type address details',
-    'is_active' => 'Acticve?',
+    'is_active' => 'Active?',
     'is_active_description' => 'Click active if you want to use this object',
     'payment_information' => 'Payment Information',
     'bank' => 'Bank',

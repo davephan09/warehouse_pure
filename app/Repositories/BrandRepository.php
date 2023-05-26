@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\Brand;
+use Illuminate\Support\Facades\Session;
 
 class BrandRepository extends Repository
 {
@@ -10,12 +11,23 @@ class BrandRepository extends Repository
         return Brand::class;
     }
 
+    public function getBrands($request)
+    {
+        $brands = $this->model->select('id', 'name', 'thumb', 'active', 'user_add', 'created_at');
+        $status = intval($request->input('status'));
+        if ($status !== 10) {
+            $brands = $this->model->where('active', $status);
+        }
+        $brands = $brands->get();
+        return $brands;
+    }
+
     public function addBrand($request)
     {
         $brand = $this->model->create([
             'name' => trim($request->input('name')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
-            'thumb' => 'test', 
+            'user_add' => Session::get('user')->id,
         ]);
         return $brand;
     }

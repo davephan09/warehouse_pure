@@ -1,41 +1,28 @@
 <thead>
     <!--begin::Table row-->
     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-        <th class="min-w-125px" data-priority="1">{{trans('brand.name')}}</th>
+        <th class="min-w-125px" data-priority="1">{{trans('brand.brand_name')}}</th>
         <th class="min-w-125px">{{trans('common.is_active')}}</th>
+        <th class="min-w-125px">{{trans('common.create_date')}}</th>
         <th class="text-end min-w-70px" data-priority="2">{{trans('common.actions')}}</th>
     </tr>
     <!--end::Table row-->
 </thead>
 <!--end::Table head-->
 <tbody class="fw-bold text-gray-600">
-    @forelse ($suppliers as $supplier)
+    @forelse ($brands as $brand)
     <tr>
-        <td class="text-start">
-            <a href="../../demo1/dist/apps/customers/view.html" class="text-gray-800 text-hover-primary mb-1">{{$supplier->name}}</a>
-        </td>
         <td>
-            <a href="tel:{{json_decode($supplier->phone)}}" class="text-gray-600 text-hover-primary mb-1">{{json_decode($supplier->phone)}}</a>
-        </td>
-        <td data-filter="mastercard">
-            <img src="{{$supplier->bank_code ? $banks[$supplier->bank_code]->logo : ''}}" class="w-35px me-3" alt="{{$supplier->bank_code ? $banks[$supplier->bank_code]->shortName : ''}}" data-toggle="tooltip" data-trigger="click" title="{{$supplier->bank_code ? $banks[$supplier->bank_code]->shortName : ''}}" />{{$supplier->account_number ? json_decode($supplier->account_number) : ''}}
+            <img src="{{$brand->thumb ? $brand->thumb : ''}}" class="w-35px me-3" alt="{{$brand->name}}" data-toggle="tooltip" data-trigger="click" title="{{$brand->name}}" />{{$brand->name}}
         </td>
         <td><label class="form-check form-switch form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
-                value="{{$supplier->id}}" {{$supplier->active ? 'checked' : ''}} @if(!auth()->user()->can('supplier.update')) {{'disabled'}} @endif/>
+                value="{{$brand->id}}" {{$brand->active ? 'checked' : ''}} @if(!auth()->user()->can('brand.update')) {{'disabled'}} @endif/>
         </label></td>
-        <td>{{date('H:i, d M Y', strtotime($supplier->created_at))}}</td>
-        @php
-            $province = $supplier->province ? $address[$supplier->province]->name : '';
-            $district = $supplier->district ? $address[$supplier->province]->districts[$supplier->district]->name : '';
-            $ward = $supplier->ward ? $address[$supplier->province]->districts[$supplier->district]->wards[$supplier->ward]->name : '';
-        @endphp
-        <td style="overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;">{{json_decode($supplier->detail_address) . ', ' . $ward . ', ' . $district . ', ' . $province}}</td>
+        <td>{{date('H:i, d M Y', strtotime($brand->created_at))}}</td>
         <td class="text-end">
-            @can('supplier.update')
-            <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-bs-toggle="modal" data-id="{{$supplier->id}}"
+            @can('brand.update')
+            <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-bs-toggle="modal" data-id="{{$brand->id}}"
                 data-bs-target="#kt_modal_update_customer" title="{{__('common.update')}}">
                 <span class="svg-icon svg-icon-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -50,8 +37,8 @@
                 </span>
             </button>
             @endcan
-            @can('supplier.delete')
-            <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="{{$supplier->id}}" title="{{__('common.delete')}}"
+            @can('brand.delete')
+            <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn" data-id="{{$brand->id}}" title="{{__('common.delete')}}"
                 data-kt-permissions-table-filter="delete_row">
                 <span class="svg-icon svg-icon-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

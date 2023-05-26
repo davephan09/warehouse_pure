@@ -68,5 +68,6 @@ Route::prefix('products')->group(function() {
 
 Route::prefix('brands')->group(function() {
     Route::get('/', [BrandController::class, 'index'])->name('brand.index');
+    Route::get('get-data', [BrandController::class, 'getData'])->name('brand.getData');
     Route::post('store', [BrandController::class, 'store'])->name('brand.store');
 });

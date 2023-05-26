@@ -9,6 +9,6 @@ class Brand extends Model
 {
     use HasFactory;
     protected $table = 'brands';
-    protected $fillable = ['name', 'thumb', 'active'];
+    protected $fillable = ['name', 'thumb', 'active', 'user_add'];
     public $timestamps = true;
 }
