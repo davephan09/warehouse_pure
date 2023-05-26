@@ -6,4 +6,6 @@ return [
     'thumb' => 'Ảnh đại diện thương hiệu',
     'thumb_des' => 'Cài đặt ảnh đại diện cho thương hiệu.',
     'update_brand' => 'Cập nhật thương hiệu',
+    'search' => 'Tìm kiếm thương hiệu',
+    'delete_brand' => 'Xóa thương hiệu',
 ];

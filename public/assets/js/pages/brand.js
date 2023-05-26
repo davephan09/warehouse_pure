@@ -33,6 +33,7 @@ var BrandClass = function () {
         syncBrand()
         updateBrand()
         handleUpdateStatus()
+        handleDelete()
     }
 
     var getParam = function () {
@@ -185,6 +186,32 @@ var BrandClass = function () {
                     } else {
                         $this.prop('checked', false)
                     }
+                }
+            })
+        })
+    }
+
+    var handleDelete = function () {
+        $(document).on('click', '.delete-btn', function () {
+            var $id = $(this).data('id')
+            var params = {
+                'id' : $id
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('brand.delete_brand') + ': ' + brands[parseInt($id)].name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/brands/delete', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
                 }
             })
         })

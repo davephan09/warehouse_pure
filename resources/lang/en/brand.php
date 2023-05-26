@@ -7,4 +7,5 @@ return [
     'thumb_des' => 'Set the brand thumbnail.',
     'search' => 'Search brands',
     'update_brand' => 'Update brand',
+    'delete_brand' => 'Delete brand',
 ];
