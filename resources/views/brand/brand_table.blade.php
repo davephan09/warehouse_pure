@@ -23,7 +23,7 @@
         <td class="text-end">
             @can('brand.update')
             <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn" data-bs-toggle="modal" data-id="{{$brand->id}}"
-                data-bs-target="#kt_modal_update_customer" title="{{__('common.update')}}">
+                data-bs-target="#kt_modal_update_brand" title="{{__('common.update')}}">
                 <span class="svg-icon svg-icon-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none">

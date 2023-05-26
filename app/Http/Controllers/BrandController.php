@@ -101,12 +101,29 @@ class BrandController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('brand.update')) {
+            $id = intval($request->input('id'));
+            $rules = [
+                'name' => 'required|max:191|unique:brands,name,' . $id,
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $brand = $this->brand->updateBrand($request);
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has update a brand: ' . $brand->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
     }
 
     /**

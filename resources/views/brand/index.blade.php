@@ -68,6 +68,7 @@
 
 @can('brand.create')
 @include('brand.modal_create')
+@include('brand.modal_update')
 @endcan
 
 @endsection

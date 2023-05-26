@@ -18,13 +18,25 @@ class BrandRepository extends Repository
         if ($status !== 10) {
             $brands = $this->model->where('active', $status);
         }
-        $brands = $brands->get();
+        $brands = $brands->get()->keyBy('id');
         return $brands;
     }
 
     public function addBrand($request)
     {
         $brand = $this->model->create([
+            'name' => trim($request->input('name')),
+            'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
+            'user_add' => Session::get('user')->id,
+        ]);
+        return $brand;
+    }
+
+    public function updateBrand($request)
+    {
+        $id = intval($request->input('id'));
+        $brand = $this->model->find($id);
+        $isUpdate = $brand->update([
             'name' => trim($request->input('name')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
