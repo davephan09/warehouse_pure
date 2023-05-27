@@ -73,7 +73,8 @@ class CategoryProductController extends Controller
                     'user_add' => $user->id,
                     'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
                 ]);
-                $this->category->create($request->all());
+                $category = $this->category->create($request->all());
+                if ($category) \Illuminate\Support\Facades\Log::info($user->username . ' has create a category: ' . $category->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -131,12 +132,8 @@ class CategoryProductController extends Controller
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $category = $this->category->find($id);
-                $request->merge([
-                    'user_add' => $user->id,
-                    'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
-                ]);
-                $category->update($request->all());
+                $category = $this->category->updateCat($request);
+                if ($category) \Illuminate\Support\Facades\Log::info($user->username . ' has update a category: ' . $category->name);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -159,7 +156,8 @@ class CategoryProductController extends Controller
                 $id = intval($request->input('id'));
                 if (isset($id)) {
                     $category = $this->category->find($id);
-                    $category->delete();
+                    $isDelete = $category->delete();
+                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has delete a category: ' . $category->name);
                 }
                 DB::connection()->commit();
             } catch (\Exception $e) {
