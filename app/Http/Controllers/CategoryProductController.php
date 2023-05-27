@@ -133,7 +133,7 @@ class CategoryProductController extends Controller
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
                 $category = $this->category->updateCat($request);
-                if ($category) \Illuminate\Support\Facades\Log::info($user->username . ' has update a category: ' . $category->name);
+                if ($category) \Illuminate\Support\Facades\Log::info($user->username . ' has update a category: ' . $category->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -157,7 +157,7 @@ class CategoryProductController extends Controller
                 if (isset($id)) {
                     $category = $this->category->find($id);
                     $isDelete = $category->delete();
-                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has delete a category: ' . $category->name);
+                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has delete a category: ' . $category->toJson());
                 }
                 DB::connection()->commit();
             } catch (\Exception $e) {

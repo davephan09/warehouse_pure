@@ -65,9 +65,9 @@ class PermissionsController extends Controller
                     'name' => $name,
                     'is_core' => $isCore
                 ]);
-                if (!$rs) {
-                    return $this->iRespond(false, 'error');
-                }
+                if ($rs) {
+                    \Illuminate\Support\Facades\Log::info($user->username . ' has create a permission: ' . $rs->toJson());
+                } 
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -120,8 +120,9 @@ class PermissionsController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $name = trim($request->input('name'));
-                $role = $this->permission->find($id);
-                $role->update(['name' => $name]);
+                $permission = $this->permission->find($id);
+                $isUpdate = $permission->update(['name' => $name]);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has update a permission: ' . $permission->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -146,8 +147,9 @@ class PermissionsController extends Controller
                 $id = intval($request->input('id'));
                 if (isset($id)) {
                     $permission = $this->permission->find($id);
-                    $permission->delete();
+                    $isDelete = $permission->delete();
                     $permission->syncPermissions([]);
+                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has delete a permission: ' . $permission->toJson());
                 }
                 DB::connection()->commit();
             } catch (\Exception $e) {
