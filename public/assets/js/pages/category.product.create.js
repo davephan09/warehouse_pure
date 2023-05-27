@@ -54,7 +54,7 @@ var CategoryProductCreateClass = function () {
     }
 
     var createCategory = function () {
-        ele.formSubmit.on('click', function () {
+        ele.formSubmit.on('submit', function () {
             var target = ele.submitBtn
             var type = $(ele.submitBtn, $(this)).data('type')
             var params = {

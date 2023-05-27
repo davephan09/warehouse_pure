@@ -7,6 +7,7 @@ return [
     'name_des' => 'A category name is required and recommended to be unique.',
     'description_des' => 'Set a description to the category for better visibility.',
     'no_parent' => 'No parent category',
+    'type_name' => 'Type category name',
     'category_name' => 'Category name',
     'search' => 'Search Category',
     'update' => 'Update Product Category',
