@@ -70,7 +70,7 @@ class UnitController extends Controller
             }
             try {
                 $unit = $this->unit->addUnit($request);
-                if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has created a unit: ' . $unit->name);
+                if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has created a unit: ' . $unit->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -104,24 +104,81 @@ class UnitController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('unit.update')) {
+            $id = intval($request->input('id'));
+            $rules = [
+                'name' => 'required|max:191|unique:units,name,' . $id,
+                'description' => 'max:255',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $unit = $this->unit->updateUnit($request);
+                if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a unit: ' . $unit->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $user = Auth::user();
+        if($user->can('unit.update')) {
+            $rules = [
+                'id' => 'required',
+                'active' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $unit = $this->unit->updateStatusUnit($request);
+                if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has updated status for unit: ' . $unit->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('unit.delete')) {
+            $rules = [
+                'id' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $id = intval($request->input('id'));
+                $unit = $this->unit->find($id);
+                $unit->delete();
+                if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted unit: ' . $unit->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
     }
 }

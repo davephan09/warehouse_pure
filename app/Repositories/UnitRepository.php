@@ -32,4 +32,28 @@ class UnitRepository extends Repository
         ]);
         return $unit;
     }
+
+    public function updateUnit($request)
+    {
+        $id = intval($request->input('id'));
+        $unit = $this->model->find($id);
+        $isUpdate = $unit->update([
+            'name' => trim($request->input('name')),
+            'description' => trim($request->input('description')),
+            'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
+            'user_add' => Session::get('user')->id,
+        ]);
+        return $unit;
+    }
+
+    public function updateStatusUnit($request)
+    {
+        $id = intval($request->input('id'));
+        $unit = $this->model->find($id);
+        $isUpdate = $unit->update([
+            'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
+            'user_add' => Session::get('user')->id,
+        ]);
+        return $unit;
+    }
 }

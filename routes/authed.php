@@ -80,4 +80,7 @@ Route::prefix('units')->group(function() {
     Route::get('/', [UnitController::class, 'index'])->name('unit.index');
     Route::get('get-data', [UnitController::class, 'getData'])->name('unit.getData');
     Route::post('store', [UnitController::class, 'store'])->name('unit.store');
+    Route::post('update', [UnitController::class, 'update'])->name('unit.update');
+    Route::post('update-status', [UnitController::class, 'updateStatus'])->name('unit.updateStatus');
+    Route::post('delete', [UnitController::class, 'destroy'])->name('unit.destroy');
 });

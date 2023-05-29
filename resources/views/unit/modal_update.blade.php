@@ -48,34 +48,11 @@
                         </div>
                         <!--end::Input group-->
                         <div class="fv-row mb-7">
-                            <label class=" fs-6 fw-bold mb-2">{{__('unit.thumb')}}</label>
-                            <!--begin::Card body-->
-                            <div class="card-body pt-0">
-                                <!--begin::Input group-->
-                                <div class="fv-row mb-2">
-                                    <!--begin::Dropzone-->
-                                    <div class="dropzone" id="kt_ecommerce_update_product_media">
-                                        <!--begin::Message-->
-                                        <div class="dz-message needsclick">
-                                            <!--begin::Icon-->
-                                            <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
-                                            <!--end::Icon-->
-                                            <!--begin::Info-->
-                                            <div class="ms-4">
-                                                <h3 class="fs-5 fw-bolder text-gray-900 mb-1">{{__('common.upload_title')}}</h3>
-                                                <span class="fs-7 fw-bold text-gray-400">{{__('common.upload_one_thumb')}}</span>
-                                            </div>
-                                            <!--end::Info-->
-                                        </div>
-                                    </div>
-                                    <!--end::Dropzone-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">{{__('unit.thumb_des')}}</div>
-                                <!--end::Description-->
-                            </div>
-                            <!--end::Card header-->
+                            <label class=" fs-6 fw-bold mb-2">{{__('unit.description')}}</label>
+                            <!--begin::Input-->
+                            <input type="text" class="form-control form-control-solid" id="description-update" placeholder="{{__('unit.type_unit_description')}}" name="description"
+                                value="" />
+                            <!--end::Input-->
                         </div>
                         <div class="fv-row mb-7">
                             <!--begin::Wrapper-->

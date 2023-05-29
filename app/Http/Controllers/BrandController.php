@@ -67,7 +67,7 @@ class BrandController extends Controller
             }
             try {
                 $brand = $this->brand->addBrand($request);
-                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has created a brand: ' . $brand->name);
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has created a brand: ' . $brand->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
