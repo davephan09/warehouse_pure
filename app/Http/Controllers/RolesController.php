@@ -101,7 +101,7 @@ class RolesController extends Controller
                 $role = $this->role->create(['name' => $name]);
                 $permissions = $this->permission->getPermissions($permissionIds);
                 $role->syncPermissions($permissions);
-                if ($role) \Illuminate\Support\Facades\Log::info($user->username . ' has create a role: ' . $role->toJson());
+                if ($role) \Illuminate\Support\Facades\Log::info($user->username . ' has created a role: ' . $role->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -196,7 +196,7 @@ class RolesController extends Controller
                     $isUpdate = $role->update(['name' => $name]);
                     $permissions = $this->permission->getPermissions($permissionIds);
                     $role->syncPermissions($permissions);
-                    if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has update a role: ' . $role->toJson());
+                    if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a role: ' . $role->toJson());
                 }
                 DB::connection()->commit();
             } catch (\Exception $e) {
@@ -224,7 +224,7 @@ class RolesController extends Controller
                     $role = $this->role->find($id);
                     $isDelete = $role->delete();
                     $role->syncPermissions([]);
-                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has delete a role: ' . $role->toJson());
+                    if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a role: ' . $role->toJson());
                 }
                 DB::connection()->commit();
             } catch (\Exception $e) {

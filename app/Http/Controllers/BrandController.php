@@ -65,7 +65,7 @@ class BrandController extends Controller
             }
             try {
                 $brand = $this->brand->addBrand($request);
-                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has create a brand: ' . $brand->name);
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has created a brand: ' . $brand->name);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -116,7 +116,7 @@ class BrandController extends Controller
             }
             try {
                 $brand = $this->brand->updateBrand($request);
-                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has update a brand: ' . $brand->toJson());
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a brand: ' . $brand->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -140,7 +140,7 @@ class BrandController extends Controller
             }
             try {
                 $brand = $this->brand->updateStatusBrand($request);
-                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has update status for brand: ' . $brand->toJson());
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has updated status for brand: ' . $brand->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -168,7 +168,7 @@ class BrandController extends Controller
                 $id = intval($request->input('id'));
                 $brand = $this->brand->find($id);
                 $brand->delete();
-                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has delete brand: ' . $brand->toJson());
+                if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted brand: ' . $brand->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
