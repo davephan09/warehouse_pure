@@ -89,7 +89,7 @@ var UnitClass = function () {
 
         ele.searchField.on('keyup', function (e) {
             var text = e.target.value
-            vars.datatable[dttableid].column(0).search(text, true, false, true).draw()
+            vars.datatable[dttableid].column(0).search(text).draw()
         }); 
     }
 
