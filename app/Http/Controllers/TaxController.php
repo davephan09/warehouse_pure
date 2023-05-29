@@ -23,7 +23,7 @@ class TaxController extends Controller
     {
         $user = Auth::user();
         if ($user->can('tax.read')) {
-            $data['title'] = trans('common.taxs');
+            $data['title'] = trans('common.taxes');
             $data['listStatus'] = ActiveStatus::asSelectArray();
             return view('tax.index', $data);
         }

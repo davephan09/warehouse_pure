@@ -82,5 +82,6 @@ return [
     'tags' => 'Tags',
     'brands' => 'All Brands',
     'upload_one_thumb' => 'Upload just 1 file',
-    'units' => 'All Units'
+    'units' => 'All Units',
+    'taxes' => 'All Taxes'
 ];

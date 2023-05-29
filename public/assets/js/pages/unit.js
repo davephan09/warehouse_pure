@@ -136,6 +136,7 @@ var UnitClass = function () {
             var $id = ele.unitId.val()
             var params = {
                 'name' : ele.nameInputE.val(),
+                'description' : ele.descInputE.val(),
                 'active' : ele.statusE.prop('checked'),
                 'id' : $id,
             }

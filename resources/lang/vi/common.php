@@ -83,4 +83,5 @@ return [
     'brands' => 'Danh sách Thương hiệu',
     'upload_one_thumb' => 'Chỉ tải lên 1 file',
     'units' => 'Danh sách đơn vị tính',
+    'taxes' => 'Danh sách các loại thuế',
 ];

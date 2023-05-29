@@ -136,6 +136,7 @@ var TaxClass = function () {
             var $id = ele.taxId.val()
             var params = {
                 'name' : ele.nameInputE.val(),
+                'description' : ele.descInputE.val(),
                 'active' : ele.statusE.prop('checked'),
                 'id' : $id,
             }
