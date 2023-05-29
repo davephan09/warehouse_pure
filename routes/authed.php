@@ -6,6 +6,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -83,4 +84,13 @@ Route::prefix('units')->group(function() {
     Route::post('update', [UnitController::class, 'update'])->name('unit.update');
     Route::post('update-status', [UnitController::class, 'updateStatus'])->name('unit.updateStatus');
     Route::post('delete', [UnitController::class, 'destroy'])->name('unit.destroy');
+});
+
+Route::prefix('taxes')->group(function() {
+    Route::get('/', [TaxController::class, 'index'])->name('tax.index');
+    Route::get('get-data', [TaxController::class, 'getData'])->name('tax.getData');
+    Route::post('store', [TaxController::class, 'store'])->name('tax.store');
+    Route::post('update', [TaxController::class, 'update'])->name('tax.update');
+    Route::post('update-status', [TaxController::class, 'updateStatus'])->name('tax.updateStatus');
+    Route::post('delete', [TaxController::class, 'destroy'])->name('tax.destroy');
 });
