@@ -32,7 +32,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="{{__('brand.search')}}" />
+                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="{{__('unit.search')}}" />
             </div>
             <!--end::Search-->
         </div>
@@ -48,9 +48,9 @@
                     @endforelse
                 </select>
             </div>
-            @can('brand.create')
+            @can('unit.create')
             <!--begin::Add customer-->
-            <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_brand"  class="btn btn-primary">{{__('common.add_new')}}</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_unit"  class="btn btn-primary">{{__('common.add_new')}}</button>
             <!--end::Add customer-->
             @endcan
         </div>
@@ -60,7 +60,7 @@
     <!--begin::Card body-->
     <div class="card-body pt-0">
         <!--begin::Table-->
-        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_brand_table">
+        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_unit_table">
             
         </table>
         <!--end::Table-->
@@ -68,19 +68,19 @@
     <!--end::Card body-->
 </div>    
 
-@can('brand.create')
-@include('brand.modal_create')
+@can('unit.create')
+@include('unit.modal_create')
 @endcan
-@can('brand.update')
-@include('brand.modal_update')
+@can('unit.update')
+@include('unit.modal_update')
 @endcan
 
 @endsection
 @section('pageJs')
-    <script src="{{ url('assets/js/pages/brand.js') }}"></script>
+    <script src="{{ url('assets/js/pages/unit.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var instance = new BrandClass();
+            var instance = new UnitClass();
             instance.run();
         });
     </script>

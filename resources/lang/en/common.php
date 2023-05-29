@@ -80,6 +80,7 @@ return [
     'material' => 'Material',
     'product' => 'Product',
     'tags' => 'Tags',
-    'brands' => 'Brands',
-    'upload_one_thumb' => 'Upload just 1 file'
+    'brands' => 'All Brands',
+    'upload_one_thumb' => 'Upload just 1 file',
+    'units' => 'All Units'
 ];

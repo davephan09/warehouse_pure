@@ -6,6 +6,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,4 +74,10 @@ Route::prefix('brands')->group(function() {
     Route::post('update', [BrandController::class, 'update'])->name('brand.update');
     Route::post('update-status', [BrandController::class, 'updateStatus'])->name('brand.updateStatus');
     Route::post('delete', [BrandController::class, 'destroy'])->name('brand.destroy');
+});
+
+Route::prefix('units')->group(function() {
+    Route::get('/', [UnitController::class, 'index'])->name('unit.index');
+    // Route::get('get-data', [UnitController::class, 'getData'])->name('unit.getData');
+    Route::post('store', [UnitController::class, 'store'])->name('unit.store');
 });
