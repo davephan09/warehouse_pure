@@ -96,7 +96,8 @@ class SupplierController extends Controller
                     'user_add' => $user->id,
                     'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN)
                 ]);
-                $this->supplier->create($request->all());
+                $supplier = $this->supplier->create($request->all());
+                if ($supplier) \Illuminate\Support\Facades\Log::info($user->username . ' has created a supplier: ' . $supplier->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -151,7 +152,7 @@ class SupplierController extends Controller
             }
             try {
                 $supplier = $this->supplier->find($id);
-                $supplier->update([
+                $isUpdate = $supplier->update([
                     'name' => $request->input('name'),
                     'phone' => $request->input('phone'),
                     'email' => $request->input('email'),
@@ -165,6 +166,7 @@ class SupplierController extends Controller
                     'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
                     'user_add' => $user->id,
                 ]);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a supplier: ' . $supplier->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -188,7 +190,9 @@ class SupplierController extends Controller
             try {
                 $id = intval($request->input('id'));
                 $active = filter_var($request->active, FILTER_VALIDATE_BOOLEAN);
-                $this->supplier->find($id)->update(['active' => $active]);
+                $supplier = $this->supplier->find($id);
+                $isUpdate = $supplier->update(['active' => $active]);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has changed status of a supplier: ' . $supplier->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
@@ -209,8 +213,10 @@ class SupplierController extends Controller
             try {
                 $id = intval($request->input('id'));
                 if (isset($id)) {
-                    $this->supplier->find($id)->delete();
+                    $supplier = $this->supplier->find($id);
+                    $isDelete = $supplier->delete();
                 }
+                if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a supplier: ' . $supplier->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
