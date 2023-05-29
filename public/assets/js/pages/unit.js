@@ -25,7 +25,7 @@ var UnitClass = function () {
         ele.statusE = $('#kt_modal_update_customer_billing')
         ele.unitId = $('#unit-id')
         
-        // loadData()
+        loadData()
     }
 
     this.bindEvents = function () {
@@ -57,6 +57,39 @@ var UnitClass = function () {
             drawContent(data)
         }
         $.app.ajax($.app.vars.url + '/units/get-data', 'GET', params, target, null, _cb)
+    }
+
+    var drawContent = function (data) {
+        let dttableid = 'unit-list';
+        if (typeof vars.datatable[dttableid] !== 'undefined') {
+            vars.datatable[dttableid].destroy()
+        }
+        ele.unitTable.html(data.htmlUnitTable)
+        vars.datatable[dttableid] = ele.unitTable.DataTable({
+            pageLength: 10,
+            retrieve: true,
+            searching: true,
+            lengthChange: false,
+            pagination: true,
+            aaSorting: [],
+            info: false,
+            dom: "lrtip",
+            responsive: true,
+            autoWidth: false,
+            columnDefs: [{
+                targets: [0, 3],
+                orderable: false,
+                visible: true
+            }],
+            order: [
+                [2, 'desc']
+            ],
+        });
+
+        ele.searchField.on('keyup', function (e) {
+            var text = e.target.value
+            vars.datatable[dttableid].column(0).search(text, true, false, true).draw()
+        }); 
     }
 
     var addUnit = function () {

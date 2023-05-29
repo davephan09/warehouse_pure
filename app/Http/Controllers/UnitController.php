@@ -32,6 +32,17 @@ class UnitController extends Controller
         return response()->view('errors.404', [], 404);
     }
 
+    public function getData(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('unit.read')) {
+            $data['units'] = $this->unit->getUnits($request);
+            $data['htmlUnitTable'] = view('unit.unit_table', $data)->render();
+            return $this->iRespond(true, "", $data);
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

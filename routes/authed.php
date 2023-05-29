@@ -78,6 +78,6 @@ Route::prefix('brands')->group(function() {
 
 Route::prefix('units')->group(function() {
     Route::get('/', [UnitController::class, 'index'])->name('unit.index');
-    // Route::get('get-data', [UnitController::class, 'getData'])->name('unit.getData');
+    Route::get('get-data', [UnitController::class, 'getData'])->name('unit.getData');
     Route::post('store', [UnitController::class, 'store'])->name('unit.store');
 });

@@ -11,6 +11,17 @@ class UnitRepository extends Repository
         return Unit::class;
     }
 
+    public function getUnits($request)
+    {
+        $units = $this->model->select('id', 'name', 'description', 'active', 'user_add', 'created_at');
+        $status = intval($request->input('status'));
+        if ($status !== 10) {
+            $units = $this->model->where('active', $status);
+        }
+        $units = $units->get()->keyBy('id');
+        return $units;
+    }
+
     public function addUnit($request)
     {
         $unit = $this->model->create([
