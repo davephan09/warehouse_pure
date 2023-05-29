@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActiveStatus;
 use App\Repositories\BrandRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class BrandController extends Controller
         $user = Auth::user();
         if ($user->can('brand.read')) {
             $data['title'] = trans('common.brands');
+            $data['listStatus'] = ActiveStatus::asSelectArray();
             return view('brand.index', $data);
         }
         return response()->view('errors.404', [], 404);
