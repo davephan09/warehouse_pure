@@ -20,6 +20,9 @@ class CreateProductsTable extends Migration
             $table->integer('category_id')->nullable();
             $table->string('summary', 255)->nullable();
             $table->text('description')->nullable();
+            $table->integer('brand_id')->nullable();
+            $table->integer('unit_id')->nullable();
+            $table->string('tax')->nullable();
             $table->boolean('active')->default(false);
             $table->integer('user_add');
             $table->timestamps();
