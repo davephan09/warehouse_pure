@@ -86,11 +86,11 @@ class ProductRepository extends Repository
         $product = $this->model->find($id);
         $product->delete();
         $product->variations()->detach();
-        return true;
+        return $product;
     }
 
     public function createTag($name)
     {
-        Tag::create(['name' => $name]);
+        return Tag::create(['name' => $name]);
     }
 }

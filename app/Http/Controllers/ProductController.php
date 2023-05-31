@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -87,6 +88,7 @@ class ProductController extends Controller
                 $product = $this->product->addProduct($request);
                 $this->product->addTag($product, $tags);
                 $this->product->addVariation($product, $variations, $varValues);
+                if ($product) \Illuminate\Support\Facades\Log::info($user->username . ' has created a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -157,9 +159,10 @@ class ProductController extends Controller
                 $tags = $request->input('tags');
                 $variations = $request->input('variation');
                 $varValues = $request->input('var_value');
-                $this->product->updateProduct($request, $product);
+                $isUpdate = $this->product->updateProduct($request, $product);
                 $this->product->addTag($product, $tags);
                 $this->product->addVariation($product, $variations, $varValues);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -182,9 +185,10 @@ class ProductController extends Controller
             try {
                 $id = intval($request->input('id'));
                 if (isset($id)) {
-                    $this->product->deleteProduct($id);
+                    $product = $this->product->deleteProduct($id);
                 }
                 DB::connection()->commit();
+                if ($product) \Illuminate\Support\Facades\Log::info($user->username . ' has created a product: ' . $product->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();
@@ -197,6 +201,7 @@ class ProductController extends Controller
 
     public function createTag(Request $request)
     {
+        $user = Session::get('user');
         try {
             $rules = [
                 'name' => 'required|min:1|max:100|unique:tags',
@@ -207,7 +212,8 @@ class ProductController extends Controller
             }
             $name = trim($request->input('name'));
             if (!empty($name)) {
-                $this->product->createTag($name);
+                $tag = $this->product->createTag($name);
+                if ($tag) \Illuminate\Support\Facades\Log::info($user->username . ' has created a tag: ' . $tag->toJson());
             }
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error($e);
