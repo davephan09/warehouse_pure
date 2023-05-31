@@ -26,6 +26,7 @@ var ProductCreateClass = function() {
         ele.formSubmit = $('#kt_ecommerce_add_product_form')
         ele.productId = $('#product-id')
         ele.tagField = $('#kt_ecommerce_add_product_tags')
+        ele.modalAddTag = $('#kt_modal_add_tag')
         ele.addTagForm = $('#kt_modal_add_tag_form')
         ele.tagNameCreate = $('#tag-name')
         ele.addTagBtn = $('#submit-tag-btn')
@@ -123,7 +124,13 @@ var ProductCreateClass = function() {
             var target = ele.addTagBtn
             var _cb = function (rs) {
                 if (rs.status) {
-                    $.app.pushNoty('success')
+                    ele.modalAddTag.modal('hide')
+                    $.app.pushNotyCallback({
+                        'type' : 'success',
+                        'callback' : function () {
+                            location.reload()
+                        }
+                    })
                 } else {
                     $.app.pushNoty('error')
                 }
