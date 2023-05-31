@@ -31,4 +31,8 @@ return [
     'add_new_tag' => 'Thêm thẻ tag mới',
     'add_new_tag_des' => 'Nhập tên tag mới',
     'tag_name' => 'Tên thẻ tag',
+    'brand' => 'Thương hiệu',
+    'brand_des' => 'Một sản phẩm nên thuộc về một thương hiệu.',
+    'unit' => 'Đơn vị tính',
+    'unit_des' => 'Chọn đơn vị tính cho sản phẩm.',
 ];

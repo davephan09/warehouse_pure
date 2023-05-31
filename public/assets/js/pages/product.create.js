@@ -30,6 +30,8 @@ var ProductCreateClass = function() {
         ele.addTagForm = $('#kt_modal_add_tag_form')
         ele.tagNameCreate = $('#tag-name')
         ele.addTagBtn = $('#submit-tag-btn')
+        ele.brandField = $('#kt_ecommerce_add_product_brand_select')
+        ele.unitField = $('#kt_ecommerce_add_product_unit_select')
     }
 
     this.bindEvents = () => {
@@ -79,6 +81,8 @@ var ProductCreateClass = function() {
                 'active' : ele.status.val(),
                 'category_id' : ele.category.val(),
                 'tags' : ele.tagField.val(),
+                'brand' : ele.brandField.val(),
+                'unit' : ele.unitField.val(),
                 'product_name' : ele.name.val(),
                 'summary' : ele.summary.val(),
                 'description' : ele.description.val(),

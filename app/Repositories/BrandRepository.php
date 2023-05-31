@@ -54,4 +54,9 @@ class BrandRepository extends Repository
         ]);
         return $brand;
     }
+
+    public function getActiveBrands()
+    {
+        return $this->model->select('id', 'name')->where('active', 1)->orderBy('name', 'asc')->get();
+    }
 }

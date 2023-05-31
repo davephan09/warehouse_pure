@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Variation;
+use App\Repositories\BrandRepository;
 use App\Repositories\CategoryProductRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\TaxRepository;
+use App\Repositories\UnitRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,10 +19,16 @@ class ProductController extends Controller
 {
     private $product;
     private $category;
-    public function __construct(ProductRepository $product, CategoryProductRepository $category)
+    private $brand;
+    private $unit;
+    private $tax;
+    public function __construct(ProductRepository $product, CategoryProductRepository $category, BrandRepository $brand, UnitRepository $unit, TaxRepository $tax)
     {
         $this->product = $product;
         $this->category = $category;
+        $this->brand = $brand;
+        $this->unit = $unit;
+        $this->tax = $tax;
     }
 
     /**
@@ -57,7 +66,9 @@ class ProductController extends Controller
         if ($user->can('product.create')) {
             $data['title'] = trans('product.add');
             $data['categories'] = $this->category->getAllActive();
-            $data['tags'] = Tag::get(['id', 'name']);
+            $data['brands'] = $this->brand->getActiveBrands();
+            $data['units'] = $this->unit->getActiveUnits();
+            $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
             $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.create', $data);
         }
@@ -115,7 +126,9 @@ class ProductController extends Controller
             $data['product'] = $product;
             $data['productTags'] = $product->tags->pluck('id')->toArray();
             $data['varValue'] = $varValue;
-            $data['tags'] = Tag::get(['id', 'name']);
+            $data['brands'] = $this->brand->getActiveBrands();
+            $data['units'] = $this->unit->getActiveUnits();
+            $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
             $data['categories'] = $this->category->getAllActive();
             $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.update', $data);

@@ -31,4 +31,8 @@ return [
     'add_new_tag' => 'Add new tag',
     'add_new_tag_des' => 'Enter a tag name',
     'tag_name' => 'Tag name',
+    'brand' => 'Brand',
+    'brand_des' => 'A product should belong to a brand',
+    'unit' => 'Unit',
+    'unit_des' => 'Choose a unit of measurement for the product',
 ];

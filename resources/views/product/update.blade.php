@@ -160,6 +160,38 @@
             <!--end::Card body-->
         </div>
         <!--end::Category & tags-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>{{__('product.brand')}}</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
+                    <option></option>
+                    @foreach ($brands as $brand)
+                    <option value="{{$brand->id}}" {{$brand->id === $product->brand_id ? 'selected' : ''}}>{{$brand->name}}</option>
+                    @endforeach
+                </select>
+                <div class="text-muted fs-7">{{__('product.brand_des')}}</div>
+            </div>
+        </div>
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>{{__('product.unit')}}</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
+                    <option></option>
+                    @foreach ($units as $unit)
+                    <option value="{{$unit->id}}" {{$unit->id === $product->unit_id ? 'selected' : ''}}>{{$unit->name}}</option>
+                    @endforeach
+                </select>
+                <div class="text-muted fs-7">{{__('product.unit_des')}}</div>
+            </div>
+        </div>
     </div>
     <!--end::Aside column-->
     <!--begin::Main column-->

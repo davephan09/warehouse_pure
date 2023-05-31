@@ -56,4 +56,9 @@ class UnitRepository extends Repository
         ]);
         return $unit;
     }
+
+    public function getActiveUnits()
+    {
+        return $this->model->select('id', 'name')->where('active', 1)->orderBy('name', 'asc')->get();
+    }
 }
