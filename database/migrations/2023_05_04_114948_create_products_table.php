@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->integer('brand_id')->nullable();
             $table->integer('unit_id')->nullable();
-            $table->string('tax')->nullable();
             $table->boolean('active')->default(false);
             $table->integer('user_add');
             $table->timestamps();

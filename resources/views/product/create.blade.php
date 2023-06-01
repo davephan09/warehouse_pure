@@ -358,12 +358,11 @@
                         <!--end::Card header-->
                     </div>
                     <!--end::Inventory-->
-                    <!--begin::Variations-->
                     <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>{{__('common.variations')}}</h2>
+                                <h2>{{__('product.taxes')}}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -372,31 +371,29 @@
                             <!--begin::Input group-->
                             <div class="" data-kt-ecommerce-catalog-add-product="auto-options">
                                 <!--begin::Label-->
-                                <label class="form-label">{{__('product.add_variation')}}</label>
+                                <label class="form-label">{{__('product.add_tax')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Repeater-->
                                 <div id="kt_ecommerce_add_product_options">
                                     <!--begin::Form group-->
                                     <div class="form-group">
-                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
-                                            <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
+                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-tax" class="d-flex flex-column gap-3">
+                                            <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
                                                 <!--begin::Select2-->
                                                 <div class="w-100 w-md-200px">
-                                                    <select class="form-select form-select-var" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                    <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option></option>
-                                                        @foreach($variations as $item)
-                                                        @php
-                                                        $langVar = 'common.' . $item['name'];
-                                                        @endphp
-                                                        <option value="{{$item['id']}}">{{trans($langVar)}}</option>
+                                                        @foreach($taxes as $tax)
+                                                        <option value="{{$tax->id}}">{{$tax->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <!--end::Select2-->
                                                 <!--begin::Input-->
-                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" multiple placeholder="{{__('common.variation')}}" />
+                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                <span class="d-flex align-items-center">% ({{__('common.percent')}})</span>
                                                 <!--end::Input-->
-                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-var">
+                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
                                                     <span class="svg-icon svg-icon-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -412,7 +409,7 @@
                                     <!--end::Form group-->
                                     <!--begin::Form group-->
                                     <div class="form-group mt-5">
-                                        <button type="button" data-repeater-create="" id="add_variation" class="btn btn-sm btn-light-primary">
+                                        <button type="button" data-repeater-create="" id="add_tax" class="btn btn-sm btn-light-primary">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr087.svg-->
                                         <span class="svg-icon svg-icon-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -420,7 +417,7 @@
                                                 <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
                                             </svg>
                                         </span>
-                                        <!--end::Svg Icon-->{{__('product.add_another_variation')}}</button>
+                                        <!--end::Svg Icon-->{{__('product.add_another_tax')}}</button>
                                     </div>
                                     <!--end::Form group-->
                                 </div>
@@ -430,7 +427,6 @@
                         </div>
                         <!--end::Card header-->
                     </div>
-                    <!--end::Variations-->
                 </div>
             </div>
             <!--end::Tab pane-->

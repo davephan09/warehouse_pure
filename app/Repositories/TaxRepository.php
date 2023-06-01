@@ -56,4 +56,9 @@ class TaxRepository extends Repository
         ]);
         return $tax;
     }
+
+    public function getActiveTaxes()
+    {
+        return $this->model->select('id', 'name', 'description')->where('active', 1)->orderBy('name', 'asc')->get();
+    }
 }

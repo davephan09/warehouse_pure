@@ -36,4 +36,9 @@ class Product extends Model
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
+
+    public function taxes()
+    {
+        return $this->belongsToMany(Tax::class, 'product_has_taxes', 'product_id', 'tax_id')->withPivot('value');
+    }
 }

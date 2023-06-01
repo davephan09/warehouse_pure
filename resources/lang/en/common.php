@@ -83,5 +83,6 @@ return [
     'brands' => 'All Brands',
     'upload_one_thumb' => 'Upload just 1 file',
     'units' => 'All Units',
-    'taxes' => 'All Taxes'
+    'taxes' => 'All Taxes',
+    'percent' => 'Percent',
 ];

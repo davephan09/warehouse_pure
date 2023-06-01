@@ -9,9 +9,9 @@ var ProductCreateClass = function() {
     this.init = () => {
         ele.summary = $('#summary')
         ele.description = $('#description')
-        ele.addVar = $('#add_variation')
-        ele.addVarField = $('.add-variation-field')
-        ele.listAddVar = $('#list-add-variation')
+        ele.addTax = $('#add_tax')
+        ele.addTaxField = $('.add-tax-field')
+        ele.listAddTax = $('#list-add-tax')
         ele.btnCreate = $('#kt_ecommerce_add_product_submit')
         ele.status = $('#kt_ecommerce_add_product_status_select')
         ele.thumb = $('input[name="avatar"]')
@@ -36,8 +36,8 @@ var ProductCreateClass = function() {
 
     this.bindEvents = () => {
         drawContent()
-        duplicateVar()
-        removeVar()
+        duplicateTax()
+        removeTax()
         createProduct()
         createTag()
     }
@@ -52,22 +52,22 @@ var ProductCreateClass = function() {
         });
     }
 
-    var duplicateVar = () => {
-        ele.addVar.on('click', function () {
-            var $clone = ele.addVarField.clone()
+    var duplicateTax = () => {
+        ele.addTax.on('click', function () {
+            var $clone = ele.addTaxField.clone()
             $clone.find('.select2-container').each((i, el) => {
                 $(el).remove();
             });
-            $clone.hide().appendTo(ele.listAddVar).promise().done(function() {
+            $clone.hide().appendTo(ele.listAddTax).promise().done(function() {
                 $(this).slideDown()
             })
-            $('.form-select-var').select2()
+            $('.form-select-tax').select2()
         })
     }
 
-    var removeVar = () => {
-        $(document).on('click', '.btn-remove-var', function () {
-            $(this).closest('.add-variation-field').slideUp( 'easeOutCubic', function() {
+    var removeTax = () => {
+        $(document).on('click', '.btn-remove-tax', function () {
+            $(this).closest('.add-tax-field').slideUp( 'easeOutCubic', function() {
                 $(this).remove()
             })
         })
@@ -88,15 +88,15 @@ var ProductCreateClass = function() {
                 'description' : ele.description.val(),
                 'product_code' : ele.sku.val(),
                 'quantity' : ele.quantity.val(),
-                'variation' : [],
-                'var_value' : []
+                'tax' : [],
+                'tax_value' : []
             }
             let target = ele.btnCreate
             $('select[name="product_option[]"]').each((i, el) => {
-                params.variation.push($(el).val())
+                params.tax.push($(el).val())
             })
             $('input[name="product_option_value[]"]').each((i, el) => {
-                params.var_value.push($(el).val())
+                params.tax_value.push($(el).val())
             })
             let _cb = (rs) => {
                 if (rs.status) {

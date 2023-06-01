@@ -68,6 +68,7 @@ class ProductController extends Controller
             $data['categories'] = $this->category->getAllActive();
             $data['brands'] = $this->brand->getActiveBrands();
             $data['units'] = $this->unit->getActiveUnits();
+            $data['taxes'] = $this->tax->getActiveTaxes();
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
             $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.create', $data);
@@ -93,12 +94,13 @@ class ProductController extends Controller
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $variations = $request->input('variation');
-                $varValues = $request->input('var_value');
+                $taxIds = $request->input('tax');
+                $taxValues = $request->input('tax_value');
                 $tags = $request->input('tags');
                 $product = $this->product->addProduct($request);
                 $this->product->addTag($product, $tags);
-                $this->product->addVariation($product, $variations, $varValues);
+                // $this->product->addVariation($product, $variations, $varValues);
+                $this->product->addTaxProduct($product, $taxIds, $taxValues);
                 if ($product) \Illuminate\Support\Facades\Log::info($user->username . ' has created a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {

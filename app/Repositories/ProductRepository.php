@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Models\Tag;
+use App\Models\Tax;
 use App\Models\Variation;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -46,6 +47,16 @@ class ProductRepository extends Repository
             $item = intval($item);
             $variation = Variation::find($item);
             $product->variations()->attach($variation, ['value' => $varValues[$key]]);
+        }
+    }
+
+    public function addTaxProduct($product , $taxIds, $taxValues)
+    {
+        $product->taxes()->detach();
+        foreach ($taxIds as $key => $item) {
+            $item = intval($item);
+            $tax = Tax::find($item);
+            $product->taxes()->attach($tax, ['value' => intval($taxValues[$key])]);
         }
     }
 
