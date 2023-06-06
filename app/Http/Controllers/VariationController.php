@@ -33,6 +33,17 @@ class VariationController extends Controller
         return response()->view('errors.404', [], 404);
     }
 
+    public function getData(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('variation.read')) {
+            $data['variations'] = $this->variation->getVariations($request);
+            $data['htmlVariationTable'] = view('variation.variation_table', $data)->render();
+            return $this->iRespond(true, "", $data);
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

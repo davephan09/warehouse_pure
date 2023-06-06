@@ -32,4 +32,15 @@ class VariationRepository extends Repository
         }
         return $variation;
     }
+
+    public function getVariations($request)
+    {
+        $status = intval($request->input('status'));
+        $variations = $this->model->with('options');
+        if($status !== 10) {
+            $variations = $variations->where('active', $status);
+        }
+        $variations = $variations->get();
+        return $variations;
+    }
 }

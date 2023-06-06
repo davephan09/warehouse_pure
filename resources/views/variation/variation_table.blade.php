@@ -2,6 +2,7 @@
     <!--begin::Table row-->
     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
         <th class="min-w-125px" data-priority="1">{{trans('variation.variation_name')}}</th>
+        <th class="min-w-175px">{{trans('variation.options')}}</th>
         <th class="min-w-125px">{{trans('common.is_active')}}</th>
         <th class="min-w-125px">{{trans('common.create_date')}}</th>
         <th class="text-end min-w-70px" data-priority="2">{{trans('common.actions')}}</th>
@@ -14,6 +15,13 @@
     <tr>
         <td class="text-start pe-0">
             <span class="fw-bolder">{{$variation->name}}</span>
+        </td>
+        <td class="text-start pe-0">
+            @forelse($variation->options as $option)
+                <div class="badge mx-1 badge-light fw-border">{{$option->name}}</div>
+            @empty
+                <div></div>
+            @endforelse
         </td>
         <td><label class="form-check form-switch form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
