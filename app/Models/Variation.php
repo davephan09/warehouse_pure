@@ -10,8 +10,9 @@ class Variation extends Model
     use HasFactory;
     protected $table = 'variations';
     public $timestamps = true;
-    public function products()
+    protected $fillable = ['name', 'description', 'active', 'user_add'];
+    public function options()
     {
-        return $this->belongsToMany(Product::class, 'product_has_variations', 'product_id', 'variation_id')->withPivot('value');
+        return $this->hasMany(VariationOption::class, 'variation_id', 'id');
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('users')->group(function() {
@@ -93,4 +94,10 @@ Route::prefix('taxes')->group(function() {
     Route::post('update', [TaxController::class, 'update'])->name('tax.update');
     Route::post('update-status', [TaxController::class, 'updateStatus'])->name('tax.updateStatus');
     Route::post('delete', [TaxController::class, 'destroy'])->name('tax.destroy');
+});
+
+Route::prefix('variations')->group(function() {
+    Route::get('/', [VariationController::class, 'index'])->name('variation.index');
+    Route::get('get-data', [VariationController::class, 'getData'])->name('variation.getData');
+    Route::post('store', [VariationController::class, 'store'])->name('variation.store');
 });

@@ -362,6 +362,20 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
+                                <h2>{{__('common.variation')}}</h2>
+                            </div>
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <div class="mb-10 fv-row">
+                            
+                        </div>
+                    </div>
+                    <div class="card card-flush py-4">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <div class="card-title">
                                 <h2>{{__('product.taxes')}}</h2>
                             </div>
                         </div>
@@ -391,7 +405,7 @@
                                                 <!--end::Select2-->
                                                 <!--begin::Input-->
                                                 <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
-                                                <span class="d-flex align-items-center">% ({{__('common.percent')}})</span>
+                                                <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
                                                 <!--end::Input-->
                                                 <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
