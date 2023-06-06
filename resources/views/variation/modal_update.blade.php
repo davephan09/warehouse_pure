@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form id="kt_modal_update_variation_form" class="form" action="javascript:void(0)">
                 <div class="modal-header">
-                    <h2 class="fw-bolder">{{ __('variation.update_new_variation') }}</h2>
+                    <h2 class="fw-bolder">{{ __('variation.update_variation') }}</h2>
                     <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close"
                         data-bs-dismiss="modal">
                         <span class="svg-icon svg-icon-1">

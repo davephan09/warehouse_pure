@@ -8,5 +8,6 @@ return [
     'description' => 'Mô tả biến thể',
     'description_des' => 'Nhập mô tả cho biến thể',
     'options' => 'Các lựa chọn của biến thể',
-    'add_options' => 'Nhập các lựa chọn của biến thể và Enter'
+    'add_options' => 'Nhập các lựa chọn của biến thể và Enter',
+    'update_variation' => 'Cập nhật biến thể',
 ];

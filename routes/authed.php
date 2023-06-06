@@ -100,4 +100,6 @@ Route::prefix('variations')->group(function() {
     Route::get('/', [VariationController::class, 'index'])->name('variation.index');
     Route::get('get-data', [VariationController::class, 'getData'])->name('variation.getData');
     Route::post('store', [VariationController::class, 'store'])->name('variation.store');
+    Route::post('update', [VariationController::class, 'update'])->name('variation.update');
+    Route::post('update-status', [VariationController::class, 'updateStatus'])->name('variation.updateStatus');
 });

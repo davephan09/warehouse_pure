@@ -111,14 +111,35 @@ class VariationController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('variation.update')) {
+            $id = intval($request->input('id'));
+            $rules = [
+                'name' => 'required|max:191|unique:variations,name,' . $id,
+                'description' => 'max:255',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            DB::connection()->beginTransaction();
+            try {
+                $variation = $this->variation->updateVariation($request);
+                $isUpdate = $this->variation->updateVarOptions($request);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a variation: ' . $variation->toJson());
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return false;
     }
 
     /**

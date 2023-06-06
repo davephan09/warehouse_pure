@@ -25,6 +25,8 @@ var VariationClass = function () {
         ele.statusE = $('#kt_modal_update_customer_billing')
         ele.variationId = $('#variation-id')
         ele.varOptionsE = $('#var-options-update')
+        ele.formUpdate = $('#kt_modal_update_variation_form')
+        ele.modalUpdate = $('#kt_modal_update_variation')
 
         loadData()
     }
@@ -32,7 +34,8 @@ var VariationClass = function () {
     this.bindEvents = function () {
         handleCreateVariation()
         handleStatus()
-        syncUnit()
+        syncVariation()
+        updateVariation()
     }
 
     var getParam = function () {
@@ -119,7 +122,7 @@ var VariationClass = function () {
         })
     }
 
-    var syncUnit = function () {
+    var syncVariation = function () {
         $(document).on('click', '.update-btn', function() {
             var $id = $(this).data('id')
             var variation = variations[$id]
@@ -135,6 +138,46 @@ var VariationClass = function () {
             ele.variationId.val(variation.id)
 
             ele.varOptionsE.trigger('change')
+        })
+    }
+
+    var updateVariation = function () {
+        ele.formUpdate.on('submit', function () {
+            var $id = ele.variationId.val()
+            var params = {
+                'name' : ele.nameInputE.val(),
+                'description' : ele.descInputE.val(),
+                'active' : ele.statusE.prop('checked'),
+                'optionsKey' : ele.varOptionsE.val(),
+                'id' : $id,
+                'optionsValue' : [],
+            }
+            var options = $('option', ele.varOptionsE)
+            $.each(options, function (i, val) {
+                if ($(val).prop('selected')) {
+                    params.optionsValue.push(val.innerText)
+                }
+            })
+            var _cb = function (rs) {
+                if (rs.status) {
+                    $.app.pushNoty('success')
+                    ele.modalUpdate.modal('hide')
+                    loadData();
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            var target = ele.formUpdate
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('variation.update_variation') + ': ' + variations[parseInt($id)].name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/variations/update', 'POST', params, target, null, _cb)
+                },
+                'unConfirm' : function () {
+
+                }
+            })
         })
     }
 }
