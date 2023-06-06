@@ -37,7 +37,8 @@ class VariationController extends Controller
     {
         $user = Auth::user();
         if ($user->can('variation.read')) {
-            $data['variations'] = $this->variation->getVariations($request);
+            $variations = $this->variation->getVariations($request);
+            $data['variations'] = $variations;
             $data['htmlVariationTable'] = view('variation.variation_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }

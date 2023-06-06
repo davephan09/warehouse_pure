@@ -3,6 +3,7 @@ var VariationClass = function () {
     var vars = {
         datatable : {}
     }
+    var variations = {}
     
     this.run = function () {
         this.init()
@@ -12,13 +13,18 @@ var VariationClass = function () {
     this.init = function () {
         ele.statusFilter = $('#status-filter')
         ele.formCreate = $('#kt_modal_add_variation_form')
-        ele.varOprions = $('#var-options')
+        ele.varOptions = $('#var-options')
         ele.varName = $('#variation-name')
         ele.descriptionInput = $('#variation-description')
         ele.statusInput = $('#kt_modal_add_customer_billing')
         ele.modalCreate = $('#kt_modal_add_variation')
         ele.variationTable = $('#kt_ecommerce_variation_table')
         ele.searchField = $('#search-field')
+        ele.nameInputE = $('#variation-name-update')
+        ele.descInputE = $('#variation-description-update')
+        ele.statusE = $('#kt_modal_update_customer_billing')
+        ele.variationId = $('#variation-id')
+        ele.varOptionsE = $('#var-options-update')
 
         loadData()
     }
@@ -26,6 +32,7 @@ var VariationClass = function () {
     this.bindEvents = function () {
         handleCreateVariation()
         handleStatus()
+        syncUnit()
     }
 
     var getParam = function () {
@@ -95,7 +102,7 @@ var VariationClass = function () {
                 name : ele.varName.val(),
                 description : ele.descriptionInput.val(),
                 active : ele.statusInput.val(),
-                options : ele.varOprions.val(),
+                options : ele.varOptions.val(),
             }
 
             var target = ele.modalCreate
@@ -109,6 +116,25 @@ var VariationClass = function () {
                 }
             }
             $.app.ajax($.app.vars.url + '/variations/store', 'POST', params, target, null, _cb)
+        })
+    }
+
+    var syncUnit = function () {
+        $(document).on('click', '.update-btn', function() {
+            var $id = $(this).data('id')
+            var variation = variations[$id]
+            var options = variation.options
+            var html = ''
+            ele.nameInputE.val(variation.name)
+            ele.descInputE.val(variation.description)
+            $.each(options, function(i, item) {
+                html += `<option value="${item.id}" selected>${item.name}</option>`
+            })
+            ele.varOptionsE.html(html)
+            variation.active ? ele.statusE.prop('checked', true) : ele.statusE.prop('checked', false)
+            ele.variationId.val(variation.id)
+
+            ele.varOptionsE.trigger('change')
         })
     }
 }

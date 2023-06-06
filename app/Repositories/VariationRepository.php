@@ -40,7 +40,7 @@ class VariationRepository extends Repository
         if($status !== 10) {
             $variations = $variations->where('active', $status);
         }
-        $variations = $variations->get();
+        $variations = $variations->get()->keyBy('id');
         return $variations;
     }
 }
