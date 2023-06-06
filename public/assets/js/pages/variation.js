@@ -36,6 +36,7 @@ var VariationClass = function () {
         handleStatus()
         syncVariation()
         updateVariation()
+        handleUpdateStatus()
     }
 
     var getParam = function () {
@@ -176,6 +177,39 @@ var VariationClass = function () {
                 },
                 'unConfirm' : function () {
 
+                }
+            })
+        })
+    }
+
+    var handleUpdateStatus = function () {
+        $(document).on('click', '.is-active-btn', function () {
+            var $this = $(this)
+            var $id = $this.val()
+            var params = {
+                id : $id,
+                active : $(this).prop('checked')
+            }
+            var _cb = function(rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.update_active') + ': ' + variations[parseInt($id)].name,
+                'text' : (params.active ? Lang.get('common.wanna_active_true') : Lang.get('common.wanna_active_false')),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/variations/update-status', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
+                    if ($this.attr('checked')) {
+                        $this.prop('checked', true)
+                    } else {
+                        $this.prop('checked', false)
+                    }
                 }
             })
         })

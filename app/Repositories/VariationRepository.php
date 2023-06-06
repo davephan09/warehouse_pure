@@ -82,4 +82,15 @@ class VariationRepository extends Repository
         }
         return true;
     }
+
+    public function updateStatusVariation($request)
+    {
+        $id = intval($request->input('id'));
+        $variation = $this->model->find($id);
+        $isUpdate = $variation->update([
+            'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
+            'user_add' => Session::get('user')->id,
+        ]);
+        return $variation;
+    }
 }

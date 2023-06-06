@@ -11,4 +11,9 @@ class VariationOption extends Model
     protected $table = 'variation_options';
     public $timestamps = true;
     protected $fillable = ['variation_id', 'name'];
+
+    public function variation()
+    {
+        return $this->belongsTo(Variation::class, 'variation_id', 'id');
+    }
 }
