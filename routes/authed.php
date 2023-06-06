@@ -102,4 +102,5 @@ Route::prefix('variations')->group(function() {
     Route::post('store', [VariationController::class, 'store'])->name('variation.store');
     Route::post('update', [VariationController::class, 'update'])->name('variation.update');
     Route::post('update-status', [VariationController::class, 'updateStatus'])->name('variation.updateStatus');
+    Route::post('delete', [VariationController::class, 'destroy'])->name('variation.destroy');
 });

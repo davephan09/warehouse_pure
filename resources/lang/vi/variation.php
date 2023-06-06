@@ -10,4 +10,5 @@ return [
     'options' => 'Các lựa chọn của biến thể',
     'add_options' => 'Nhập các lựa chọn của biến thể và Enter',
     'update_variation' => 'Cập nhật biến thể',
+    'delete_variation' => 'Xóa biến thể',
 ];

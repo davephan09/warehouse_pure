@@ -10,4 +10,5 @@ return [
     'options' => 'Options of variation',
     'add_options' => 'Type the options of the variation and press enter',
     'update_variation' => 'Update variation',
+    'delete_variation' => 'Delete variation',
 ];
