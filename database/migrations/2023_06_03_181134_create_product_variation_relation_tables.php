@@ -17,6 +17,7 @@ class CreateProductVariationRelationTables extends Migration
             $table->id();
             $table->string('name', 191);
             $table->string('description', 255)->nullable();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
 
