@@ -1,7 +1,11 @@
 var ProductCreateClass = function() {
     var ele = {}
+    var variations = {}
+    var varSelected = []
     
-    this.run = () => {
+    this.run = (opt) => {
+        variations = opt.variations
+
         this.init()
         this.bindEvents()
     }
@@ -32,6 +36,12 @@ var ProductCreateClass = function() {
         ele.addTagBtn = $('#submit-tag-btn')
         ele.brandField = $('#kt_ecommerce_add_product_brand_select')
         ele.unitField = $('#kt_ecommerce_add_product_unit_select')
+        ele.isVariation = $('#is-variation')
+        ele.noVariation = $('#no-variation')
+        ele.hasVariation = $('#has-variation')
+        ele.btnAddvarField = $('#add_variation')
+        ele.addVarField = $('.add-variation-field')
+        ele.listAddVar = $('#list-add-variation')
     }
 
     this.bindEvents = () => {
@@ -40,6 +50,10 @@ var ProductCreateClass = function() {
         removeTax()
         createProduct()
         createTag()
+        handleVariation()
+        handleVariationSelect()
+        handleAddVarField()
+        handleRemoveVar()
     }
 
     var drawContent = () => {
@@ -149,6 +163,82 @@ var ProductCreateClass = function() {
                 }
             }
             $.app.ajax($.app.vars.url + '/products/create-tag', 'POST', params, target, null, _cb)
+        })
+    }
+
+    var handleVariation = function () {
+        ele.isVariation.on('change', function() {
+            ele.noVariation.toggleClass('d-none')
+            ele.hasVariation.toggleClass('d-none')
+        })
+    }
+
+    var handleVariationSelect = function () {
+        $(document).on('change', '.form-select-variation', function(e) {
+            let $id = $(this).val()
+            let varOptions = variations[$id].options
+            let optionSelect = $('.form-select-option', $(this).closest('.add-variation-field'))
+            let html = '<option></option>'
+            varSelected.push($id)
+            $.each(varOptions, function(i, option) {
+                html += `<option value="${option.id}">${option.name}</option>`
+            })
+            optionSelect.html(html)
+            optionSelect.trigger('change')
+            optionSelect.select2({
+                minimumResultsForSearch : -1,
+                tags : true,
+                placeholder : Lang.get('product.select_var_options'),
+                allowClear : true, 
+            })
+        })
+    }
+
+    var handleAddVarField = function () {
+        ele.btnAddvarField.on('click', function() {
+            var $clone = ele.addVarField.clone()
+            $clone.find('.select2-container').each((i, el) => {
+                $(el).remove();
+            });
+            var htmlVars = `<option>${Lang.get('product.select_variation')}</option>`
+            $.each(variations, function(i, item) {
+                if ($.inArray(i, varSelected) == -1) {
+                    htmlVars += `<option value="${item.id}">${item.name}</option>`
+                }
+            })
+            $('.form-select-variation', $clone).html(htmlVars)
+            $('.form-select-option', $clone).html('')
+            var btnRemove = `<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-variation">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
+                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
+                        </svg>
+                    </span>
+                </button>`
+            $clone.append(btnRemove)
+            $clone.hide().appendTo(ele.listAddVar).promise().done(function() {
+                $(this).slideDown()
+            })
+            $('.form-select-variation').select2({
+                minimumResultsForSearch : -1,
+                placeholder : Lang.get('product.select_variation'),
+                allowClear : true,
+            })
+            $('.form-select-option').select2()
+        })
+    }
+
+    var handleRemoveVar = function () {
+        $(document).on('click', '.btn-remove-variation', function () {
+            let $thisField = $(this).closest('.add-variation-field')
+            let varId = $('.form-select-variation', $thisField).val()
+            varSelected = $.grep(varSelected, function(value) {
+                return value !== varId;
+            });
+            $thisField.slideUp( 'easeOutCubic', function() {
+                $(this).remove()
+            })
         })
     }
 }

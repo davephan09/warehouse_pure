@@ -37,4 +37,11 @@ return [
     'unit_des' => 'Chọn đơn vị tính cho sản phẩm.',
     'taxes' => 'Thuế',
     'tax_value' => 'Giá trị (ví dụ: 10)',
+    'select_var_options' => 'Chọn giá trị',
+    'add_another_variation' => 'Thêm biến thể',
+    'select_variation' => 'Chọn biến thể',
+    'has_variation' => 'Sản phẩm có biến thể?',
+    'price_des' => 'Nhập giá tiền sản phẩm',
+    'price_example' => 'Ví dụ: 100000',
+    'quantity_example' => 'Ví dụ: 50',
 ];

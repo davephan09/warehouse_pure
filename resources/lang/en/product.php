@@ -37,4 +37,11 @@ return [
     'unit_des' => 'Choose a unit of measurement for the product',
     'taxes' => 'Taxes',
     'tax_value' => 'Tax value',
+    'select_var_options' => 'Select options',
+    'add_another_variation' => 'Add another variation',
+    'select_variation' => 'Select variation',
+    'has_variation' => 'Has Variations?',
+    'price_des' => 'Set the product price',
+    'price_example' => 'Product price',
+    'quantity_example' => 'Product quantity'
 ];

@@ -93,4 +93,9 @@ class VariationRepository extends Repository
         ]);
         return $variation;
     }
+
+    public function getActiveVariations()
+    {
+        return $this->model->with('options')->select('id', 'name', 'description')->where('active', true)->get()->keyBy('id');
+    }
 }

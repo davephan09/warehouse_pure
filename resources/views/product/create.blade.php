@@ -399,6 +399,7 @@
                                             <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                 <div class="w-100 w-md-200px">
                                                     <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <option>{{__('product.select_variation')}}</option>
                                                         @foreach ($variations as $variation)
                                                             <option value="{{$variation->id}}">{{$variation->name}}</option>
                                                         @endforeach

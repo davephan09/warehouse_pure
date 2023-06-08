@@ -9,6 +9,7 @@ use App\Repositories\CategoryProductRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\TaxRepository;
 use App\Repositories\UnitRepository;
+use App\Repositories\VariationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -22,13 +23,15 @@ class ProductController extends Controller
     private $brand;
     private $unit;
     private $tax;
-    public function __construct(ProductRepository $product, CategoryProductRepository $category, BrandRepository $brand, UnitRepository $unit, TaxRepository $tax)
+    private $variation;
+    public function __construct(ProductRepository $product, CategoryProductRepository $category, BrandRepository $brand, UnitRepository $unit, TaxRepository $tax, VariationRepository $variation)
     {
         $this->product = $product;
         $this->category = $category;
         $this->brand = $brand;
         $this->unit = $unit;
         $this->tax = $tax;
+        $this->variation = $variation;
     }
 
     /**
@@ -67,10 +70,10 @@ class ProductController extends Controller
             $data['title'] = trans('product.add');
             $data['categories'] = $this->category->getAllActive();
             $data['brands'] = $this->brand->getActiveBrands();
+            $data['variations'] = $this->variation->getActiveVariations();
             $data['units'] = $this->unit->getActiveUnits();
             $data['taxes'] = $this->tax->getActiveTaxes();
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
-            $data['variations'] = Variation::get(['id', 'name'])->toArray();
             return view('product.create', $data);
         }
         return response()->view('errors.404', [], 404);
