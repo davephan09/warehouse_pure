@@ -364,12 +364,67 @@
                             <div class="card-title">
                                 <h2>{{__('common.variation')}}</h2>
                             </div>
+                            <div class="">
+                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input me-2" name="is_variation" type="checkbox"
+                                        value="1" id="is-variation"/>
+                                        {{__('product.has_variation')}}
+                                </label>
+                            </div>
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
-                            <div class="mb-10 fv-row">
-                            
+                            <div id="no-variation">
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label required" for="price-product">{{__('product.price')}}</label>
+                                    <input type="text" id="price-product" class="form-control mb-2" placeholder="{{__('product.price_example')}}">
+                                    <div class="text-muted fs-7">{{__('product.price_des')}}</div>
+                                </div>
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label required" for="quantity-product">{{__('product.quantity')}}</label>
+                                    <input type="text" id="quantity-product" class="form-control mb-2" placeholder="{{__('product.quantity_example')}}">
+                                    <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
+                                </div>
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label" for="sku-product">{{__('product.code')}}</label>
+                                    <input type="text" id="sku-product" class="form-control mb-2" placeholder="{{__('product.code_example')}}">
+                                    <div class="text-muted fs-7">{{__('product.code_des')}}</div>
+                                </div>
+                            </div>
+                            <div id="has-variation" class="d-none">
+                                <div class="mb-10 fv-row">
+                                    <div class="form-group">
+                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
+                                            <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
+                                                <div class="w-100 w-md-200px">
+                                                    <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        @foreach ($variations as $variation)
+                                                            <option value="{{$variation->id}}">{{$variation->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="w-100 w-md-200px">
+                                                    <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                        
+                                                    </select>
+                                                </div>
+                                                {{-- <input type="text" class="form-control mw-100 w-200px" name="variation_option[]" multiple placeholder="{{__('product.variation_option')}}" />  --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-5">
+                                        <button type="button" data-repeater-create="" id="add_variation" class="btn btn-sm btn-light-primary">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor" />
+                                                <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        {{__('product.add_another_variation')}}</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card card-flush py-4">
@@ -406,17 +461,14 @@
                                                 <!--begin::Input-->
                                                 <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
                                                 <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
-                                                <!--end::Input-->
-                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
-                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
+                                                {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                     <span class="svg-icon svg-icon-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                             <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
                                                             <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    <!--end::Svg Icon-->
-                                                </button>
+                                                </button> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -473,8 +525,11 @@
     <script src="{{ url('assets/js/pages/product.create.js') }}"></script>
     <script>
         $(document).ready(function() {
+            var options = {
+                variations : {!! json_encode($variations) !!}
+            }
             var instance = new ProductCreateClass();
-            instance.run();
+            instance.run(options);
         });
     </script>
 @endsection
