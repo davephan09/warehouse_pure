@@ -72,7 +72,7 @@ return [
     'quantity' => 'Số lượng',
     'in_warehouse' => 'Tồn kho',
     'variations' => 'Đặc điểm chi tiết',
-    'variation' => 'Nhập giá trị',
+    'variation' => 'Biến thể',
     'color' => 'Màu sắc',
     'size' => 'Kích cỡ',
     'height' => 'Chiều cao',

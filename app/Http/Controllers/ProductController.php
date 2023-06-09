@@ -71,6 +71,7 @@ class ProductController extends Controller
             $data['categories'] = $this->category->getAllActive();
             $data['brands'] = $this->brand->getActiveBrands();
             $data['variations'] = $this->variation->getActiveVariations();
+            $data['options'] = $this->variation->getActiveOptions();
             $data['units'] = $this->unit->getActiveUnits();
             $data['taxes'] = $this->tax->getActiveTaxes();
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);

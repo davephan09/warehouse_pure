@@ -397,7 +397,7 @@
                                     <div class="form-group">
                                         <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
                                             <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
-                                                <div class="w-100 w-md-200px">
+                                                <div class="w-100 w-md-400px">
                                                     <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option>{{__('product.select_variation')}}</option>
                                                         @foreach ($variations as $variation)
@@ -405,7 +405,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="w-100 w-md-200px">
+                                                <div class="w-100 w-md-400px">
                                                     <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
                                                         
                                                     </select>
@@ -423,6 +423,36 @@
                                             </svg>
                                         </span>
                                         {{__('product.add_another_variation')}}</button>
+                                    </div>
+                                </div>
+                                <div class="mb-10 fv-row d-none" id="detail-variations">
+                                    <div class="">
+                                        <div class="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-700px p-5">
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{__('common.variation')}}</th>
+                                                        <th>{{__('product.price')}}</th>
+                                                        <th>{{__('product.quantity')}}</th>
+                                                        <th>{{__('product.sku')}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="body-detail-variations">
+                                                    {{-- <tr>
+                                                        <td><input type="text" class="form-control mw-100" name="" disabled value="White-S" /></td>
+                                                        <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                                                        <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                                                        <td><input type="text" class="form-control mw-100" name="" value="Tét" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="text" class="form-control mw-100" name="" disabled value="White-M" /></td>
+                                                        <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                                                        <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                                                        <td><input type="text" class="form-control mw-100" name="" value="Tét" /></td> --}}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -450,7 +480,7 @@
                                         <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-tax" class="d-flex flex-column gap-3">
                                             <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
                                                 <!--begin::Select2-->
-                                                <div class="w-100 w-md-200px">
+                                                <div class="w-100 w-md-325px">
                                                     <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option></option>
                                                         @foreach($taxes as $tax)
@@ -460,7 +490,7 @@
                                                 </div>
                                                 <!--end::Select2-->
                                                 <!--begin::Input-->
-                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
                                                 <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
                                                 {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                     <span class="svg-icon svg-icon-2">
@@ -527,7 +557,8 @@
     <script>
         $(document).ready(function() {
             var options = {
-                variations : {!! json_encode($variations) !!}
+                variations : {!! json_encode($variations) !!},
+                options : {!! json_encode($options) !!},
             }
             var instance = new ProductCreateClass();
             instance.run(options);

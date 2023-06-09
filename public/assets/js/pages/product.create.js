@@ -2,9 +2,11 @@ var ProductCreateClass = function() {
     var ele = {}
     var variations = {}
     var varSelected = []
+    var allOptions = {}
     
     this.run = (opt) => {
         variations = opt.variations
+        allOptions = opt.options
 
         this.init()
         this.bindEvents()
@@ -42,6 +44,8 @@ var ProductCreateClass = function() {
         ele.btnAddvarField = $('#add_variation')
         ele.addVarField = $('.add-variation-field')
         ele.listAddVar = $('#list-add-variation')
+        ele.detailVarDiv = $('#detail-variations')
+        ele.bodyDetailVarDiv = $('#body-detail-variations')
     }
 
     this.bindEvents = () => {
@@ -54,6 +58,7 @@ var ProductCreateClass = function() {
         handleVariationSelect()
         handleAddVarField()
         handleRemoveVar()
+        handleSelectOptions()
     }
 
     var drawContent = () => {
@@ -176,13 +181,15 @@ var ProductCreateClass = function() {
     var handleVariationSelect = function () {
         $(document).on('change', '.form-select-variation', function(e) {
             let $id = $(this).val()
-            let varOptions = variations[$id].options
+            let varOptions = variations[$id] ? variations[$id].options : false
             let optionSelect = $('.form-select-option', $(this).closest('.add-variation-field'))
             let html = '<option></option>'
             varSelected.push($id)
-            $.each(varOptions, function(i, option) {
-                html += `<option value="${option.id}">${option.name}</option>`
-            })
+            if (varOptions) {
+                $.each(varOptions, function(i, option) {
+                    html += `<option value="${option.id}">${option.name}</option>`
+                })
+            }
             optionSelect.html(html)
             optionSelect.trigger('change')
             optionSelect.select2({
@@ -223,7 +230,7 @@ var ProductCreateClass = function() {
             $('.form-select-variation').select2({
                 minimumResultsForSearch : -1,
                 placeholder : Lang.get('product.select_variation'),
-                allowClear : true,
+                // allowClear : true,
             })
             $('.form-select-option').select2()
         })
@@ -240,5 +247,60 @@ var ProductCreateClass = function() {
                 $(this).remove()
             })
         })
+    }
+
+    var handleSelectOptions = function () {
+        $(document).on('change', '.form-select-option', function() {
+            var optionArr = []
+            var html = ''
+            $.each($('select.form-select-option'), function(i, item) {
+                if ($(this).val().length !== 0) {
+                    optionArr.push($(this).val())
+                }
+            })
+            var mixValues = getMixedValues(optionArr)
+            $.each(mixValues, function(i, item) {
+                html += `<tr>
+                    <td><input type="text" class="form-control mw-100" name="" disabled value="${item}" /></td>
+                    <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                    <td><input type="number" class="form-control mw-100" name="" value="" /></td>
+                    <td><input type="text" class="form-control mw-100" name="" value="${item}" /></td>
+                </tr>`
+            })
+            ele.bodyDetailVarDiv.html(html)
+            if (mixValues.length === 0) {
+                ele.detailVarDiv.addClass('d-none')
+            } else {
+                ele.detailVarDiv.removeClass('d-none')
+            }
+        })
+    }
+
+    var getMixedValues = function (arrs) {
+        if (arrs.length === 0) {
+            return []
+        }
+        if (arrs.length === 1) {
+            arrs[0] = arrs[0].map(function(val) {
+                return allOptions[val].name
+            })
+            return arrs[0];
+        }
+        var combinations = []
+        var currentCombination = new Array(arrs.length)
+        generateCombinations(arrs, 0, currentCombination, combinations)
+        return combinations
+    }
+
+    var generateCombinations = function(arrs, currentIndex, currentCombination, combinations) {
+        if (currentIndex === arrs.length) {
+            combinations.push(currentCombination.join(' - '))
+            return
+        }
+        
+        for (var i=0; i < arrs[currentIndex].length; i++) {
+            currentCombination[currentIndex] = allOptions[arrs[currentIndex][i]].name
+            generateCombinations(arrs, currentIndex + 1, currentCombination, combinations);
+        }
     }
 }
