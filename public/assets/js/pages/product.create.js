@@ -25,8 +25,9 @@ var ProductCreateClass = function() {
         ele.name = $('input[name="product_name"]')
         ele.summary = $('input[name="summary"]')
         ele.description = $('#description')
-        ele.sku = $('input[name="sku"]')
-        ele.quantity = $('input[name="warehouse"]')
+        ele.sku = $('#sku-product')
+        ele.price = $('#price-product')
+        ele.quantity = $('#quantity-product')
         ele.variation = $('select[name="product_option[]"]')
         ele.var_value = $('input[name="product_option_value[]"]')
         ele.formSubmit = $('#kt_ecommerce_add_product_form')
@@ -46,6 +47,7 @@ var ProductCreateClass = function() {
         ele.listAddVar = $('#list-add-variation')
         ele.detailVarDiv = $('#detail-variations')
         ele.bodyDetailVarDiv = $('#body-detail-variations')
+        ele.isVariation = $('#is-variation')
     }
 
     this.bindEvents = () => {
@@ -114,10 +116,9 @@ var ProductCreateClass = function() {
                 'product_name' : ele.name.val(),
                 'summary' : ele.summary.val(),
                 'description' : ele.description.val(),
-                'product_code' : ele.sku.val(),
-                'quantity' : ele.quantity.val(),
                 'tax' : [],
-                'tax_value' : []
+                'tax_value' : [],
+                'variations' : [],
             }
             let target = ele.btnCreate
             $('select[name="product_option[]"]').each((i, el) => {
@@ -126,6 +127,20 @@ var ProductCreateClass = function() {
             $('input[name="product_option_value[]"]').each((i, el) => {
                 params.tax_value.push($(el).val())
             })
+            if(ele.noVariation.hasClass('d-none')) {
+                $.each($('.variation-item'), function(i, item) {
+                    params.variations.push({
+                        'variationName' : $('.variation-name', $(this)).val(),
+                        'price' : $('.var-price', $(this)).val(),
+                        'quantity' : $('.var-quantity', $(this)).val(),
+                        'code' : $('.var-code', $(this)).val(),
+                    })
+                })
+            } else {
+                params.quantity = ele.quantity.val()
+                params.price = ele.price.val()
+                params.product_code = ele.sku.val()
+            }
             let _cb = (rs) => {
                 if (rs.status) {
                     $.app.pushNotyCallback({
@@ -260,11 +275,11 @@ var ProductCreateClass = function() {
             })
             var mixValues = getMixedValues(optionArr)
             $.each(mixValues, function(i, item) {
-                html += `<tr>
-                    <td><input type="text" class="form-control mw-100" name="" disabled value="${item}" /></td>
-                    <td><input type="number" class="form-control mw-100" name="" value="" /></td>
-                    <td><input type="number" class="form-control mw-100" name="" value="" /></td>
-                    <td><input type="text" class="form-control mw-100" name="" value="${item}" /></td>
+                html += `<tr class="variation-item">
+                    <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${item}" /></td>
+                    <td><input type="number" class="form-control var-price mw-100" name="" value="" /></td>
+                    <td><input type="number" class="form-control var-quantity mw-100" name="" value="" /></td>
+                    <td><input type="text" class="form-control var-code mw-100" name="" value="${item}" /></td>
                 </tr>`
             })
             ele.bodyDetailVarDiv.html(html)
