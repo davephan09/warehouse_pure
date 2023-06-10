@@ -28,20 +28,6 @@ class CreateProductVariationRelationTables extends Migration
             $table->string('name', 191);
             $table->timestamps();
         });
-
-        Schema::create('product_has_variation_options', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('option_id');
-            $table->string('name');
-            $table->integer('quantity')->default(0);
-            $table->decimal('price', 13, 0)->default(0);
-            $table->string('sku', 100)->nullable();
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('option_id')->references('id')->on('variation_options')->onDelete('cascade');
-
-        });
     }
 
     /**
@@ -53,6 +39,5 @@ class CreateProductVariationRelationTables extends Migration
     {
         Schema::dropIfExists('variations');
         Schema::dropIfExists('variation_options');
-        Schema::dropIfExists('product_has_variation_options');
     }
 }
