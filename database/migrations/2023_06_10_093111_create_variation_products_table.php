@@ -16,7 +16,7 @@ class CreateVariationProductsTable extends Migration
         Schema::create('variation_products', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
-            $table->string('options');
+            $table->string('options')->nullable();
             $table->string('name');
             $table->integer('quantity')->default(0);
             $table->decimal('price', 13, 0)->default(0);
