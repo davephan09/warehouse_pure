@@ -281,7 +281,7 @@ var ProductCreateClass = function() {
             $.each(mixValues, function(i, item) {
                 html += `<tr class="variation-item">
                     <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
-                    <td hidden><input type="text" class="form-control var-options" disabled value="${item}" /></td>
+                    <td hidden><input type="text" class="form-control var-options" disabled value='${item}' /></td>
                     <td><input type="number" class="form-control var-price mw-100" name="" value="" /></td>
                     <td><input type="number" class="form-control var-quantity mw-100" name="" value="" /></td>
                     <td><input type="text" class="form-control var-code mw-100" name="" value="${getOptionsName(item)}" /></td>
@@ -297,7 +297,7 @@ var ProductCreateClass = function() {
     }
 
     var getOptionsName = function (str) {
-        var words = str.split(',').map(function(digit) {
+        var words = JSON.parse(str).map(function(digit) {
             return allOptions[digit].name
         })
         return words.join(' - ')
@@ -309,7 +309,7 @@ var ProductCreateClass = function() {
         }
         if (arrs.length === 1) {
             arrs[0] = arrs[0].map(function(val) {
-                return val
+                return JSON.stringify([val])
             })
             return arrs[0];
         }
@@ -321,7 +321,7 @@ var ProductCreateClass = function() {
 
     var generateCombinations = function(arrs, currentIndex, currentCombination, combinations) {
         if (currentIndex === arrs.length) {
-            combinations.push(currentCombination.join(','))
+            combinations.push(JSON.stringify(currentCombination))
             return
         }
         

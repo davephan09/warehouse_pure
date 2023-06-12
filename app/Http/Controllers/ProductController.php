@@ -90,9 +90,10 @@ class ProductController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $rules = [
-                    'product_name' => 'required|max:191|unique:products',
-                    'product_code' => 'max:40|unique:products',
-                    'quantity' => 'required',
+                    'product_name' => 'required|string|max:191|unique:products',
+                    'variations' => 'required',
+                    'summary' => 'max:255|string',
+                    'description' => 'max:10000',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -101,10 +102,11 @@ class ProductController extends Controller
                 $taxIds = $request->input('tax');
                 $taxValues = $request->input('tax_value');
                 $tags = $request->input('tags');
+                $variations = $request->input('variations');
                 $product = $this->product->addProduct($request);
                 $this->product->addTag($product, $tags);
-                // $this->product->addVariation($product, $variations, $varValues);
                 $this->product->addTaxProduct($product, $taxIds, $taxValues);
+                $this->product->addVariationProduct($product, $variations);
                 if ($product) \Illuminate\Support\Facades\Log::info($user->username . ' has created a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {

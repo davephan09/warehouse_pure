@@ -389,6 +389,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>{{__('common.variation')}}</th>
+                                                        <th hidden></th>
                                                         <th>{{__('product.price')}}</th>
                                                         <th>{{__('product.quantity')}}</th>
                                                         <th>{{__('product.sku')}}</th>

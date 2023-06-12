@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Tax;
 use App\Models\Variation;
+use App\Models\VariationProduct;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -17,6 +18,15 @@ class ProductRepository extends Repository
 
     public function addProduct($request)
     {
+        $variations = $request->input('variations');
+        $quantity = 0;
+        foreach($variations as $item) {
+            if ($item['options']) {
+                $quantity += intval($item['quantity']);
+            } else {
+                $quantity = intval($item['quantity']);
+            }
+        }
         $product = $this->model->create([
             'product_name' => trim($request->input('product_name')),
             'summary' => trim($request->input('summary')),
@@ -25,8 +35,7 @@ class ProductRepository extends Repository
             'brand_id' => intval($request->input('brand_id')),
             'unit_id' => intval($request->input('unit_id')),
             'category_id' => intval($request->input('category_id')),
-            'product_code' => trim($request->input('product_code')),
-            'quantity' => intval($request->input('quantity')),
+            'quantity' => $quantity,
             'user_add' => Auth::user()->id,
         ]);
         return $product;
@@ -105,5 +114,24 @@ class ProductRepository extends Repository
     public function createTag($name)
     {
         return Tag::create(['name' => $name]);
+    }
+
+    public function addVariationProduct($product, $variations)
+    {
+        foreach($variations as $item) {
+            if ($item['options']) {
+                $options = json_decode($item['options']);
+                $options = array_map('intval', $options);
+                $options = json_encode($options);
+            }
+            VariationProduct::create([
+                'product_id' => intval($product->id),
+                'options' => $options ?? null,
+                'name' => trim(strip_tags(stripslashes($item['variationName']))),
+                'quantity' => intval($item['quantity']),
+                'price' => intval($item['price']),
+                'sku' => trim(strip_tags(stripslashes($item['code']))),
+            ]);
+        }
     }
 }
