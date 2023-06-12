@@ -131,15 +131,19 @@ var ProductCreateClass = function() {
                 $.each($('.variation-item'), function(i, item) {
                     params.variations.push({
                         'variationName' : $('.variation-name', $(this)).val(),
+                        'options' : $('.var-options', $(this)).val(),
                         'price' : $('.var-price', $(this)).val(),
                         'quantity' : $('.var-quantity', $(this)).val(),
                         'code' : $('.var-code', $(this)).val(),
                     })
                 })
             } else {
-                params.quantity = ele.quantity.val()
-                params.price = ele.price.val()
-                params.product_code = ele.sku.val()
+                params.variations.push({
+                    'variationName' : ele.name.val(),
+                    'price' : ele.price.val(),
+                    'quantity' : ele.quantity.val(),
+                    'code' : ele.sku.val(),
+                })
             }
             let _cb = (rs) => {
                 if (rs.status) {
@@ -276,10 +280,11 @@ var ProductCreateClass = function() {
             var mixValues = getMixedValues(optionArr)
             $.each(mixValues, function(i, item) {
                 html += `<tr class="variation-item">
-                    <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${item}" /></td>
+                    <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
+                    <td hidden><input type="text" class="form-control var-options" disabled value="${item}" /></td>
                     <td><input type="number" class="form-control var-price mw-100" name="" value="" /></td>
                     <td><input type="number" class="form-control var-quantity mw-100" name="" value="" /></td>
-                    <td><input type="text" class="form-control var-code mw-100" name="" value="${item}" /></td>
+                    <td><input type="text" class="form-control var-code mw-100" name="" value="${getOptionsName(item)}" /></td>
                 </tr>`
             })
             ele.bodyDetailVarDiv.html(html)
@@ -291,13 +296,20 @@ var ProductCreateClass = function() {
         })
     }
 
+    var getOptionsName = function (str) {
+        var words = str.split(',').map(function(digit) {
+            return allOptions[digit].name
+        })
+        return words.join(' - ')
+    }
+
     var getMixedValues = function (arrs) {
         if (arrs.length === 0) {
             return []
         }
         if (arrs.length === 1) {
             arrs[0] = arrs[0].map(function(val) {
-                return allOptions[val].name
+                return val
             })
             return arrs[0];
         }
@@ -309,12 +321,12 @@ var ProductCreateClass = function() {
 
     var generateCombinations = function(arrs, currentIndex, currentCombination, combinations) {
         if (currentIndex === arrs.length) {
-            combinations.push(currentCombination.join(' - '))
+            combinations.push(currentCombination.join(','))
             return
         }
         
         for (var i=0; i < arrs[currentIndex].length; i++) {
-            currentCombination[currentIndex] = allOptions[arrs[currentIndex][i]].name
+            currentCombination[currentIndex] = arrs[currentIndex][i]
             generateCombinations(arrs, currentIndex + 1, currentCombination, combinations);
         }
     }
