@@ -108,7 +108,9 @@ class ProductRepository extends Repository
     {
         $product = $this->model->find($id);
         $product->delete();
-        $product->variations()->detach();
+        $product->taxes()->detach();
+        $product->tags()->detach();
+        VariationProduct::where('product_id', $id)->delete();
         return $product;
     }
 
