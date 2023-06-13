@@ -76,17 +76,19 @@ class ProductRepository extends Repository
 
     public function getProduct($id)
     {
-        $variation = DB::table('product_has_variations')->where('product_id', $id)->get(['variation_id', 'value']);
-        $varValue = $variation->keyBy('variation_id')->toArray();
-        $varIds = $variation->pluck('variation_id');
-        $product = $this->model->with('variations')->with('category')->with('tags')->where('id', $id);
-        if ($variation->isNotEmpty()) {        
-            $product = $product->whereHas('variations', function($query) use ($varIds) {
-                $query->whereIn('id', $varIds);
-            });
-        }
-        $product = $product->first();
-        return [$product, $varValue];
+        $product = $this->model->with(['category', 'tags', 'taxes', 'variations'])->where('id', $id)->first();
+        return $product;
+        // $variation = DB::table('product_has_variations')->where('product_id', $id)->get(['variation_id', 'value']);
+        // $varValue = $variation->keyBy('variation_id')->toArray();
+        // $varIds = $variation->pluck('variation_id');
+        // $product = $this->model->with('variations')->with('category')->with('tags')->where('id', $id);
+        // if ($variation->isNotEmpty()) {        
+        //     $product = $product->whereHas('variations', function($query) use ($varIds) {
+        //         $query->whereIn('id', $varIds);
+        //     });
+        // }
+        // $product = $product->first();
+        // return [$product, $varValue];
     }
 
     public function updateProduct($request, $product)

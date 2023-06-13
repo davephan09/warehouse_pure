@@ -130,15 +130,32 @@ class ProductController extends Controller
         if ($user->can('product.update')) {
             $id = intval($id);
             $data['title'] = trans('product.update');
-            list($product, $varValue) = $this->product->getProduct($id);
+            $product = $this->product->getProduct($id); 
+            $variations = $product->variations;
+            if ($variations->count() > 1) {
+                $options = $variations->pluck('options');
+                $options = $options->flatMap(function ($item) {
+                    return json_decode($item);
+                })->unique()->values()->all();
+                $variationsProduct = $this->variation->getVariationByOptions($options);
+                $data['variationsProduct'] = $variationsProduct->pluck('id');
+                $data['options'] = $options;
+            }
+            $taxes = $product->taxes;
+            if ($taxes) {
+                $taxes = $taxes->map(function ($item) {
+                    return [$item->pivot_tax_id => $item->pivot_value];
+                });
+            }
             $data['product'] = $product;
             $data['productTags'] = $product->tags->pluck('id')->toArray();
-            $data['varValue'] = $varValue;
             $data['brands'] = $this->brand->getActiveBrands();
             $data['units'] = $this->unit->getActiveUnits();
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
+            $data['allOptions'] = $this->variation->getActiveOptions();
             $data['categories'] = $this->category->getAllActive();
-            $data['variations'] = Variation::get(['id', 'name'])->toArray();
+            $data['taxes'] = $this->tax->getActiveTaxes();
+            $data['variations'] = $this->variation->getActiveVariations();
             return view('product.update', $data);
         }
         return response()->view('errors.404', [], 404);

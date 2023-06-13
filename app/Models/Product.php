@@ -22,11 +22,6 @@ class Product extends Model
         return $this->belongsToMany(Tag::class, 'product_has_tags', 'product_id', 'tag_id');
     }
 
-    public function variations()
-    {
-        return $this->belongsToMany(Variation::class, 'product_has_variations', 'product_id', 'variation_id')->withPivot('value');
-    }
-
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id', 'id');
@@ -40,5 +35,10 @@ class Product extends Model
     public function taxes()
     {
         return $this->belongsToMany(Tax::class, 'product_has_taxes', 'product_id', 'tax_id')->withPivot('value');
+    }
+
+    public function variations()
+    {
+        return $this->hasMany(VariationProduct::class, 'product_id', 'id');
     }
 }

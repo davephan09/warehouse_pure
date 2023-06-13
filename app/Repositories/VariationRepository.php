@@ -103,4 +103,12 @@ class VariationRepository extends Repository
     {
         return VariationOption::select('variation_options.id', 'variation_options.name')->join('variations as B', 'B.id', '=', 'variation_options.variation_id')->where('B.active', true)->get()->keyBy('id');
     }
+
+    public function getVariationByOptions($options)
+    {
+        return $this->model->select('variations.id')
+            ->join('variation_options as B', 'variations.id', '=', 'B.variation_id')
+            ->whereIn('B.id', $options)
+            ->get()->unique();
+    }
 }

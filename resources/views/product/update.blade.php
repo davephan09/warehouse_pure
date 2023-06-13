@@ -89,7 +89,7 @@
                 <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
                     <option></option>
                     <option value="1" {{$product->active == 1 ? 'selected' : ''}}>{{__('common.active')}}</option>
-                    <option value="0" {{$product->active == 0 ? '' : 'selected'}}>{{__('common.inactive')}}</option>
+                    <option value="0" {{$product->active == 0 ? 'selected' : ''}}>{{__('common.inactive')}}</option>
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->
@@ -315,55 +315,143 @@
             <!--begin::Tab pane-->
             <div class="tab-pane fade" id="kt_ecommerce_add_product_advanced" role="tab-panel">
                 <div class="d-flex flex-column gap-7 gap-lg-10">
-                    <!--begin::Inventory-->
                     <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
                                 <h2>{{__('common.inventory')}}</h2>
                             </div>
+                            <div class="">
+                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input me-2" name="is_variation" type="checkbox"
+                                        value="1" id="is-variation"/>
+                                        {{__('product.has_variation')}}
+                                </label>
+                            </div>
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
-                            <!--begin::Input group-->
-                            <div class="mb-10 fv-row">
-                                <!--begin::Label-->
-                                <label class="required form-label">SKU - {{__('product.code')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="sku" class="form-control mb-2" placeholder="{{__('product.code_example')}}" value="{{$product->product_code}}" />
-                                <!--end::Input-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">{{__('product.code_des')}}</div>
-                                <!--end::Description-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="mb-10 fv-row">
-                                <!--begin::Label-->
-                                <label class="required form-label">{{__('common.quantity')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div class="d-flex gap-3">
-                                    <input type="number" name="warehouse" class="form-control mb-2" placeholder="{{__('common.in_warehouse')}}" value="{{$product->quantity}}"/>
+                            <div id="no-variation">
+                                @php
+                                    $hasOptions = $product->variations->count() > 1 ? true : false;
+                                @endphp
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label required" for="price-product">{{__('product.price')}}</label>
+                                    <input type="text" id="price-product" class="form-control mb-2" placeholder="{{__('product.price_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->price}}">
+                                    <div class="text-muted fs-7">{{__('product.price_des')}}</div>
                                 </div>
-                                <!--end::Input-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
-                                <!--end::Description-->
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label required" for="quantity-product">{{__('product.quantity')}}</label>
+                                    <input type="text" id="quantity-product" class="form-control mb-2" placeholder="{{__('product.quantity_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->quantity}}">
+                                    <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
+                                </div>
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label" for="sku-product">{{__('product.code')}}</label>
+                                    <input type="text" id="sku-product" class="form-control mb-2" placeholder="{{__('product.code_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->sku}}">
+                                    <div class="text-muted fs-7">{{__('product.code_des')}}</div>
+                                </div>
                             </div>
-                            <!--end::Input group-->
+                            <div id="has-variation" class="d-none">
+                                <div class="mb-10 fv-row">
+                                    <div class="form-group">
+                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
+                                            @forelse ($variationsProduct as $key => $var)
+                                                <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
+                                                    <div class="w-100 w-md-400px">
+                                                        <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                            <option>{{__('product.select_variation')}}</option>
+                                                            @foreach ($variations as $variation)
+                                                                <option value="{{$variation->id}}" {{$var == $variation->id ? 'selected' : ''}}>{{$variation->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="w-100 w-md-400px">
+                                                        <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                        @foreach($variations[$var]->options as $opt)
+                                                            <option value="{{$opt->id}}" {{in_array($opt->id, $options) ? 'selected' : ''}}>{{$opt->name}}</option>    
+                                                        @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @if ($key != 0)
+                                                        <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-variation">
+                                                            <span class="svg-icon svg-icon-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                    <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
+                                                                    <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
+                                                                </svg>
+                                                            </span>
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            @empty
+                                                <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
+                                                    <div class="w-100 w-md-400px">
+                                                        <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                            <option>{{__('product.select_variation')}}</option>
+                                                            @foreach ($variations as $variation)
+                                                                <option value="{{$variation->id}}">{{$variation->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="w-100 w-md-400px">
+                                                        <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-5">
+                                        <button type="button" data-repeater-create="" id="add_variation" class="btn btn-sm btn-light-primary">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor" />
+                                                <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        {{__('product.add_another_variation')}}</button>
+                                    </div>
+                                </div>
+                                <div class="mb-10 fv-row d-none" id="detail-variations">
+                                    <div class="">
+                                        <div class="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-700px p-5">
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{__('common.variation')}}</th>
+                                                        <th hidden></th>
+                                                        <th>{{__('product.price')}}</th>
+                                                        <th>{{__('product.quantity')}}</th>
+                                                        <th>{{__('product.sku')}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="body-detail-variations">
+                                                    @if ($product->variations->count() > 1)
+                                                        @foreach($product->variations as $item)
+                                                            <tr class="variation-item">
+                                                                <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="{{$item->name}}" /></td>
+                                                                <td hidden><input type="text" class="form-control var-options" disabled value='{{$item->options}}' /></td>
+                                                                <td><input type="number" class="form-control var-price mw-100" name="" value="{{$item->price}}" /></td>
+                                                                <td><input type="number" class="form-control var-quantity mw-100" name="" value="{{$item->quantity}}" /></td>
+                                                                <td><input type="text" class="form-control var-code mw-100" name="" value="{{$item->sku}}" /></td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Card header-->
                     </div>
-                    <!--end::Inventory-->
-                    <!--begin::Variations-->
                     <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>{{__('common.variations')}}</h2>
+                                <h2>{{__('product.taxes')}}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -372,72 +460,68 @@
                             <!--begin::Input group-->
                             <div class="" data-kt-ecommerce-catalog-add-product="auto-options">
                                 <!--begin::Label-->
-                                <label class="form-label">{{__('product.add_variation')}}</label>
+                                <label class="form-label">{{__('product.add_tax')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Repeater-->
                                 <div id="kt_ecommerce_add_product_options">
                                     <!--begin::Form group-->
                                     <div class="form-group">
-                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
-                                            @forelse($varValue as $key => $var)
-                                            <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
-                                                <!--begin::Select2-->
-                                                <div class="w-100 w-md-200px">
-                                                    <select class="form-select form-select-var" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
-                                                        <option></option>
-                                                        @foreach($variations as $item)
-                                                        @php
-                                                        $langVar = 'common.' . $item['name'];
-                                                        @endphp
-                                                        <option value="{{$item['id']}}" {{$item['id'] == $key ? 'selected' : ''}}>{{trans($langVar)}}</option>
-                                                        @endforeach
-                                                    </select>
+                                        <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-tax" class="d-flex flex-column gap-3">
+                                            @forelse ($product->taxes as $item)
+                                                <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
+                                                    <!--begin::Select2-->
+                                                    <div class="w-100 w-md-325px">
+                                                        <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                            <option></option>
+                                                            @foreach($taxes as $tax)
+                                                            <option value="{{$tax->id}}" {{ isset($product->taxes) && $tax->id == $item->pivot->tax_id ? 'selected' : ''}}>{{$tax->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <!--end::Select2-->
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" value="{{$item->pivot->value}}"/> 
+                                                    <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
+                                                        <span class="svg-icon svg-icon-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
+                                                                <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
+                                                            </svg>
+                                                        </span>
+                                                    </button> --}}
                                                 </div>
-                                                <!--end::Select2-->
-                                                <!--begin::Input-->
-                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" value="{{$var->value}}" multiple placeholder="{{__('common.variation')}}" />
-                                                <!--end::Input-->
-                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-var">
-                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr088.svg-->
-                                                    <span class="svg-icon svg-icon-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
-                                                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <!--end::Svg Icon-->
-                                                </button>
-                                            </div>
                                             @empty
-                                            <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
-                                                <div class="w-100 w-md-200px">
-                                                    <select class="form-select form-select-var" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
-                                                        <option></option>
-                                                        @foreach($variations as $item)
-                                                        @php
-                                                        $langVar = 'common.' . $item['name'];
-                                                        @endphp
-                                                        <option value="{{$item['id']}}">{{trans($langVar)}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
+                                                    <!--begin::Select2-->
+                                                    <div class="w-100 w-md-325px">
+                                                        <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                            <option></option>
+                                                            @foreach($taxes as $tax)
+                                                            <option value="{{$tax->id}}" {{ isset($product->taxes) && $tax->id == $product->taxes}}>{{$tax->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <!--end::Select2-->
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                    <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
+                                                        <span class="svg-icon svg-icon-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
+                                                                <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
+                                                            </svg>
+                                                        </span>
+                                                    </button> --}}
                                                 </div>
-                                                <input type="text" class="form-control mw-100 w-200px" name="product_option_value[]" value="" multiple placeholder="{{__('common.variation')}}" />
-                                                <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-var">
-                                                    <span class="svg-icon svg-icon-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor" />
-                                                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </button>
-                                            </div>
                                             @endforelse
                                         </div>
                                     </div>
                                     <!--end::Form group-->
                                     <!--begin::Form group-->
                                     <div class="form-group mt-5">
-                                        <button type="button" data-repeater-create="" id="add_variation" class="btn btn-sm btn-light-primary">
+                                        <button type="button" data-repeater-create="" id="add_tax" class="btn btn-sm btn-light-primary">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr087.svg-->
                                         <span class="svg-icon svg-icon-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -445,7 +529,7 @@
                                                 <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor" />
                                             </svg>
                                         </span>
-                                        <!--end::Svg Icon-->{{__('product.add_another_variation')}}</button>
+                                        <!--end::Svg Icon-->{{__('product.add_another_tax')}}</button>
                                     </div>
                                     <!--end::Form group-->
                                 </div>
@@ -455,7 +539,6 @@
                         </div>
                         <!--end::Card header-->
                     </div>
-                    <!--end::Variations-->
                 </div>
             </div>
             <!--end::Tab pane-->
@@ -489,8 +572,13 @@
     <script src="{{ url('assets/js/pages/product.create.js') }}"></script>
     <script>
         $(document).ready(function() {
+            var options = {
+                variations : {!! json_encode($variations) !!},
+                options : {!! json_encode($allOptions) !!},
+                product : {!! json_encode($product) !!}
+            }
             var instance = new ProductCreateClass();
-            instance.run();
+            instance.run(options);
         });
     </script>
 @endsection

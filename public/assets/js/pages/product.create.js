@@ -3,10 +3,12 @@ var ProductCreateClass = function() {
     var variations = {}
     var varSelected = []
     var allOptions = {}
+    var product = {}
     
     this.run = (opt) => {
         variations = opt.variations
         allOptions = opt.options
+        product = opt.product
 
         this.init()
         this.bindEvents()
@@ -16,7 +18,7 @@ var ProductCreateClass = function() {
         ele.summary = $('#summary')
         ele.description = $('#description')
         ele.addTax = $('#add_tax')
-        ele.addTaxField = $('.add-tax-field')
+        ele.addTaxField = $('.add-tax-field:first')
         ele.listAddTax = $('#list-add-tax')
         ele.btnCreate = $('#kt_ecommerce_add_product_submit')
         ele.status = $('#kt_ecommerce_add_product_status_select')
@@ -43,11 +45,10 @@ var ProductCreateClass = function() {
         ele.noVariation = $('#no-variation')
         ele.hasVariation = $('#has-variation')
         ele.btnAddvarField = $('#add_variation')
-        ele.addVarField = $('.add-variation-field')
+        ele.addVarField = $('.add-variation-field:first')
         ele.listAddVar = $('#list-add-variation')
         ele.detailVarDiv = $('#detail-variations')
         ele.bodyDetailVarDiv = $('#body-detail-variations')
-        ele.isVariation = $('#is-variation')
     }
 
     this.bindEvents = () => {
@@ -61,6 +62,7 @@ var ProductCreateClass = function() {
         handleAddVarField()
         handleRemoveVar()
         handleSelectOptions()
+        syncDetailProduct()
     }
 
     var drawContent = () => {
@@ -278,6 +280,7 @@ var ProductCreateClass = function() {
                 }
             })
             var mixValues = getMixedValues(optionArr)
+            console.log(mixValues)
             $.each(mixValues, function(i, item) {
                 html += `<tr class="variation-item">
                     <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
@@ -300,6 +303,7 @@ var ProductCreateClass = function() {
         var words = JSON.parse(str).map(function(digit) {
             return allOptions[digit].name
         })
+        console.log(words)
         return words.join(' - ')
     }
 
@@ -328,6 +332,18 @@ var ProductCreateClass = function() {
         for (var i=0; i < arrs[currentIndex].length; i++) {
             currentCombination[currentIndex] = arrs[currentIndex][i]
             generateCombinations(arrs, currentIndex + 1, currentCombination, combinations);
+        }
+    }
+
+    var syncDetailProduct = function () {
+        if(product) {
+            if(product.variations.length > 1) {
+                ele.isVariation.prop('checked', true)
+                ele.noVariation.toggleClass('d-none')
+                ele.hasVariation.toggleClass('d-none')
+
+                ele.detailVarDiv.removeClass('d-none')
+            }
         }
     }
 }
