@@ -17,11 +17,11 @@ class CreateImportDetailsTable extends Migration
             $table->id();
             $table->integer('import_id');
             $table->integer('product_id');
+            $table->integer('option_id');
             $table->integer('quantity')->default(0);
             $table->decimal('price', 13, 0)->default(0);
             $table->decimal('discount', 13, 0)->default(0);
             $table->decimal('tax', 13, 0)->default(0);
-            $table->integer('color_id')->nullable();
             $table->timestamps();
         });
     }
