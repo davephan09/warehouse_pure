@@ -49,15 +49,15 @@ class ProductRepository extends Repository
         }
     }
 
-    public function addVariation($product , $variations, $varValues)
-    {
-        $product->variations()->detach();
-        foreach ($variations as $key => $item) {
-            $item = intval($item);
-            $variation = Variation::find($item);
-            $product->variations()->attach($variation, ['value' => $varValues[$key]]);
-        }
-    }
+    // public function addVariation($product , $variations, $varValues)
+    // {
+    //     $product->variations()->detach();
+    //     foreach ($variations as $key => $item) {
+    //         $item = intval($item);
+    //         $variation = Variation::find($item);
+    //         $product->variations()->attach($variation, ['value' => $varValues[$key]]);
+    //     }
+    // }
 
     public function addTaxProduct($product , $taxIds, $taxValues)
     {
@@ -78,29 +78,28 @@ class ProductRepository extends Repository
     {
         $product = $this->model->with(['category', 'tags', 'taxes', 'variations'])->where('id', $id)->first();
         return $product;
-        // $variation = DB::table('product_has_variations')->where('product_id', $id)->get(['variation_id', 'value']);
-        // $varValue = $variation->keyBy('variation_id')->toArray();
-        // $varIds = $variation->pluck('variation_id');
-        // $product = $this->model->with('variations')->with('category')->with('tags')->where('id', $id);
-        // if ($variation->isNotEmpty()) {        
-        //     $product = $product->whereHas('variations', function($query) use ($varIds) {
-        //         $query->whereIn('id', $varIds);
-        //     });
-        // }
-        // $product = $product->first();
-        // return [$product, $varValue];
     }
 
     public function updateProduct($request, $product)
     {
+        $variations = $request->input('variations');
+        $quantity = 0;
+        foreach($variations as $item) {
+            if ($item['options']) {
+                $quantity += intval($item['quantity']);
+            } else {
+                $quantity = intval($item['quantity']);
+            }
+        }
         return $product->update([
             'product_name' => trim($request->input('product_name')),
             'summary' => trim($request->input('summary')),
             'description' => trim($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'category_id' => intval($request->input('category_id')),
-            'product_code' => trim($request->input('product_code')),
-            'quantity' => intval($request->input('quantity')),
+            'quantity' => $quantity,
+            'brand_id' => intval($request->input('brand_id')),
+            'unit_id' => intval($request->input('unit_id')),
             'user_add' => Auth::user()->id,
         ]);
     }
@@ -135,5 +134,10 @@ class ProductRepository extends Repository
                 'sku' => trim(strip_tags(stripslashes($item['code']))),
             ]);
         }
+    }
+
+    public function deleteVariationProduct($product)
+    {
+        VariationProduct::where('product_id', $product->id)->delete();
     }
 }

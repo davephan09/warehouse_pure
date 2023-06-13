@@ -186,20 +186,24 @@ class ProductController extends Controller
                 $id = intval($request->input('id'));
                 $rules = [
                     'product_name' => 'required|max:191|unique:products,product_name,' . $id,
-                    'product_code' => 'max:40|unique:products,product_code,' . $id,
-                    'quantity' => 'required',
+                    'variations' => 'required',
+                    'summary' => 'max:255|string',
+                    'description' => 'max:10000',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $product = $this->product->find($id);
+                $taxIds = $request->input('tax');
+                $taxValues = $request->input('tax_value');
                 $tags = $request->input('tags');
-                $variations = $request->input('variation');
-                $varValues = $request->input('var_value');
+                $variations = $request->input('variations');
+                $product = $this->product->find($id);
                 $isUpdate = $this->product->updateProduct($request, $product);
                 $this->product->addTag($product, $tags);
-                $this->product->addVariation($product, $variations, $varValues);
+                $this->product->addTaxProduct($product, $taxIds, $taxValues);
+                $this->product->deleteVariationProduct($product);
+                $this->product->addVariationProduct($product, $variations);
                 if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
