@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Libraries\Address;
 use App\Libraries\Bank;
 use App\Repositories\SupplierRepository;
@@ -43,15 +44,7 @@ class SupplierController extends Controller
         $status = trim($request->input('status'));
         $provinceInput = intval($request->input('province'));
         $data = array();
-        $addressApi = new Address();
-        $address = $addressApi->getAddress();
-        $address = collect($address)->keyBy('code')->map(function($province) {
-            $province->districts = collect($province->districts)->keyBy('code')->map(function($district) {
-                $district->wards = collect($district->wards)->keyBy('code');
-                return $district;
-            });
-            return $province;
-        });
+        $address = Helper::getDetailAddress();
         $suppliers = $this->supplier->getSuppliers($status, $provinceInput)->keyBy('id');
         $bankApi = new Bank();
         $banks = $bankApi->getBanks();

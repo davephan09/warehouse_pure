@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
 
+use App\Libraries\Address;
+
 class Helper 
 {
     public $count;
@@ -102,4 +104,18 @@ class Helper
                 return 'information';
         }
     }
+
+    public static function getDetailAddress()
+    {
+        $addressApi = new Address();
+        $address = $addressApi->getAddress();
+        $address = collect($address)->keyBy('code')->map(function($province) {
+            $province->districts = collect($province->districts)->keyBy('code')->map(function($district) {
+                $district->wards = collect($district->wards)->keyBy('code');
+                return $district;
+            });
+            return $province;
+        });
+        return $address;
+    } 
 }
