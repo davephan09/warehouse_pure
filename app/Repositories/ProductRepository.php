@@ -21,7 +21,7 @@ class ProductRepository extends Repository
         $variations = $request->input('variations');
         $quantity = 0;
         foreach($variations as $item) {
-            if ($item['options']) {
+            if (isset($item['options'])) {
                 $quantity += intval($item['quantity']);
             } else {
                 $quantity = intval($item['quantity']);
@@ -85,7 +85,7 @@ class ProductRepository extends Repository
         $variations = $request->input('variations');
         $quantity = 0;
         foreach($variations as $item) {
-            if ($item['options']) {
+            if (isset($item['options'])) {
                 $quantity += intval($item['quantity']);
             } else {
                 $quantity = intval($item['quantity']);
@@ -122,7 +122,7 @@ class ProductRepository extends Repository
     public function addVariationProduct($product, $variations)
     {
         foreach($variations as $item) {
-            if ($item['options']) {
+            if (isset($item['options'])) {
                 $options = json_decode($item['options']);
                 $options = array_map('intval', $options);
                 $options = json_encode($options);

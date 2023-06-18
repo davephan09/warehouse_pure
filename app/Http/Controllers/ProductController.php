@@ -140,6 +140,8 @@ class ProductController extends Controller
                 $variationsProduct = $this->variation->getVariationByOptions($options);
                 $data['variationsProduct'] = $variationsProduct->pluck('id');
                 $data['options'] = $options;
+            } else {
+                $data['variationsProduct'] = [];
             }
             $taxes = $product->taxes;
             if ($taxes) {
