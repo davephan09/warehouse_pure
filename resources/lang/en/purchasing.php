@@ -9,4 +9,9 @@ return [
     'select_date' => 'Select date',
     'date_des' => 'Set the date of the order to process.',
     'select_product' => 'Select product',
+    'add_item' => 'Add item',
+    'subtotal' => 'Subtotal',
+    'total' => 'Total',
+    'add_tax' => 'Add tax',
+    'add_discount' => 'Add discount',
 ];
