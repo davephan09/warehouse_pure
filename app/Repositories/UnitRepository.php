@@ -11,15 +11,17 @@ class UnitRepository extends Repository
         return Unit::class;
     }
 
-    public function getUnits($request)
+    public function filters($filters = [])
     {
-        $units = $this->model->select('id', 'name', 'description', 'active', 'user_add', 'created_at');
-        $status = intval($request->input('status'));
-        if ($status !== 10) {
-            $units = $this->model->where('active', $status);
+        $query = $this->model->query();
+        $query = $query->select('id', 'name', 'description', 'active', 'user_add', 'created_at');
+        
+        if (isset($filters['status']) && !($filters['status'] === 10)) {
+            $status = intval($filters['status']);
+            $query = $query->where('active', $status);
         }
-        $units = $units->get()->keyBy('id');
-        return $units;
+        $data = $query->orderBy('name', 'asc')->get()->keyBy('id');
+        return $data;
     }
 
     public function addUnit($request)
@@ -55,10 +57,5 @@ class UnitRepository extends Repository
             'user_add' => Session::get('user')->id,
         ]);
         return $unit;
-    }
-
-    public function getActiveUnits()
-    {
-        return $this->model->select('id', 'name')->where('active', 1)->orderBy('name', 'asc')->get();
     }
 }

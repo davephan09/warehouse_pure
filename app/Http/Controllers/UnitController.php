@@ -34,7 +34,9 @@ class UnitController extends Controller
     {
         $user = Auth::user();
         if ($user->can('unit.read')) {
-            $data['units'] = $this->unit->getUnits($request);
+            $data['units'] = $this->unit->filters([
+                'status' => intval(cleanInput($request->input('status'))),
+            ]);
             $data['htmlUnitTable'] = view('unit.unit_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }
@@ -59,8 +61,8 @@ class UnitController extends Controller
         $user = Auth::user();
         if($user->can('unit.create')) {
             $rules = [
-                'name' => 'required|max:191|unique:units',
-                'description' => 'max:255',
+                'name' => 'required|string|max:191|unique:units',
+                'description' => 'max:255|string|nullable',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -107,10 +109,10 @@ class UnitController extends Controller
     {
         $user = Auth::user();
         if($user->can('unit.update')) {
-            $id = intval($request->input('id'));
+            $id = intval(cleanInput($request->input('id')));
             $rules = [
-                'name' => 'required|max:191|unique:units,name,' . $id,
-                'description' => 'max:255',
+                'name' => 'required|string|max:191|unique:units,name,' . $id,
+                'description' => 'string|nullable|max:255',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -167,7 +169,7 @@ class UnitController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $id = intval($request->input('id'));
+                $id = intval(cleanInput($request->input('id')));
                 $unit = $this->unit->find($id);
                 $unit->delete();
                 if ($unit) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted unit: ' . $unit->toJson());
