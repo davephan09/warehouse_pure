@@ -10,17 +10,16 @@ class RoleRepository extends Repository
         return Role::class;
     }
 
-    public function getAll()
+    public function filters($filters = [])
     {
-        $listRole = $this->model->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
-                                ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-                                ->get(['roles.*', 'permissions.name as permission_name', 'permissions.id as permission_id']);
-        return $listRole;
-    }
+        $query = $this->model->query();
+        $query = $query->with('permissions');
 
-    public function getRoleInfo($id)
-    {
-        $role = $this->model->with('permissions')->where('id', $id)->first();
-        return $role;
+        if(!empty($filters['roleId'])) {
+            $data = $query->where('id', $filters['roleId'])->first();
+        } else {
+            $data = $query->orderByDesc('id')->get();
+        }
+        return $data;
     }
 }

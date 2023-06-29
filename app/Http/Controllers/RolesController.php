@@ -31,7 +31,7 @@ class RolesController extends Controller
         $user = Auth::user();
         if ($user->can('role.read')) {
             $data = array();
-            $listPermission = $this->permission->getAll()->keyBy('name');
+            $listPermission = $this->permission->filters()->keyBy('name');
             $listPermission = $listPermission->mapToGroups(function ($value, $key) {
                 list($entity, $action) = explode('.', $key);
                 return [$entity => [$action => $value]];
@@ -53,21 +53,21 @@ class RolesController extends Controller
     public function getData(Request $request)
     {
         $data = array();
-        $roles = $this->role->getAll();
+        $roles = $this->role->filters();
         $listRoles = $roles->keyBy('id')->mapToGroups(function ($item) {
             return [$item->id => $item->name];
         })->map(function ($item) {
             return $item[0];
         })->toArray();
-        $rolesInfo = $roles->groupBy('id');
+        $rolesInfo = $roles->keyBy('id');
         foreach ($rolesInfo as $i => $role) {
-            $rolesInfo[$i] = collect($role)->mapToGroups(function ($item, $key) {
-                list($permission, $action) = explode('.', $item->permission_name);
+            $rolesInfo[$i] = collect($role->permissions)->mapToGroups(function ($item, $key) {
+                list($permission, $action) = explode('.', $item->name);
                 return [$permission => $action];
             });
         };
-        $rolePermission = $roles->groupBy('id')->mapWithKeys(function ($item, $key) {
-            return [$key => collect($item)->pluck('permission_id')];
+        $rolePermission = $roles->keyBy('id')->mapWithKeys(function ($item, $key) {
+            return [$key => collect($item->permissions)->pluck('id')];
         });
 
         $data['listRoles'] = $listRoles;
@@ -87,7 +87,7 @@ class RolesController extends Controller
         $user = Auth::user();
         if ($user->can('role.create')) {
             $rules = [
-                'name' => 'required|max:191|unique:roles',
+                'name' => 'required|string|max:191|unique:roles',
                 'permission' => 'required'
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -96,10 +96,12 @@ class RolesController extends Controller
             }
             DB::connection()->beginTransaction();
             try {
-                $name = trim($request->input('name'));
-                $permissionIds = $request->input('permission');
+                $name = cleanInput($request->input('name'));
+                $permissionIds = cleanInput($request->input('permission'));
                 $role = $this->role->create(['name' => $name]);
-                $permissions = $this->permission->getPermissions($permissionIds);
+                $permissions = $this->permission->filters([
+                    'permissionIds' => $permissionIds,
+                ]);
                 $role->syncPermissions($permissions);
                 if ($role) \Illuminate\Support\Facades\Log::info($user->username . ' has created a role: ' . $role->toJson());
                 DB::connection()->commit();
@@ -117,19 +119,20 @@ class RolesController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $user = Auth::user();        
         if ($user->can('role.read')) {
-            $roleInfo = $this->role->getRoleInfo($id);
+            $roleInfo = $this->role->filters([
+                'roleId' => intval(cleanInput($id)),
+            ]);
             $permissionRole = $roleInfo->permissions->pluck('id')->toArray();
             $permissions = $roleInfo->permissions->mapToGroups(function ($item, $key) {
                 list($permision, $action) = explode('.', $item->name);
                 return [$permision => $action];
             });
-            $listPermission = $this->permission->getAll()->keyBy('name');
+            $listPermission = $this->permission->filters()->keyBy('name');
             $listPermission = $listPermission->mapToGroups(function ($value, $key) {
                 list($entity, $action) = explode('.', $key);
                 return [$entity => [$action => $value]];
@@ -178,10 +181,10 @@ class RolesController extends Controller
     {
         $user = Auth::user();
         if ($user->can('role.update')) {
-            $id = intval($request->input('id'));
+            $id = intval(cleanInput($request->input('id')));
             $rules = [
                 'id' => 'required',
-                'name' => 'required|max:191|unique:roles,name,' . $id,
+                'name' => 'required|string|max:191|unique:roles,name,' . $id,
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -189,12 +192,14 @@ class RolesController extends Controller
             }
             DB::connection()->beginTransaction();
             try {
-                $name = trim($request->input('name'));
-                $permissionIds = $request->input('permission');
+                $name = cleanInput($request->input('name'));
+                $permissionIds = cleanInput($request->input('permission'));
                 $role = $this->role->find($id);
                 if ($permissionIds && $role) {
                     $isUpdate = $role->update(['name' => $name]);
-                    $permissions = $this->permission->getPermissions($permissionIds);
+                    $permissions = $this->permission->filters([
+                        'permissionIds' => $permissionIds,
+                    ]);
                     $role->syncPermissions($permissions);
                     if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a role: ' . $role->toJson());
                 }
