@@ -9,6 +9,7 @@ use App\Repositories\SupplierRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Mews\Purifier\Facades\Purifier;
 
 class SupplierController extends Controller
 {
@@ -20,8 +21,6 @@ class SupplierController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -41,14 +40,17 @@ class SupplierController extends Controller
 
     public function getData(Request $request)
     {
-        $status = trim($request->input('status'));
-        $provinceInput = intval($request->input('province'));
+        $status = cleanInput($request->input('status'));
+        $provinceInput = intval(cleanInput($request->input('province')));
         $data = array();
         $address = Helper::getDetailAddress();
-        $suppliers = $this->supplier->getSuppliers($status, $provinceInput)->keyBy('id');
+        $suppliers = $this->supplier->filters([
+            'status' => $status,
+            'province' => $provinceInput,
+        ]);
         $bankApi = new Bank();
         $banks = $bankApi->getBanks();
-        $data['suppliers'] = $suppliers;
+        $data['suppliers'] = $suppliers->keyBy('id');
         $data['banks'] = collect($banks)->keyBy('code')->toArray();
         $data['address'] = $address;
         $data['htmlSupplierTable'] = view('suppliers.supplier_table', $data)->render();
@@ -74,11 +76,15 @@ class SupplierController extends Controller
         $user = Auth::user();
         if($user->can('supplier.create')) {
             $rules = [
-                'name' => 'required|max:255|min:3|unique:suppliers',
-                'phone' => 'max:40',
-                'email' => 'max:40',
-                'detail_address' => 'max:255',
-                'account_number' => 'max:40',
+                'name' => 'required|string|max:255|min:3|unique:suppliers',
+                'phone' => 'max:40|string|nullable',
+                'email' => 'max:40|string|nullable',
+                'detail_address' => 'max:255|string|nullable',
+                'account_number' => 'max:40|string|nullable',
+                'note' => 'string|nullable',
+                'province' => 'numeric|nullable',
+                'district' => 'numeric|nullable',
+                'ward' => 'numeric|nullable',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -133,11 +139,15 @@ class SupplierController extends Controller
         if ($user->can('supplier.update')) {
             $id = intval($request->input('id'));
             $rules = [
-                'name' => 'required|max:255|min:3|unique:suppliers,name,' . $id,
-                'phone' => 'max:40',
-                'email' => 'max:40',
-                'detail_address' => 'max:255',
-                'account_number' => 'max:40',
+                'name' => 'required|string|max:255|min:3|unique:suppliers,name,' . $id,
+                'phone' => 'max:40|string|nullable',
+                'email' => 'max:40|string|nullable',
+                'detail_address' => 'max:255|string|nullable',
+                'account_number' => 'max:40|string|nullable',
+                'note' => 'string|nullable',
+                'province' => 'numeric|nullable',
+                'district' => 'numeric|nullable',
+                'ward' => 'numeric|nullable',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {

@@ -10,16 +10,16 @@ class SupplierRepository extends Repository
         return Supplier::class;
     }
 
-    public function getSuppliers($status, $province)
+    public function filters($filters = [])
     {
-        $query = $this->model;
-        if ($province) {
-            $query = $query->where('province', $province);
+        $query = $this->model->query();
+        if (!empty($filters['province'])) {
+            $query = $query->where('province', $filters['province']);
         }
-        if (!($status === 'all')) {
-            $status = intval($status);
+        if (!empty($filters['status']) && !($filters['status'] === 'all')) {
+            $status = intval($filters['status']);
             $query = $query->where('active', $status);
         }
-        return $query->get();
+        return $query->get()->keyBy('id');
     }
 }
