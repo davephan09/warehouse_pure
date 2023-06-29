@@ -34,7 +34,9 @@ class TaxController extends Controller
     {
         $user = Auth::user();
         if ($user->can('tax.read')) {
-            $data['taxes'] = $this->tax->getTaxes($request);
+            $data['taxes'] = $this->tax->filters([
+                'status' => intval(cleanInput($request->input('status'))),
+            ]);
             $data['htmlTaxTable'] = view('tax.tax_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }
@@ -60,8 +62,8 @@ class TaxController extends Controller
         $user = Auth::user();
         if($user->can('tax.create')) {
             $rules = [
-                'name' => 'required|max:191|unique:taxes',
-                'description' => 'max:255',
+                'name' => 'required|string|max:191|unique:taxes',
+                'description' => 'max:255|string|nullable',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -109,10 +111,10 @@ class TaxController extends Controller
     {
         $user = Auth::user();
         if($user->can('tax.update')) {
-            $id = intval($request->input('id'));
+            $id = intval(cleanInput($request->input('id')));
             $rules = [
-                'name' => 'required|max:191|unique:taxes,name,' . $id,
-                'description' => 'max:255',
+                'name' => 'required|string|max:191|unique:taxes,name,' . $id,
+                'description' => 'max:255|string|nullable',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -169,7 +171,7 @@ class TaxController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $id = intval($request->input('id'));
+                $id = intval(cleanInput($request->input('id')));
                 $tax = $this->tax->find($id);
                 $tax->delete();
                 if ($tax) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted tax: ' . $tax->toJson());

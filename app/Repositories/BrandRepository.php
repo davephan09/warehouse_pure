@@ -16,11 +16,11 @@ class BrandRepository extends Repository
         $query = $this->model->query();
         $query = $query->select('id', 'name', 'thumb', 'active', 'user_add', 'created_at');
 
-        if(!empty($filters['status']) && !($filters['status'] === 10)) {
+        if(isset($filters['status']) && !($filters['status'] === 10)) {
             $data = $query->where('active', $filters['status']);
         }
         
-        $data = $query->orderBy('name')->get();
+        $data = $query->orderBy('name')->get()->keyBy('id');
         return $data;
     }
 

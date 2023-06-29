@@ -11,22 +11,24 @@ class TaxRepository extends Repository
         return Tax::class;
     }
 
-    public function getTaxes($request)
+    public function filters($filters = [])
     {
-        $taxes = $this->model->select('id', 'name', 'description', 'active', 'user_add', 'created_at');
-        $status = intval($request->input('status'));
-        if ($status !== 10) {
-            $taxes = $this->model->where('active', $status);
+        $query = $this->model->query();
+        $query = $query->select('id', 'name', 'description', 'active', 'user_add', 'created_at');
+        
+        if (isset($filters['status']) && !($filters['status'] === 10)) {
+            $status = intval($filters['status']);
+            $query = $query->where('active', $status);
         }
-        $taxes = $taxes->get()->keyBy('id');
-        return $taxes;
+        $data = $query->orderBy('name', 'asc')->get()->keyBy('id');
+        return $data;
     }
 
     public function addTax($request)
     {
         $tax = $this->model->create([
-            'name' => trim($request->input('name')),
-            'description' => trim($request->input('description')),
+            'name' => cleanInput($request->input('name')),
+            'description' => cleanInput($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
@@ -35,11 +37,11 @@ class TaxRepository extends Repository
 
     public function updateTax($request)
     {
-        $id = intval($request->input('id'));
+        $id = intval(cleanInput($request->input('id')));
         $tax = $this->model->find($id);
         $isUpdate = $tax->update([
-            'name' => trim($request->input('name')),
-            'description' => trim($request->input('description')),
+            'name' => cleanInput($request->input('name')),
+            'description' => cleanInput($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
@@ -48,17 +50,12 @@ class TaxRepository extends Repository
 
     public function updateStatusTax($request)
     {
-        $id = intval($request->input('id'));
+        $id = intval(cleanInput($request->input('id')));
         $tax = $this->model->find($id);
         $isUpdate = $tax->update([
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
         return $tax;
-    }
-
-    public function getActiveTaxes()
-    {
-        return $this->model->select('id', 'name', 'description')->where('active', 1)->orderBy('name', 'asc')->get();
     }
 }
