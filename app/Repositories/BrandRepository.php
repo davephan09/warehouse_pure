@@ -11,21 +11,23 @@ class BrandRepository extends Repository
         return Brand::class;
     }
 
-    public function getBrands($request)
+    public function filters($filters = [])
     {
-        $brands = $this->model->select('id', 'name', 'thumb', 'active', 'user_add', 'created_at');
-        $status = intval($request->input('status'));
-        if ($status !== 10) {
-            $brands = $this->model->where('active', $status);
+        $query = $this->model->query();
+        $query = $query->select('id', 'name', 'thumb', 'active', 'user_add', 'created_at');
+
+        if(!empty($filters['status']) && !($filters['status'] === 10)) {
+            $data = $query->where('active', $filters['status']);
         }
-        $brands = $brands->get()->keyBy('id');
-        return $brands;
+        
+        $data = $query->orderBy('name')->get();
+        return $data;
     }
 
     public function addBrand($request)
     {
         $brand = $this->model->create([
-            'name' => trim($request->input('name')),
+            'name' => cleanInput($request->input('name')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
@@ -37,7 +39,7 @@ class BrandRepository extends Repository
         $id = intval($request->input('id'));
         $brand = $this->model->find($id);
         $isUpdate = $brand->update([
-            'name' => trim($request->input('name')),
+            'name' => cleanInput($request->input('name')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
@@ -46,17 +48,12 @@ class BrandRepository extends Repository
 
     public function updateStatusBrand($request)
     {
-        $id = intval($request->input('id'));
+        $id = intval(cleanInput($request->input('id')));
         $brand = $this->model->find($id);
         $isUpdate = $brand->update([
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
             'user_add' => Session::get('user')->id,
         ]);
         return $brand;
-    }
-
-    public function getActiveBrands()
-    {
-        return $this->model->select('id', 'name')->where('active', 1)->orderBy('name', 'asc')->get();
     }
 }

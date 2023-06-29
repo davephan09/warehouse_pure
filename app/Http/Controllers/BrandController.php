@@ -34,7 +34,9 @@ class BrandController extends Controller
     {
         $user = Auth::user();
         if ($user->can('brand.read')) {
-            $data['brands'] = $this->brand->getBrands($request);
+            $data['brands'] = $this->brand->filters([
+                'status' => intval(cleanInput($request->input('status'))),
+            ]);
             $data['htmlBrandTable'] = view('brand.brand_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }
@@ -59,7 +61,7 @@ class BrandController extends Controller
         $user = Auth::user();
         if($user->can('brand.create')) {
             $rules = [
-                'name' => 'required|max:191|unique:brands',
+                'name' => 'required|string|max:191|unique:brands',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -108,9 +110,9 @@ class BrandController extends Controller
     {
         $user = Auth::user();
         if($user->can('brand.update')) {
-            $id = intval($request->input('id'));
+            $id = intval(cleanInput($request->input('id')));
             $rules = [
-                'name' => 'required|max:191|unique:brands,name,' . $id,
+                'name' => 'required|string|max:191|unique:brands,name,' . $id,
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -167,7 +169,7 @@ class BrandController extends Controller
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
             try {
-                $id = intval($request->input('id'));
+                $id = intval(cleanInput($request->input('id')));
                 $brand = $this->brand->find($id);
                 $brand->delete();
                 if ($brand) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted brand: ' . $brand->toJson());
