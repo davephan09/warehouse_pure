@@ -34,9 +34,8 @@ class PermissionsController extends Controller
     public function getData(Request $request)
     {
         $data = array();
-        $listPermission = $this->permission->getAll()->keyBy('id');
-        $data['listPermission'] = $listPermission;
-        // $data['listPermission'] = $listPermission = $this->permission->getPermissionList();
+        $listPermission = $this->permission->filters();
+        $data['listPermission'] = $listPermission->keyBy('id');
         $data['htmlPermissionTable'] = view('permissions.permission_table', $data)->render();
 
         return $this->iRespond(true, '', $data);
@@ -53,13 +52,13 @@ class PermissionsController extends Controller
         if ($user->can('permission.create')) {
             try {
                 $rules = [
-                    'name' => 'required|max:191|unique:permissions',
+                    'name' => 'required|string|max:191|unique:permissions',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $name = trim($request->input('name'));
+                $name = cleanInput($request->input('name'));
                 $isCore = filter_var($request->input('is_core'), FILTER_VALIDATE_BOOLEAN);
                 $rs = $this->permission->create([
                     'name' => $name,
@@ -108,10 +107,10 @@ class PermissionsController extends Controller
     {
         $user = Auth::user();
         if ($user->can('permission.update')) {
-            $id = intval($request->input('id'));
+            $id = intval(cleanInput($request->input('id')));
             $rules = [
                 'id' => 'required',
-                'name' => 'required|max:191|unique:permissions,name,' . $id,
+                'name' => 'required|string|max:191|unique:permissions,name,' . $id,
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -119,7 +118,7 @@ class PermissionsController extends Controller
             }
             DB::connection()->beginTransaction();
             try {
-                $name = trim($request->input('name'));
+                $name = cleanInput($request->input('name'));
                 $permission = $this->permission->find($id);
                 $isUpdate = $permission->update(['name' => $name]);
                 if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a permission: ' . $permission->toJson());
@@ -144,7 +143,7 @@ class PermissionsController extends Controller
         if ($user->can('permission.delete')) {
             DB::connection()->beginTransaction();
             try {
-                $id = intval($request->input('id'));
+                $id = intval(cleanInput($request->input('id')));
                 if (isset($id)) {
                     $permission = $this->permission->find($id);
                     $isDelete = $permission->delete();
