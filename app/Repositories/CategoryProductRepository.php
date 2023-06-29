@@ -11,9 +11,16 @@ class CategoryProductRepository extends Repository
         return CategoryProduct::class;
     }
 
-    public function getAllActive()
+    public function filters($filters = [])
     {
-        return $this->model->where('active', 1)->get();
+        $query = $this->model->query();
+
+        if(!empty($filters['status']) && !($filters['status'] === 'all')) {
+            $data = $query->where('active', $filters['status']);
+        }
+        
+        $data = $query->orderBy('name')->get();
+        return $data;
     }
 
     public function updateCat($request)

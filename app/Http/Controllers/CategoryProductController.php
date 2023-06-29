@@ -40,14 +40,13 @@ class CategoryProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
         $user = Auth::user();
         if ($user->can('category_product.create')) {
             $data['title'] = trans('category.add');
-            $data['productCategories'] = $this->category->getAll();
+            $data['productCategories'] = $this->category->filters();
             return view('category_product.create', $data);
         }
         return response()->view('errors.404', [], 404);
@@ -63,7 +62,9 @@ class CategoryProductController extends Controller
         if ($user->can('category_product.create')) {
             try {
                 $rules = [
-                    'name' => 'required|max:191|unique:category_products',
+                    'name' => 'required|string|max:191|unique:category_products',
+                    'description' => 'string|nullable',
+                    'thumb' => 'string|nullable',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -93,10 +94,10 @@ class CategoryProductController extends Controller
     {
         $user = Auth::user();
         if ($user->can('category_product.update')) {
-            $id = intval($id);
+            $id = intval(cleanInput($id));
             $data['title'] = trans('category.update');
             $data['category'] = $this->category->find($id);
-            $data['productCategories'] = $this->category->getAll();
+            $data['productCategories'] = $this->category->filters();
             return view('category_product.update', $data);
         }
         return response()->view('errors.404', [], 404);
@@ -125,8 +126,10 @@ class CategoryProductController extends Controller
             try {
                 $id = intval($request->input('id'));
                 $rules = [
-                    'name' => 'required|max:191|unique:category_products,name,' . $id,
-                    'id' => 'required|numeric'
+                    'name' => 'required|string|max:191|unique:category_products,name,' . $id,
+                    'id' => 'required|numeric',
+                    'description' => 'string|nullable',
+                    'thumb' => 'string|nullable',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
