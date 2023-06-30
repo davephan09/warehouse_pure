@@ -51,7 +51,9 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->can('product.read')) {
-            $products = $this->product->getProducts();
+            $products = $this->product->filters([
+                'relations' => ['category'],
+            ]);
             $data['products'] = $products;
             $data['htmlProductTable'] = view('product.product_table', $data)->render();
             return $this->iRespond(true, '', $data);
@@ -68,12 +70,16 @@ class ProductController extends Controller
         $user = Auth::user();
         if ($user->can('product.create')) {
             $data['title'] = trans('product.add');
-            $data['categories'] = $this->category->getAllActive();
-            $data['brands'] = $this->brand->getActiveBrands();
+            $data['categories'] = $this->category->filters([
+                'status' => true,
+            ]);
+            $data['brands'] = $this->brand->filters([
+                'status' => true,
+            ]);
             $data['variations'] = $this->variation->getActiveVariations();
             $data['options'] = $this->variation->getActiveOptions();
-            $data['units'] = $this->unit->getActiveUnits();
-            $data['taxes'] = $this->tax->getActiveTaxes();
+            $data['units'] = $this->unit->filters(['status' => true]);
+            $data['taxes'] = $this->tax->filters(['status' => true]);
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
             return view('product.create', $data);
         }
@@ -128,9 +134,12 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->can('product.update')) {
-            $id = intval($id);
+            $id = intval(cleanInput($id));
             $data['title'] = trans('product.update');
-            $product = $this->product->getProduct($id); 
+            $product = $this->product->filters([
+                'productId' => $id, 
+                'relations' => ['category', 'tags', 'taxes', 'variations'],
+            ]); 
             $variations = $product->variations;
             if ($variations->count() > 1) {
                 $options = $variations->pluck('options');
@@ -151,12 +160,12 @@ class ProductController extends Controller
             }
             $data['product'] = $product;
             $data['productTags'] = $product->tags->pluck('id')->toArray();
-            $data['brands'] = $this->brand->getActiveBrands();
-            $data['units'] = $this->unit->getActiveUnits();
+            $data['brands'] = $this->brand->filters(['active' => true]);
+            $data['units'] = $this->unit->filters(['active' => true]);
             $data['tags'] = Tag::orderBy('name', 'asc')->get(['id', 'name']);
             $data['allOptions'] = $this->variation->getActiveOptions();
-            $data['categories'] = $this->category->getAllActive();
-            $data['taxes'] = $this->tax->getActiveTaxes();
+            $data['categories'] = $this->category->filters(['active' => true]);
+            $data['taxes'] = $this->tax->filters(['active' => true]);
             $data['variations'] = $this->variation->getActiveVariations();
             return view('product.update', $data);
         }
@@ -187,7 +196,7 @@ class ProductController extends Controller
             try {
                 $id = intval($request->input('id'));
                 $rules = [
-                    'product_name' => 'required|max:191|unique:products,product_name,' . $id,
+                    'product_name' => 'required|string|max:191|unique:products,product_name,' . $id,
                     'variations' => 'required',
                     'summary' => 'max:255|string',
                     'description' => 'max:10000',
@@ -227,7 +236,7 @@ class ProductController extends Controller
         if ($user->can('product.delete')) {
             DB::connection()->beginTransaction();
             try {
-                $id = intval($request->input('id'));
+                $id = intval(cleanInput($request->input('id')));
                 if (isset($id)) {
                     $product = $this->product->deleteProduct($id);
                 }
@@ -248,13 +257,13 @@ class ProductController extends Controller
         $user = Session::get('user');
         try {
             $rules = [
-                'name' => 'required|min:1|max:100|unique:tags',
+                'name' => 'required|string|min:1|max:100|unique:tags',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
             }
-            $name = trim($request->input('name'));
+            $name = cleanInput($request->input('name'));
             if (!empty($name)) {
                 $tag = $this->product->createTag($name);
                 if ($tag) \Illuminate\Support\Facades\Log::info($user->username . ' has created a tag: ' . $tag->toJson());

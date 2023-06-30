@@ -69,17 +69,37 @@ class ProductRepository extends Repository
         }
     }
 
-    public function getProducts()
+    public function filters($filters = [])
     {
-        return $this->model->with('category')->get();
-    }
+        $query = $this->model->query();
+        $query = $query->select('id', 'product_name', 'category_id', 'quantity', 'thumb', 'summary', 'description', 'active', 'user_add');
 
-    public function getProduct($id)
-    {
-        $product = $this->model->with(['category', 'tags', 'taxes', 'variations'])->where('id', $id)->first();
-        return $product;
-    }
+        if(!empty($filters['relations'])) {
+            $query = $query->with($filters['relations']);
+        }
+        
+        if(!empty($filters['productIds'])) {
+            $query = $query->whereIn('id', $filters['productIds']);
+        }
 
+        if(isset($filters['status']) && !($filters['status'] === 10)) {
+            $status = $filters['status'];
+            $query = $query->where('active', $status);
+        }
+
+        if(!empty($filters['productId'])) {
+            $query = $query->where('id', $filters['productId']);
+            $data = $query->first();
+        } else {
+            if(!empty(($filters['perPage']))) {
+                $data = $query->orderByDesc('id')->paginate($filters['perPage']);
+            } else {
+                $data = $query->orderByDesc('id')->get();
+            }
+        }
+        return $data;
+    }
+    
     public function updateProduct($request, $product)
     {
         $variations = $request->input('variations');
