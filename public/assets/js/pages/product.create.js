@@ -280,7 +280,6 @@ var ProductCreateClass = function() {
                 }
             })
             var mixValues = getMixedValues(optionArr)
-            console.log(mixValues)
             $.each(mixValues, function(i, item) {
                 html += `<tr class="variation-item">
                     <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
@@ -303,7 +302,6 @@ var ProductCreateClass = function() {
         var words = JSON.parse(str).map(function(digit) {
             return allOptions[digit].name
         })
-        console.log(words)
         return words.join(' - ')
     }
 
