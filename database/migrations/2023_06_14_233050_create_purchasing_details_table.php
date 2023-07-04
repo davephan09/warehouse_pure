@@ -35,8 +35,9 @@ class CreatePurchasingDetailsTable extends Migration
             $table->id();
             $table->unsignedInteger('item_id');
             $table->unsignedInteger('tax_id');
-            $table->decimal('percent', 13, 0)->default(0)->comment('tax percent of item');
+            $table->boolean('type')->default(false)->comment('0:percent,1:number');
             $table->decimal('value', 13, 0)->default(0)->comment('tax value of item');
+            $table->decimal('amount', 13, 0)->default(0)->comment('amount of tax');
 
             $table->index('item_id');
             $table->index('tax_id');
