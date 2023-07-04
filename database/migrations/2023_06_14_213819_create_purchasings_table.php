@@ -19,6 +19,8 @@ class CreatePurchasingsTable extends Migration
             $table->string('date', 20);
             $table->unsignedInteger('supplier_id');
             $table->decimal('cost', 13, 0)->default(0);
+            $table->decimal('paid', 13, 0)->default(0);
+            $table->decimal('debt', 13, 0)->default(0);
             $table->text('note')->nullable();
             $table->integer('user_add');
             $table->timestamps();
