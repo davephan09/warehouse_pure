@@ -17,7 +17,7 @@ class CreatePurchasingDiscountsTable extends Migration
             $table->id();
             $table->integer('purchasing_id');
             $table->boolean('discount_unit')->comment('0:percent;1:price');
-            $table->decimal('discount_value', 13, 0)->default(0);
+            $table->decimal('discount_value', 13, 3)->default(0);
             $table->decimal('total', 13, 0)->default(0);
             $table->timestamps();
         });
