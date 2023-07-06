@@ -14,4 +14,12 @@ return [
     'total' => 'Tổng tiền',
     'add_tax' => 'Thêm thuế',
     'add_discount' => 'Thêm khuyến mãi',
+    'item' => 'Sản phẩm',
+    'order_id' => 'ID đơn hàng',
+    'new_purchasing_order' => 'Đơn mua hàng',
+    'order_purchasing_des' => 'Vui lòng chọn các sản phẩm, số lượng, giá tiền, các loại thuế và khuyến mãi cho đơn hàng này.',
+    'payment_info' => 'Thông tin thanh toán',
+    'paid' => 'Đã thanh toán',
+    'debt' => 'Còn nợ',
+    'type_price' => 'Nhập số tiền đã thanh toán'
 ];

@@ -14,4 +14,12 @@ return [
     'total' => 'Total',
     'add_tax' => 'Add tax',
     'add_discount' => 'Add discount',
+    'item' => 'Item',
+    'order_id' => 'Order ID',
+    'new_purchasing_order' => 'New Purchasing Order',
+    'order_purchasing_des' => 'Please select the products, quantities, prices, tax types, and discounts for this purchasing order.',
+    'payment_info' => 'Payment Infomation',
+    'paid' => 'Paid',
+    'debt' => 'Debt',
+    'type_price' => 'Type the input paid'
 ];

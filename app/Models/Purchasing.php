@@ -10,7 +10,7 @@ class Purchasing extends Model
     use HasFactory;
     protected $table = 'purchasings';
     public $timestamps = true;
-    protected $fillable = ['purchasing_name', 'date', 'supplier_id', 'cost', 'note', 'user_add'];
+    protected $fillable = ['purchasing_name', 'date', 'supplier_id', 'cost', 'paid', 'debt', 'note', 'user_add'];
 
     public function details()
     {

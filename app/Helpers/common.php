@@ -17,3 +17,19 @@ if (!function_exists('cleanInput')) {
         return $cleanedData;
     }
 }
+
+if (!function_exists('cleanNumber')) {
+    function cleanNumber($data)
+    {
+        if (is_array($data)) {
+            return array_map('cleanNumber', $data);
+        }
+
+        $cleanedData = trim($data);
+        $cleanedData = htmlspecialchars($cleanedData, ENT_QUOTES, 'UTF-8');
+        $cleanedData = stripslashes($cleanedData);
+        $cleanedData = str_replace(['.', ','], ['', '.'], $cleanedData);
+        $cleanedData = intval($cleanedData);
+        return $cleanedData;
+    }
+}

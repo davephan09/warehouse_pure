@@ -16,6 +16,7 @@
     <link href="{{ url('assets/js/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
 	{{-- <link href="{{ url('assets/js/libs/DataTables/datatables.min.css')}}" rel="stylesheet" type="text/css" /> --}}
 	<link href="{{ url('assets/css/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ url('assets/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css">
     <link href="{{ url('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('assets/plugins/global/plugins-custom.bundle.css') }}" rel="stylesheet" type="text/css" />

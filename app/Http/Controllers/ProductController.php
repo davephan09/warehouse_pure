@@ -274,4 +274,35 @@ class ProductController extends Controller
         }
         return $this->iRespond(true, 'success');
     }
+
+    public function searchProduct(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('product.read')) {
+            try {
+                $text = $request->input('keyword');
+                $text = trim(strip_tags(stripslashes($text['term'])));
+                $products = $this->product->searchProduct($text);
+                $products = $products->map(function($product) {
+                    return [
+                        'text' => $product->product_name . ' (' . $product->category->name . ')',
+                        'children' => $product->variations->map(function($item) use($product) {
+                            return [
+                                'id' => $item->id,
+                                'productId' => $product->id,
+                                'text' => $item->name,
+                                'textSelected' => $product->product_name . ' - ' . $item->name,
+                            ];
+                        })->all(),
+                    ];
+                })->values()->all();
+                $data['products'] = $products;
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success', $data);
+        } 
+        return response('error', 404, []);
+    }
 }

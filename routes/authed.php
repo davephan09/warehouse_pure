@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
@@ -67,6 +68,7 @@ Route::prefix('products')->group(function() {
     Route::post('update', [ProductController::class, 'update'])->name('product.update');
     Route::post('delete', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('create-tag', [ProductController::class, 'createTag'])->name('product.createTag');
+    Route::get('search-product', [ProductController::class, 'searchProduct'])->name('product.searchProduct');
 });
 
 Route::prefix('brands')->group(function() {
@@ -103,4 +105,14 @@ Route::prefix('variations')->group(function() {
     Route::post('update', [VariationController::class, 'update'])->name('variation.update');
     Route::post('update-status', [VariationController::class, 'updateStatus'])->name('variation.updateStatus');
     Route::post('delete', [VariationController::class, 'destroy'])->name('variation.destroy');
+});
+
+Route::prefix('purchasing')->group(function() {
+    Route::get('/', [PurchasingController::class, 'index'])->name('purchasing.index');
+    Route::get('get-data', [PurchasingController::class, 'getData'])->name('purchasing.getData');
+    Route::get('create', [PurchasingController::class, 'create'])->name('purchasing.create');
+    Route::post('store', [PurchasingController::class, 'store'])->name('purchasing.store');
+    Route::get('show/{id}', [PurchasingController::class, 'show'])->name('purchasing.show');
+    Route::post('update', [PurchasingController::class, 'update'])->name('purchasing.update');
+    Route::post('delete', [PurchasingController::class, 'destroy'])->name('purchasing.destroy');
 });

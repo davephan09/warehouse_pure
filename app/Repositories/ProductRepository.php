@@ -162,4 +162,17 @@ class ProductRepository extends Repository
     {
         VariationProduct::where('product_id', $product->id)->delete();
     }
+
+    public function searchProduct($text)
+    {
+        return $this->model->select('id', 'product_name', 'category_id', 'thumb', 'summary')->with('category')->with('variations')
+            ->where('active', true)
+            ->where(function($query) use($text) {
+                $query->whereRaw('LOWER(product_name) LIKE ?', ['%' . strtolower($text) . '%'])
+                    ->orWhereHas('category', function($query) use ($text) {
+                        $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($text) . '%']);    
+                    });
+            })
+            ->get();
+    }
 }

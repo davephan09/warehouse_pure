@@ -9,6 +9,7 @@ return [
     'assign_to' => 'Assign to',
     'create_date' => 'Create date',
     'actions' => 'Actions',
+    'action' => 'Action',
     'are_you_sure' => 'Are you sure?',
     'update' => 'Update',
     'cancel' => 'Cancel',

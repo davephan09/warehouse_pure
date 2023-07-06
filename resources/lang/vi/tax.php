@@ -8,4 +8,5 @@ return [
     'search' => 'Tìm kiếm loại thuế',
     'update_tax' => 'Cập nhật loại thuế',
     'delete_tax' => 'Xóa loại thuế',
+    'choose_tax' => 'Chọn loại thuế',
 ];
