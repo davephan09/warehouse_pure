@@ -17,4 +17,8 @@ class Purchasing extends Model
         return $this->hasMany(PurchasingItem::class, 'import_id', 'id');
     }
 
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
 }

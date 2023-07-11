@@ -86,4 +86,5 @@ return [
     'units' => 'All Units',
     'taxes' => 'All Taxes',
     'percent' => 'Percent',
+    'pick_date_range' => 'Pick date range',
 ];

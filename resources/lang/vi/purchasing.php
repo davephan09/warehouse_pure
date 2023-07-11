@@ -21,5 +21,8 @@ return [
     'payment_info' => 'Thông tin thanh toán',
     'paid' => 'Đã thanh toán',
     'debt' => 'Còn nợ',
-    'type_price' => 'Nhập số tiền đã thanh toán'
+    'type_price' => 'Nhập số tiền đã thanh toán',
+    'list_purchasing_order' => 'Danh sách đơn nhập hàng',
+    'search_bill' => 'Tìm kiếm đơn',
+    'pick_date_range' => 'Chọn khoảng thời gian',
 ];

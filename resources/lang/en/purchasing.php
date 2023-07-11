@@ -21,5 +21,8 @@ return [
     'payment_info' => 'Payment Infomation',
     'paid' => 'Paid',
     'debt' => 'Debt',
-    'type_price' => 'Type the input paid'
+    'type_price' => 'Type the input paid',
+    'list_purchasing_order' => 'List Purchasing Order',
+    'search_bill' => 'Search bill',
+    'pick_date_range' => 'Pick date range',
 ];

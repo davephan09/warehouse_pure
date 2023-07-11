@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\NumRowPage;
 use App\Helpers\Helper;
 use App\Libraries\Address;
 use App\Repositories\PurchasingRepository;
@@ -30,17 +31,36 @@ class PurchasingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         if ($user->can('purchasing.read')) {
             try {
-                $data = array();
+                $fromdate = cleanInput($request->get('fromdate'));
+                $todate = cleanInput($request->get('todate'));
+                $fromdate = \DateTime::createFromFormat('d-m-Y', $fromdate);
+                $todate = \DateTime::createFromFormat('d-m-Y', $todate);
+
+                $today = new \DateTime();
+                if($todate>$today){
+                    $todate = $today;
+                }
+
+                if($fromdate === FALSE || $todate === FALSE) {
+                    $todate = $today;
+                    $fromdate = clone $todate;
+                    $fromdate = $fromdate->modify('-7 days');
+                }
+
+                $data['title'] = trans('purchasing.list_purchasing_order');
+                $data['numRowPage'] = NumRowPage::asSelectArray();
+                $data['fromdate'] = $fromdate;
+                $data['todate'] = $todate;
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return response()->view('errors.404', [], 404);
             }
-            return view('success', $data);
+            return view('purchasing.index', $data);
         }
         return response()->view('errors.404', [], 404);
     }
@@ -50,12 +70,38 @@ class PurchasingController extends Controller
         $user = Auth::user();
         if ($user->can('purchasing.read')) {
             try {
+                $perPage = cleanNumber($request->get('perPage'));
+                $textSearch = cleanInput($request->get('text'));
+                $fromdate = cleanInput($request->get('fromdate'));
+                $todate = cleanInput($request->get('todate'));
+                $fromdate = \DateTime::createFromFormat('d-m-Y', $fromdate);
+                $todate = \DateTime::createFromFormat('d-m-Y', $todate);
 
+                $today = new \DateTime();
+                if($todate>$today){
+                    $todate = $today;
+                }
+
+                if($fromdate === FALSE || $todate === FALSE) {
+                    $todate = $today;
+                    $fromdate = clone $todate;
+                    $fromdate = $fromdate->modify('-7 days');
+                }
+
+                $bills = $this->purchasing->filters([
+                    'fromdate' => $fromdate,
+                    'todate' => $todate,
+                    'perPage' => $perPage ?? 10,
+                    'keyword' => $textSearch,
+                ]);
+
+                $data['bills'] = $bills;
+                $data['htmlPurchasingTable'] = view('purchasing.purchasing_table', $data)->render();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return $this->iRespond(false, 'error');
             }
-            return $this->iRespond(true, 'success');
+            return $this->iRespond(true, 'success', $data);
         }
         return response()->view('errors.404', [], 404);
     }

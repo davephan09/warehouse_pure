@@ -85,4 +85,5 @@ return [
     'units' => 'Danh sách đơn vị tính',
     'taxes' => 'Danh sách các loại thuế',
     'percent' => 'Phần trăm',
+    'pick_date_range' => 'Chọn khoảng thời gian',
 ];

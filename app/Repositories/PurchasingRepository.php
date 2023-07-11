@@ -64,4 +64,31 @@ class PurchasingRepository extends Repository
             ]);
         }
     }
+
+    public function filters($filters = [])
+    {
+        $query = $this->model->query();
+        $query = $query->with('supplier');
+
+        if (!empty($filters['fromdate']) && !empty($filters['todate'])) {
+            $query = $query->whereBetween('date', [$filters['fromdate'], $filters['todate']]);
+        }
+
+        if (!empty($filters['keyword'])) {
+            $text = $filters['keyword'];
+            $query = $query->where(function($subQuery) use ($text) {
+                $subQuery->whereRaw('LOWER(purchasing_name) LIKE ?', ['%' . strtolower($text) . '%'])
+                    ->orWhereHas('supplier', function($relateQuery) use ($text) {
+                        $relateQuery->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($text) . '%']);
+                    });
+            });
+        }
+
+        if (!empty($filters['id'])) {
+            $data = $query->where('id', $filters['id'])->first();
+        } else {
+            $data = $query->orderByDesc('id')->paginate($filters['perPage']);
+        }
+        return $data;
+    }
 }
