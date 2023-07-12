@@ -3,6 +3,7 @@ var PurchasingClass = function () {
     var vars = {
         datatable : {}
     }
+    var bills = {}
     var options = {}
     
     this.run = function (opt) {
@@ -44,6 +45,7 @@ var PurchasingClass = function () {
 
     this.bindEvents = function () {
         paging()
+        handleDeleteItem()
     }
 
     var getParam = function() {
@@ -68,6 +70,8 @@ var PurchasingClass = function () {
         var target = ele.purchasingTable
         var _cb = function (rs) {
             var data = rs.data
+            bills = data.billsData
+            console.log(bills)
             drawContent(data)
         }
         $.app.ajax($.app.vars.url + '/purchasing/get-data', 'GET', params, target, null, _cb);
@@ -117,6 +121,31 @@ var PurchasingClass = function () {
                 drawContent(data)
             }
             $.app.ajax($url, 'GET', '', target, null, _cb)
+        })
+    }
+
+    var handleDeleteItem = function () {
+        $(document).on('click', '.delete-btn', function(e) {
+            let $id = $(this).data('id')
+            let name = bills[$id].purchasing_name
+            var params = {
+                id : $id
+            }
+            let _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_delete'),
+                'text' : Lang.get('purchasing.bill') + ': ' + name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/purchasing/delete', 'POST', params, '', null, _cb)
+                }
+            })
         })
     }
 }

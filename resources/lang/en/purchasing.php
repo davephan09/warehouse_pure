@@ -25,4 +25,5 @@ return [
     'list_purchasing_order' => 'List Purchasing Order',
     'search_bill' => 'Search bill',
     'pick_date_range' => 'Pick date range',
+    'bill' => 'Purchasing Bill',
 ];

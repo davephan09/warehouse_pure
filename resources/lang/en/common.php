@@ -63,6 +63,7 @@ return [
     'category' => 'Category',
     'hide' => 'Hide',
     'are_you_update' => 'You want to update this object?',
+    'are_you_delete' => 'You want to delete this object?',
     'advanced' => 'Advanced',
     'summary' => 'Summary',
     'media' => 'Media',

@@ -62,6 +62,7 @@ return [
     'category' => 'Danh mục',
     'hide' => 'Ẩn',
     'are_you_update' => 'Bạn muốn cập nhật đối tượng này?',
+    'are_you_delete' => 'Bạn muốn xóa bản ghi này này?',
     'advanced' => 'Thông tin thêm',
     'summary' => 'Tóm tắt',
     'media' => 'Hình ảnh',

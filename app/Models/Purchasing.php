@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchasing extends Model
 {
-    use HasFactory;
+    use HasFactory, 
+        SoftDeletes;
     protected $table = 'purchasings';
     public $timestamps = true;
     protected $fillable = ['purchasing_name', 'date', 'supplier_id', 'cost', 'paid', 'debt', 'note', 'user_add'];
