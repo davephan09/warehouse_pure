@@ -162,11 +162,11 @@
                                                             </select>
                                                         </td>
                                                         <td class="ps-0 pb-8">
-                                                            <input class="form-control form-control-solid auto-cal quantity-input" type="number" min="1" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
+                                                            <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
                                                             
                                                         </td>
                                                         <td class=" pb-8 input-group input-group-solid">
-                                                            <input type="text" class="form-control form-control-solid auto-cal text-end price-input" name="price[]" placeholder="0" value="" data-kt-element="price" />
+                                                            <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="" data-kt-element="price" />
                                                             <span class="input-group-text">đ</span>
                                                         </td>
                                                         <td class="text-end pb-8 text-nowrap">
@@ -231,7 +231,7 @@
                                         <th colspan="2" class="pt-0 border-bottom border-bottom-dashed ps-0">
                                             <div class="d-flex flex-column align-items-start">
                                                 <div class="input-group input-group-solid">
-                                                    <input type="text" class="form-control form-control-solid auto-cal text-end discount-cal" id="discount_value" name="discount[]" placeholder="0" value="" data-kt-element="price" />
+                                                    <input type="text" class="form-control form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="" data-kt-element="price" />
                                                     <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" autocomplete="off" checked>
                                                     <label class="btn btn-outline-primary" for="dc-percent">%</label>
                                                     <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" autocomplete="off">
@@ -338,7 +338,7 @@
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-paid" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}">
+                                <input class="form-control" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -354,7 +354,7 @@
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-debt" disabled name="billing_order_address_2" placeholder="">
+                                <input class="form-control" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>

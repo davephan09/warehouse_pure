@@ -48,7 +48,7 @@
             <!--end::Date Modified=-->
             <!--begin::Action=-->
             <td class="text-end">
-                <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn action-btn" data-bs-toggle="tooltip" data-id="{{ $bill->id }}" data-bs-placement="top" title="{{__('common.update')}}">
+                <a class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn action-btn" href="{{ route('purchasing.show', ['id' => $bill->id]) }}" data-bs-toggle="tooltip" data-id="{{ $bill->id }}" data-bs-placement="top" title="{{__('common.update')}}">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                     <span class="svg-icon svg-icon-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -57,7 +57,7 @@
                         </svg>
                     </span>
                     <!--end::Svg Icon-->
-                </button>
+                </a>
                 <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn action-btn" data-id="{{ $bill->id }}" data-bs-toggle="tooltip" title="{{__('common.delete')}}" data-kt-permissions-table-filter="delete_row">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                     <span class="svg-icon svg-icon-3">

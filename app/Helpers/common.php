@@ -28,7 +28,9 @@ if (!function_exists('cleanNumber')) {
         $cleanedData = trim($data);
         $cleanedData = htmlspecialchars($cleanedData, ENT_QUOTES, 'UTF-8');
         $cleanedData = stripslashes($cleanedData);
-        $cleanedData = str_replace(['.', ','], ['', '.'], $cleanedData);
+        $cleanedData = preg_replace('/[^0-9.,]/', '', $cleanedData);
+        $cleanedData = str_replace(',', '.', $cleanedData);
+        $cleanedData = preg_replace('/\.(?=.*\.)/', '', $cleanedData);
         $cleanedData = intval($cleanedData);
         return $cleanedData;
     }

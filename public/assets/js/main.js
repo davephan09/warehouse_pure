@@ -222,3 +222,64 @@ $(document).ready(function() {
     $(el).SumoSelect(options);
   });
 });
+
+
+// --------------------------
+// Input mask
+// --------------------------
+
+/* global extend */
+(function ($) {
+  $.fn.addMaskNumeric = function() {
+    Inputmask({
+      alias: "numeric",
+      groupSeparator: " ",
+      autoGroup: !0
+    }).mask(this)
+    return this
+  }
+}(jQuery))
+
+/* execute */
+$(document).ready(function() {
+  $('input[data-plugin="inputmask-numeric"]').each(function() {
+    $(this).addMaskNumeric()
+  })
+})
+
+
+
+// --------------------------
+//  Number Processing
+// --------------------------
+
+/* global extend */
+// $(document).ready(function() {
+//   'use strict'
+  var formatNumber = function (input) {
+    const roundedNumber = Math.round(parseFloat(input) * 1000) / 1000;
+    const parts = roundedNumber.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts[1] ? parts.join(".") : parts[0];
+  }
+
+  var cleanNumber = function (input) {
+    const cleanedInput = input.replace(/[^\d.]/g, '');
+    const normalizedInput = cleanedInput.replace(',', '.');
+    const floatValue = parseFloat(normalizedInput);
+    return floatValue;
+  }
+
+  var cleanStrNumber = function(input) {
+    var cleaned = input.replace(/[^\d.,]/g, '');
+    cleaned = cleaned.replace(/\./g, '');;
+    cleaned = cleaned.replace(/,/g, '.');
+    cleaned = cleaned.replace(/\.(?=.*\.)/g, '');
+    var parts = cleaned.split('.');
+    if (parts.length > 1 && parts[1].length < 2) {
+      cleaned += '0';
+    }
+    var number = parseFloat(cleaned);
+    return number;
+  }
+// })

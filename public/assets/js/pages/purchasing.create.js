@@ -136,11 +136,11 @@ var PurchasingCreateClass = function () {
                                     </select>
                                 </td>
                                 <td class="ps-0 pb-8">
-                                    <input class="form-control form-control-solid auto-cal quantity-input" type="number" min="1" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
+                                    <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
                                     
                                 </td>
                                 <td class=" pb-8 input-group input-group-solid">
-                                    <input type="text" class="form-control form-control-solid auto-cal text-end price-input" name="price[]" placeholder="0" value="" data-kt-element="price" />
+                                    <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="" data-kt-element="price" />
                                     <span class="input-group-text">đ</span>
                                 </td>
                                 <td class="text-end pb-8 text-nowrap">
@@ -179,6 +179,7 @@ var PurchasingCreateClass = function () {
             
             $(html).hide().appendTo(ele.listItem).fadeIn('slow', function() {
                 handleSearchProduct($('.product-input', $(this)))
+                $('input[data-plugin="inputmask-numeric"]', $(this)).addMaskNumeric()
             })
         })
     }
@@ -187,18 +188,19 @@ var PurchasingCreateClass = function () {
         $(document).on('input', '.auto-cal', function(e) {
             if (!$(e.target).hasClass('discount-cal')) {
                 var $thisProduct = $(e.target).closest('.product-item')
-                let qty = $('.quantity-input', $thisProduct).val()
+                let qtyInput = $('.quantity-input', $thisProduct)
                 let priceInput = $('.price-input', $thisProduct)
+                let qty = cleanNumber(qtyInput.val())
                 let price = cleanNumber(priceInput.val())
                 let total = qty*price
-                formatNumber(priceInput)
-                $('.item-total', $thisProduct).html(total.toLocaleString())
+                $('.item-total', $thisProduct).html(formatNumber(total))
 
                 if($('.tax-item', $thisProduct)) {
                     $.each($('.tax-item', $thisProduct), function(i, item) {
-                        let tax = $('.tax-value', $(item)).val()
-                        let taxPrice = (tax/100)*total  
-                        $('.tax-price', $(item)).html(taxPrice.toLocaleString())
+                        let taxInput = $('.tax-value', $(item)).val()
+                        let tax = cleanNumber(taxInput)
+                        let taxPrice = (tax/100)*total
+                        $('.tax-price', $(item)).html(formatNumber(taxPrice))
                     })
                 }
             }
@@ -207,59 +209,32 @@ var PurchasingCreateClass = function () {
         })
     }
 
-    var cleanNumber = function (input) {
-        return Number(input.replace(/\D/g, ''));
-    }
-    var cleanStrNumber = function(input) {
-        var cleaned = input.replace(/[^\d.,]/g, '');
-        cleaned = cleaned.replace(/\./g, '');;
-        cleaned = cleaned.replace(/,/g, '.');
-        cleaned = cleaned.replace(/\.(?=.*\.)/g, '');
-        var parts = cleaned.split('.');
-        if (parts.length > 1 && parts[1].length < 2) {
-          cleaned += '0';
-        }
-        var number = parseFloat(cleaned);
-        return number;
-      }
-      
-
-    var formatNumber = function(input) {
-        let value = input.val()
-        let number = parseFloat(value.replace(/[^\d]/g, ''))
-        if (!isNaN(number)) {
-            // let formatValue = new Intl.NumberFormat().format(number)
-            let formatValue = number.toLocaleString()
-            return input.val(formatValue)
-        }    
-    }
-
     var calTotal = function () {
         let sum = 0
         $.each($('.product-item'), function(i, item) {
             let price = $('.item-total', $(item)).html()
-            value = parseFloat(price.replace(/\./g, ''))
+            let value = cleanNumber(price)
             if($('.tax-item', $(item))) {
                 $.each($('.tax-item', $(item)), function(i, taxItem) {
                     let tax = $('.tax-price', $(taxItem)).html()
-                    taxVal = parseFloat(tax.replace(/\./g, ''))
+                    let taxVal = cleanNumber(tax)
                     value += taxVal
                 })
             }
             sum += value
         })
-        ele.subTotal.html(sum.toLocaleString())
+        ele.subTotal.html(formatNumber(sum))
 
         if(ele.discountField.hasClass('d-none')) {
-            ele.total.html(sum.toLocaleString())
+            ele.total.html(formatNumber(sum))
             return 0
         }
         
-        let discountVal = ele.discountVal.val()
+        let discountVal = cleanNumber(ele.discountVal.val())
         let discountTotal = ele.discountTypePercent.prop('checked') ? (discountVal/100) * sum : discountVal * 1
-        ele.totalDiscount.html(discountTotal.toLocaleString())
+        ele.totalDiscount.html(formatNumber(discountTotal))
         let total = sum - discountTotal
-        ele.total.html(total.toLocaleString())
+        ele.total.html(formatNumber(total))
     }
 
     var handleRemoveItem = function () {
@@ -289,7 +264,7 @@ var PurchasingCreateClass = function () {
                         </select>
                     </div>
                     <div class="flex-fill pe-2 input-group input-group-solid" style="width: 28%;">
-                        <input type="number" step="any" class="form-control form-control-solid text-end tax-value auto-cal" placeholder="0"/>
+                        <input type="text" data-plugin="inputmask-numeric" class="form-control form-control-solid text-end tax-value auto-cal" placeholder="0"/>
                         <span class="input-group-text">%</span>
                     </div>
                     <div class="flex-fill pe-7 text-end text-nowrap" style="width: 30%;">
@@ -317,6 +292,7 @@ var PurchasingCreateClass = function () {
                 allowClear : true,
                 minimumResultsForSearch : -1,
             })
+            $('.tax-value', $('div[index='+taxIndex+']')).addMaskNumeric()
         })
     }
 
@@ -341,19 +317,18 @@ var PurchasingCreateClass = function () {
     var handleAmountPaid = function () {
         ele.percentPaid.on('click', function () {
             let value = $(this).data('value')
-            let total = cleanStrNumber(ele.total.html())
+            let total = cleanNumber(ele.total.html())
             let paid = (value/100) * total
             let debt = total - paid
-            ele.amountPaid.val(paid.toLocaleString())
-            ele.amountDebt.val(debt.toLocaleString())
+            ele.amountPaid.val(formatNumber(paid))
+            ele.amountDebt.val(formatNumber(debt))
         })
         ele.amountPaid.on('input', function(e) {
-            formatNumber(ele.amountPaid)
             let value = e.target.value
-            let paid = cleanStrNumber(value)
-            let total = cleanStrNumber(ele.total.html())
+            let paid = cleanNumber(value)
+            let total = cleanNumber(ele.total.html())
             let debt = total - paid
-            ele.amountDebt.val(debt.toLocaleString())
+            ele.amountDebt.val(formatNumber(debt))
         })
     }
 
