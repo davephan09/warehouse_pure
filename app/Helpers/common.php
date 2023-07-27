@@ -35,3 +35,12 @@ if (!function_exists('cleanNumber')) {
         return $cleanedData;
     }
 }
+
+if (!function_exists('formatNumber')) {
+    function formatNumber($input) {
+        $roundedNumber = round(floatval($input), 3);
+        $parts = explode(".", strval($roundedNumber));
+        $parts[0] = preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', $parts[0]);
+        return isset($parts[1]) ? implode(".", $parts) : $parts[0];
+    }    
+}
