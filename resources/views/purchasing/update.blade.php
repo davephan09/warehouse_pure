@@ -38,7 +38,7 @@
                         <label class="form-label">{{__('purchasing.order_id')}}</label>
                         <!--end::Label-->
                         <!--begin::Auto-generated ID-->
-                        <div class="fw-bolder fs-3">#{{$orderId}}</div>
+                        <div class="fw-bolder fs-3">#{{$bill->purchasing_name}}</div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -52,7 +52,7 @@
                             name="payment_method" id="kt_ecommerce_edit_order_payment">
                             <option></option>
                             @forelse($suppliers as $supplier)
-                                <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                <option value="{{$supplier->id}}" {{ $supplier->id === $bill->supplier_id ? 'selected' : '' }}>{{$supplier->name}}</option>
                             @empty
                                 <option></option>
                             @endforelse
@@ -74,7 +74,7 @@
                         <!--begin::Editor-->
                         <div class="d-flex align-items-center position-relative mb-n7">
                             <input id="kt_ecommerce_edit_order_date" type="text" name="order_date" placeholder="{{__('purchasing.select_date')}}" data-plugin="daterangepicker" 
-                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control" value="" />
+                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control" value="{{ date('d/m/Y', strtotime($bill->date)) }}" />
                             <span class="svg-icon svg-icon-1 position-absolute me-4 end-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM19 6H5V5H19V6Z" fill="currentColor"></path>
@@ -103,7 +103,7 @@
             <!--begin::Card header-->
             <div class="card-header">
                 <div class="card-title">
-                    <h2>{{__('purchasing.new_purchasing_order')}}</h2>
+                    <h2>{{__('purchasing.update_purchasing_order')}}</h2>
                 </div>
             </div>
             <!--end::Card header-->
@@ -144,6 +144,7 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody id="list-item">
+                                    @foreach ($bill->details as $item)
                                     <tr class="product-item border-bottom border-bottom-dashed" data-kt-element="item">
                                         <td colspan="5">
                                             <table class="w-100">
@@ -158,19 +159,19 @@
                                                     <tr>
                                                         <td class="pe-7 pb-8 product-field">
                                                             <select class="form-select form-select-solid product-input">
-                                                                
+                                                                <option value="{{ $item->option->id }}" data-productid="{{ $item->product_id }}" selected>{{ $item->product->product_name . ' - ' . $item->option->name }}</option>
                                                             </select>
                                                         </td>
                                                         <td class="ps-0 pb-8">
-                                                            <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
+                                                            <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="{{ $item->quantity }}" data-kt-element="quantity" />
                                                             
                                                         </td>
                                                         <td class=" pb-8 input-group input-group-solid">
-                                                            <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="" data-kt-element="price" />
+                                                            <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="{{ $item->price }}" data-kt-element="price" />
                                                             <span class="input-group-text">đ</span>
                                                         </td>
                                                         <td class="text-end pb-8 text-nowrap">
-                                                            <span data-kt-element="total" class="item-total ">0</span> đ
+                                                            <span data-kt-element="total" class="item-total ">{{ formatNumber($item->total) }}</span> đ
                                                         </td>
                                                         <td class="pb-8 text-end">
                                                             <button type="button" class="btn btn-sm btn-icon btn-active-color-primary btn-remove-item" data-kt-element="remove-item">
@@ -196,12 +197,48 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @forelse($item->taxes as $taxItem)
+                                                            <div index="" class="d-flex flex-row align-items-center tax-item mt-4 mb-2">
+                                                                <div class="flex-fill pe-2" style="width: 30%;">
+                                                                    <select class="form-select form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
+                                                                        aria-hidden="true" data-placeholder="{{__('tax.choose_tax')}}" >
+                                                                        @forelse($taxes as $tax)
+                                                                            <option value="{{ $tax->id }}" {{ $tax->id === $taxItem->id ? 'selected' : '' }}>{{ $tax->name }}</option>
+                                                                        @empty
+                                                                            <option></option>
+                                                                        @endforelse
+                                                                    </select>
+                                                                </div>
+                                                                <div class="flex-fill pe-2 input-group input-group-solid" style="width: 28%;">
+                                                                    <input type="text" class="form-control form-control-solid text-end tax-value auto-cal" data-plugin="inputmask-numeric" value="{{ $taxItem->pivot->percent }}" placeholder="0"/>
+                                                                    <span class="input-group-text">%</span>
+                                                                </div>
+                                                                <div class="flex-fill pe-7 text-end text-nowrap" style="width: 30%;">
+                                                                    <span class="tax-price">{{ formatNumber($taxItem->pivot->value) }}</span> đ
+                                                                </div>
+                                                                <div class="flex-fill text-end" style="width: 12%;">
+                                                                    <button type="button" class="btn btn-sm btn-icon btn-active-color-primary btn-remove-tax">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                                        <span class="svg-icon svg-icon-3">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                                <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
+                                                                                <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
+                                                                                <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
+                                                                            </svg>
+                                                                        </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            @empty
+                                                            @endforelse
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                                 <!--end::Table body-->
                                 <!--begin::Table foot-->
@@ -226,22 +263,22 @@
                                             </div>
                                         </th>
                                     </tr>
-                                    <tr class="d-none align-top fs-6 fw-bolder text-gray-700" id="discount-field">
+                                    <tr class="{{ $bill->discount ? '' : 'd-none' }} align-top fs-6 fw-bolder text-gray-700" id="discount-field">
                                         <th class="pt-0"></th>
                                         <th colspan="2" class="pt-0 border-bottom border-bottom-dashed ps-0">
                                             <div class="d-flex flex-column align-items-start">
                                                 <div class="input-group input-group-solid">
-                                                    <input type="text" class="form-control form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="" data-kt-element="price" />
-                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" autocomplete="off" checked>
+                                                    <input type="text" class="form-control form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="{{ $bill->discount ? $bill->discount->discount_value : '' }}" data-kt-element="price" />
+                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 0 ? 'checked' : ''}}>
                                                     <label class="btn btn-outline-primary" for="dc-percent">%</label>
-                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" autocomplete="off">
+                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 1 ? 'checked' : ''}}>
                                                     <label class="btn btn-outline-primary" for="dc-price">đ</label>
                                                 </div>
                                             </div>
                                         </th>
                                         <th colspan="2" class="pt-0 border-bottom align-middle border-bottom-dashed">
                                             <div class="float-end">
-                                                <span data-kt-element="sub-total" id="discount-price">0</span> đ
+                                                <span data-kt-element="sub-total" id="discount-price">{{ $bill->discount ? formatNumber($bill->discount->total) : '' }}</span> đ
                                             </div>
                                         </th>
                                     </tr>
@@ -249,7 +286,7 @@
                                         <th></th>
                                         <th colspan="2" class="fs-4 ps-0">{{__('purchasing.total')}}</th>
                                         <th colspan="2" class="text-end fs-4 text-nowrap">
-                                        <span data-kt-element="grand-total" id="total">0</span> đ</th>
+                                        <span data-kt-element="grand-total" id="total">{{ formatNumber($bill->cost) }}</span> đ</th>
                                     </tr>
                                 </tfoot>
                                 <!--end::Table foot-->
@@ -295,7 +332,7 @@
                         <!--begin::Notes-->
                         <div class="mb-0">
                             <label class="form-label fs-6 fw-bolder text-gray-700">Notes</label>
-                            <textarea name="notes" class="form-control form-control-solid" id="note-field" rows="3" placeholder="Thanks for your business"></textarea>
+                            <textarea name="notes" class="form-control form-control-solid" id="note-field" rows="3" placeholder="Thanks for your business">{!! $bill->note !!}</textarea>
                         </div>
                         <!--end::Notes-->
                     </div>
@@ -338,7 +375,7 @@
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}">
+                                <input class="form-control" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}" value="{{ formatNumber($bill->paid) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -354,7 +391,7 @@
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="">
+                                <input class="form-control" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="" value="{{ formatNumber($bill->debt) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -675,7 +712,7 @@
             <a href="{{route('purchasing.index')}}" id="kt_ecommerce_edit_order_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="submit" id="kt_ecommerce_edit_order_submit" data-type="create" class="btn btn-primary">
+            <button type="submit" id="kt_ecommerce_edit_order_submit" data-type="update" class="btn btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -694,7 +731,10 @@
             var options = {
                 suppliers : {!! json_encode($suppliers) !!},
                 address : {!! json_encode($address) !!},
-                taxes : {!! json_encode($taxes) !!}
+                taxes : {!! json_encode($taxes) !!},
+                startDate : '{{ date('d/m/Y', strtotime($bill->date)) }}',
+                billId : {{ $bill->id }},
+                productIdArr : {!! json_encode($productIds) !!},
             }
             var instance = new PurchasingCreateClass();
             instance.run(options);

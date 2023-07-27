@@ -26,4 +26,6 @@ return [
     'search_bill' => 'Search bill',
     'pick_date_range' => 'Pick date range',
     'bill' => 'Purchasing Bill',
+    'update' => 'Update Purchasing Bill',
+    'update_purchasing_order' => 'Update Purchasing Order',
 ];

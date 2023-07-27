@@ -26,4 +26,5 @@ return [
     'search_bill' => 'Tìm kiếm đơn',
     'pick_date_range' => 'Chọn khoảng thời gian',
     'bill' => 'Đơn nhập hàng',
+    'update' => 'Cập nhật đơn hàng',
 ];

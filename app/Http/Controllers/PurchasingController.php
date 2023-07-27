@@ -96,6 +96,7 @@ class PurchasingController extends Controller
                 ]);
 
                 $data['bills'] = $bills;
+                $data['billsData'] = $bills->keyBy('id');
                 $data['htmlPurchasingTable'] = view('purchasing.purchasing_table', $data)->render();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -152,8 +153,9 @@ class PurchasingController extends Controller
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $this->purchasing->createPurchasing($request);
+                $purchasing = $this->purchasing->createPurchasing($request);
                 DB::connection()->commit();
+                if ($purchasing) \Illuminate\Support\Facades\Log::info($user->username . ' has created a purchasing bill: ' . $purchasing->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();
@@ -166,13 +168,39 @@ class PurchasingController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('purchasing.update')) {
+            try {
+                $id = cleanNumber($id);
+                $bill = $this->purchasing->filters([
+                    'id' => $id,
+                    'relations' => ['details', 'discount', 'details.taxes', 'details.product', 'details.option'],
+                ]);
+                $data['title'] = trans('purchasing.update');
+                $address = Helper::getDetailAddress();
+                $data['address'] = $address;
+                $data['suppliers'] = $this->supplier->filters([
+                    'status' => true,
+                ]);
+                $data['taxes'] = $this->tax->filters([
+                    'status' => true,
+                ]);
+                $data['bill'] = $bill;
+                $productIds = array();
+                foreach ($bill->details as $item) {
+                    $productIds[$item->option_id] = $item->product_id; 
+                };
+                $data['productIds'] = $productIds;
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return response()->view('errors.404', [], 404);
+            }
+            return view('purchasing.update', $data);
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -197,8 +225,19 @@ class PurchasingController extends Controller
         if ($user->can('purchasing.update')) {
             DB::connection()->beginTransaction();
             try {
-                
+                $rules = [
+                    'supplier' => 'required',
+                    'date' => 'required',
+                    'note' => 'string|nullable',
+                    
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                $purchasing = $this->purchasing->updatePurchasing($request);
                 DB::connection()->commit();
+                if ($purchasing) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a purchasing bill: ' . $purchasing->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();
@@ -218,7 +257,10 @@ class PurchasingController extends Controller
         if ($user->can('purchasing.delete')) {
             DB::connection()->beginTransaction();
             try {
-                
+                $id = cleanNumber($request->input('id'));
+                $bill = $this->purchasing->find($id);
+                $delete = $bill->delete();
+                if ($delete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a purchasing bill: ' . $bill->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);

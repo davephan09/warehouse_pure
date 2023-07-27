@@ -9,6 +9,12 @@ var PurchasingCreateClass = function () {
 
     this.run = function (opt) {
         options = opt
+        if (options.productIdArr) {
+            Object.keys(options.productIdArr).forEach(key => {
+                productIds[key] = options.productIdArr[key]
+            })
+        }
+
         this.init()
         this.bindEvents()
     }
@@ -35,6 +41,19 @@ var PurchasingCreateClass = function () {
         ele.formCreate = $('#kt_ecommerce_edit_order_form')
         ele.noteField = $('#note-field')
         ele.btnSubmit = $('#kt_ecommerce_edit_order_submit')
+
+        var format = 'DD/MM/YYYY';
+        ele.dateInput.daterangepicker({
+                showCustomRangeLabel: true,
+                locale: {
+                    format : "DD/MM/YYYY",
+                },
+                singleDatePicker: true,
+                startDate: options.startDate,
+            },
+            function(start, end) {
+            }
+        );
     }
 
     this.bindEvents = function () {
@@ -48,29 +67,36 @@ var PurchasingCreateClass = function () {
         handleAddDiscount()
         handleAmountPaid()
         handleCreate()
+        calTotal()
+        supplierSelected(ele.supplierSelect.val())
     }
 
     var handleSelectSupplier = function () {
         ele.supplierSelect.on('change', function (e) {
             if (e.target.value) {
                 let $id = e.target.value
-                let supplier = options.suppliers[$id]
-                let address = options.address
-                let province = supplier.province ? ', ' + address[supplier.province].name : ''
-                let district = supplier.district ? ', ' + address[supplier.province].districts[supplier.district].name : ''
-                let ward = supplier.ward ? ', ' + address[supplier.province].districts[supplier.district].wards[supplier.ward].name : ''
-                let html = `<div class="h4 pb-2 mb-2">${JSON.parse(supplier.name)}</div>
-                    <div>
-                        <p class="mb-3">${Lang.get('common.address')}: ${JSON.parse(supplier.detail_address)}${ward}${district}${province}</p>
-                        <p class="mb-3">${Lang.get('common.phone')}: ${JSON.parse(supplier.phone)}</p>
-                        <p class="mb-1">${Lang.get('common.email')}: ${JSON.parse(supplier.email)}</p>
-                    </div>`
-                ele.supplierDetail.html(html)
-                ele.supplierDetail.removeClass('d-none').fadeIn(1000, 'easeOutCubic')
+                supplierSelected($id)
             } else {
                 ele.supplierDetail.addClass('d-none').fadeOut()
             }
         })
+    }
+
+    var supplierSelected = function (id) {
+        let $id = id
+        let supplier = options.suppliers[$id]
+        let address = options.address
+        let province = supplier.province ? ', ' + address[supplier.province].name : ''
+        let district = supplier.district ? ', ' + address[supplier.province].districts[supplier.district].name : ''
+        let ward = supplier.ward ? ', ' + address[supplier.province].districts[supplier.district].wards[supplier.ward].name : ''
+        let html = `<div class="h4 pb-2 mb-2">${JSON.parse(supplier.name)}</div>
+            <div>
+                <p class="mb-3">${Lang.get('common.address')}: ${JSON.parse(supplier.detail_address)}${ward}${district}${province}</p>
+                <p class="mb-3">${Lang.get('common.phone')}: ${JSON.parse(supplier.phone)}</p>
+                <p class="mb-1">${Lang.get('common.email')}: ${JSON.parse(supplier.email)}</p>
+            </div>`
+        ele.supplierDetail.html(html)
+        ele.supplierDetail.removeClass('d-none').fadeIn(1000, 'easeOutCubic')        
     }
 
     var handleSearchProduct = function (select) {
@@ -78,8 +104,6 @@ var PurchasingCreateClass = function () {
             placeholder : Lang.get('purchasing.select_product'),
             minimumInputLength : 1,
             minimumResultsForSearch : 0,
-            // multiple: false,
-            // tags : false,
             allowClear : true,
             ajax: {
                 url: $.app.vars.url + '/products/search-product',
@@ -94,12 +118,6 @@ var PurchasingCreateClass = function () {
                     if (data.status) {
                         return {
                             results: data.data.products
-                            // results : $.map(data.data.products, function(item) {
-                            //     return {
-                            //         text : item.text,
-                            //         productId : item.productId,
-                            //     }
-                            // })
                         }
                     }
                 },
@@ -109,8 +127,8 @@ var PurchasingCreateClass = function () {
                 return data.text
             },
             templateSelection: function (data) {
-                productIds[data.id] = data.productId
-                return data.textSelected
+                productIds[data.id] = data.productId ?? productIds[data.id]
+                return data.textSelected ?? data.text
             }
         })
     }
@@ -334,6 +352,7 @@ var PurchasingCreateClass = function () {
 
     var handleCreate = function () {
         ele.formCreate.on('submit', function() {
+            var type = ele.btnSubmit.data('type')
             var target = ele.btnSubmit
             var params = {
                 supplier    : ele.supplierSelect.val(),
@@ -383,8 +402,12 @@ var PurchasingCreateClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-
-            $.app.ajax($.app.vars.url + '/purchasing/store', 'POST', params, target, null, _cb);
+            if (type === 'create') {
+                $.app.ajax($.app.vars.url + '/purchasing/store', 'POST', params, target, null, _cb);
+            } else {
+                params.id = options.billId
+                $.app.ajax($.app.vars.url + '/purchasing/update', 'POST', params, target, null, _cb);
+            }
         })
     }
 }
