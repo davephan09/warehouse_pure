@@ -23,7 +23,7 @@ return [
     |
     */
 
-    'view' => 'breadcrumbs::partials._breadcrumbs',
+    'view' => 'layouts.partials._breadcrumbs',
 
     /*
     |--------------------------------------------------------------------------
