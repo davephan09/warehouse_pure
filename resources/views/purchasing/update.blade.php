@@ -48,7 +48,7 @@
                         <label class="required form-label">{{__('purchasing.supplier')}}</label>
                         <!--end::Label-->
                         <!--begin::Select2-->
-                        <select class="form-select mb-2" data-control="select2" data-allow-clear="true" data-hide-search="true" data-placeholder="{{__('purchasing.select_supplier')}}"
+                        <select class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" data-hide-search="true" data-placeholder="{{__('purchasing.select_supplier')}}"
                             name="payment_method" id="kt_ecommerce_edit_order_payment">
                             <option></option>
                             @forelse($suppliers as $supplier)
@@ -74,7 +74,7 @@
                         <!--begin::Editor-->
                         <div class="d-flex align-items-center position-relative mb-n7">
                             <input id="kt_ecommerce_edit_order_date" type="text" name="order_date" placeholder="{{__('purchasing.select_date')}}" data-plugin="daterangepicker" 
-                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control" value="{{ date('d/m/Y', strtotime($bill->date)) }}" />
+                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control form-control-sm" value="{{ date('d/m/Y', strtotime($bill->date)) }}" />
                             <span class="svg-icon svg-icon-1 position-absolute me-4 end-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM19 6H5V5H19V6Z" fill="currentColor"></path>
@@ -158,16 +158,16 @@
                                                 <tbody class="body-item">
                                                     <tr>
                                                         <td class="pe-7 pb-8 product-field">
-                                                            <select class="form-select form-select-solid product-input">
+                                                            <select class="form-select form-select-sm form-select-solid product-input">
                                                                 <option value="{{ $item->option->id }}" data-productid="{{ $item->product_id }}" selected>{{ $item->product->product_name . ' - ' . $item->option->name }}</option>
                                                             </select>
                                                         </td>
                                                         <td class="ps-0 pb-8">
-                                                            <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="{{ $item->quantity }}" data-kt-element="quantity" />
+                                                            <input class="form-control form-control-sm form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="{{ $item->quantity }}" data-kt-element="quantity" />
                                                             
                                                         </td>
-                                                        <td class=" pb-8 input-group input-group-solid">
-                                                            <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="{{ $item->price }}" data-kt-element="price" />
+                                                        <td class=" pb-8 input-group input-group-sm input-group-solid">
+                                                            <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="{{ $item->price }}" data-kt-element="price" />
                                                             <span class="input-group-text">đ</span>
                                                         </td>
                                                         <td class="text-end pb-8 text-nowrap">
@@ -200,7 +200,7 @@
                                                             @forelse($item->taxes as $taxItem)
                                                             <div index="" class="d-flex flex-row align-items-center tax-item mt-4 mb-2">
                                                                 <div class="flex-fill pe-2" style="width: 30%;">
-                                                                    <select class="form-select form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
+                                                                    <select class="form-select form-select-sm form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
                                                                         aria-hidden="true" data-placeholder="{{__('tax.choose_tax')}}" >
                                                                         @forelse($taxes as $tax)
                                                                             <option value="{{ $tax->id }}" {{ $tax->id === $taxItem->id ? 'selected' : '' }}>{{ $tax->name }}</option>
@@ -209,8 +209,8 @@
                                                                         @endforelse
                                                                     </select>
                                                                 </div>
-                                                                <div class="flex-fill pe-2 input-group input-group-solid" style="width: 28%;">
-                                                                    <input type="text" class="form-control form-control-solid text-end tax-value auto-cal" data-plugin="inputmask-numeric" value="{{ $taxItem->pivot->percent }}" placeholder="0"/>
+                                                                <div class="flex-fill pe-2 input-group input-group-sm input-group-solid" style="width: 28%;">
+                                                                    <input type="text" class="form-control form-control-sm form-control-solid text-end tax-value auto-cal" data-plugin="inputmask-numeric" value="{{ $taxItem->pivot->percent }}" placeholder="0"/>
                                                                     <span class="input-group-text">%</span>
                                                                 </div>
                                                                 <div class="flex-fill pe-7 text-end text-nowrap" style="width: 30%;">
@@ -267,8 +267,8 @@
                                         <th class="pt-0"></th>
                                         <th colspan="2" class="pt-0 border-bottom border-bottom-dashed ps-0">
                                             <div class="d-flex flex-column align-items-start">
-                                                <div class="input-group input-group-solid">
-                                                    <input type="text" class="form-control form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="{{ $bill->discount ? $bill->discount->discount_value : '' }}" data-kt-element="price" />
+                                                <div class="input-group input-group-sm input-group-solid">
+                                                    <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="{{ $bill->discount ? $bill->discount->discount_value : '' }}" data-kt-element="price" />
                                                     <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 0 ? 'checked' : ''}}>
                                                     <label class="btn btn-outline-primary" for="dc-percent">%</label>
                                                     <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 1 ? 'checked' : ''}}>
@@ -374,8 +374,8 @@
         
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
-                            <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}" value="{{ formatNumber($bill->paid) }}">
+                            <div class="d-flex input-group input-group-sm input-group-solid">
+                                <input class="form-control form-control-sm" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}" value="{{ formatNumber($bill->paid) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -390,8 +390,8 @@
         
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
-                            <div class="d-flex input-group input-group-solid">
-                                <input class="form-control" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="" value="{{ formatNumber($bill->debt) }}">
+                            <div class="d-flex input-group input-group-sm input-group-solid">
+                                <input class="form-control form-control-sm" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="" value="{{ formatNumber($bill->debt) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -709,10 +709,10 @@
         </div>
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="{{route('purchasing.index')}}" id="kt_ecommerce_edit_order_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
+            <a href="{{route('purchasing.index')}}" id="kt_ecommerce_edit_order_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="submit" id="kt_ecommerce_edit_order_submit" data-type="update" class="btn btn-primary">
+            <button type="submit" id="kt_ecommerce_edit_order_submit" data-type="update" class="btn btn-sm btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

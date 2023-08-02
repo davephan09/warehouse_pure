@@ -149,16 +149,16 @@ var PurchasingCreateClass = function () {
                         <tbody class="body-item">
                             <tr>
                                 <td class="pe-7 pb-8 product-field">
-                                    <select class="form-select form-select-solid product-input">
+                                    <select class="form-select form-select-sm form-select-solid product-input">
                                         
                                     </select>
                                 </td>
                                 <td class="ps-0 pb-8">
-                                    <input class="form-control form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
+                                    <input class="form-control form-control-sm form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity" />
                                     
                                 </td>
-                                <td class=" pb-8 input-group input-group-solid">
-                                    <input type="text" class="form-control form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="" data-kt-element="price" />
+                                <td class=" pb-8 input-group input-group-sm input-group-solid">
+                                    <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="" data-kt-element="price" />
                                     <span class="input-group-text">đ</span>
                                 </td>
                                 <td class="text-end pb-8 text-nowrap">
@@ -276,13 +276,13 @@ var PurchasingCreateClass = function () {
             html += `
                 <div index="${taxIndex}" class="d-flex flex-row align-items-center tax-item mt-4 mb-2">
                     <div class="flex-fill pe-2" style="width: 30%;">
-                        <select class="form-select form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
+                        <select class="form-select form-select-sm form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
                             aria-hidden="true" data-placeholder="${Lang.get('tax.choose_tax')}" >
                             ${ taxOption }
                         </select>
                     </div>
-                    <div class="flex-fill pe-2 input-group input-group-solid" style="width: 28%;">
-                        <input type="text" data-plugin="inputmask-numeric" class="form-control form-control-solid text-end tax-value auto-cal" placeholder="0"/>
+                    <div class="flex-fill pe-2 input-group input-group-sm input-group-solid" style="width: 28%;">
+                        <input type="text" data-plugin="inputmask-numeric" class="form-control form-control-sm form-control-solid text-end tax-value auto-cal" placeholder="0"/>
                         <span class="input-group-text">%</span>
                     </div>
                     <div class="flex-fill pe-7 text-end text-nowrap" style="width: 30%;">
