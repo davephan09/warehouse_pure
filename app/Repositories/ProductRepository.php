@@ -175,4 +175,20 @@ class ProductRepository extends Repository
             })
             ->get();
     }
+
+    public function variationFilters($filters = [])
+    {
+        $query = VariationProduct::query();
+
+        if(!empty($filters['relations'])) {
+            $query = $query->with($filters['relations']);
+        }
+
+        if(!empty($filters['ids'])) {
+            $query->whereIn('id', $filters['ids']);
+        }
+
+        $data = $query->orderByDesc('id')->get();
+        return $data;
+    }
 }

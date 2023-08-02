@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\NumRowPage;
+use App\Events\PurchasingBillCreated;
 use App\Helpers\Helper;
 use App\Libraries\Address;
 use App\Repositories\PurchasingRepository;
@@ -155,6 +156,7 @@ class PurchasingController extends Controller
                 }
                 $purchasing = $this->purchasing->createPurchasing($request);
                 DB::connection()->commit();
+                event(new PurchasingBillCreated($purchasing->toArray(), 'create'));
                 if ($purchasing) \Illuminate\Support\Facades\Log::info($user->username . ' has created a purchasing bill: ' . $purchasing->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -235,8 +237,9 @@ class PurchasingController extends Controller
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
-                $purchasing = $this->purchasing->updatePurchasing($request);
+                list($oldPurchasing, $purchasing) = $this->purchasing->updatePurchasing($request);
                 DB::connection()->commit();
+                event(new PurchasingBillCreated($purchasing->toArray(), 'update', $oldPurchasing->toArray()));
                 if ($purchasing) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a purchasing bill: ' . $purchasing->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
@@ -258,10 +261,13 @@ class PurchasingController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $id = cleanNumber($request->input('id'));
-                $bill = $this->purchasing->find($id);
+                $bill = $this->purchasing->filters([
+                    'id' => $id,
+                ]);
                 $delete = $bill->delete();
                 if ($delete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a purchasing bill: ' . $bill->toJson());
                 DB::connection()->commit();
+                event(new PurchasingBillCreated($bill->toArray(), 'delete'));
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();

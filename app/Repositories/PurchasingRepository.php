@@ -31,8 +31,10 @@ class PurchasingRepository extends Repository
         $items = $request->input('items');
         foreach($items as $item) {
             $taxTotal = 0;
-            foreach($item['taxes'] as $tax) {
-                $taxTotal += cleanNumber($tax['amount']);
+            if(!empty($item['taxes'])) {
+                foreach($item['taxes'] as $tax) {
+                    $taxTotal += cleanNumber($tax['amount']);
+                }
             }
             $purchasingItem = PurchasingItem::query()->create([
                 'purchasing_id' => $purchasing->id,
@@ -116,7 +118,11 @@ class PurchasingRepository extends Repository
         $productIds = cleanNumber($request->input('productIds'));
 
         $billId = cleanNumber($request->input('id'));
-        $purchasing = $this->find($billId);
+        $purchasing = $this->filters([
+            'relations' => ['details'],
+            'id' => $billId,
+        ]);
+
         $purchasing->update([
             'purchasing_name' => 'id',
             'date' => Carbon::createFromFormat('d/m/Y', cleanInput($request->input('date')))->toDateString(),
@@ -183,7 +189,11 @@ class PurchasingRepository extends Repository
                 $billDiscount->delete();
             }
         }
+        $newPurchasing = $this->filters([
+            'relations' => ['details'],
+            'id' => $billId,
+        ]);
 
-        return $purchasing;
+        return array($purchasing, $newPurchasing);
     }
 }
