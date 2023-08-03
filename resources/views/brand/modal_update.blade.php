@@ -42,7 +42,7 @@
                             <label class="required fs-6 fw-bold mb-2">{{__('brand.brand_name')}}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" id="name-input-update" placeholder="{{__('brand.type_brand_name')}}" name="name"
+                            <input type="text" class="form-control form-control-sm form-control-solid" id="name-input-update" placeholder="{{__('brand.type_brand_name')}}" name="name"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -110,10 +110,10 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" id="kt_modal_update_customer_cancel" data-bs-dismiss="modal"
-                        class="btn btn-light me-3">{{__('common.discard')}}</button>
+                        class="btn btn-sm btn-light me-3">{{__('common.discard')}}</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="submit" id="kt_modal_update_brand_submit" class="btn btn-primary">
+                    <button type="submit" id="kt_modal_update_brand_submit" class="btn btn-sm btn-primary">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

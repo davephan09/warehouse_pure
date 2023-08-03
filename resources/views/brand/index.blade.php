@@ -20,7 +20,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="{{__('brand.search')}}" />
+                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-sm form-control-solid w-250px ps-14" placeholder="{{__('brand.search')}}" />
             </div>
             <!--end::Search-->
         </div>
@@ -28,7 +28,7 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <div class="w-100 mw-150px">
-                <select class="form-select form-select-solid" name="filter_status" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" tabindex="-1" aria-hidden="true">
+                <select class="form-select form-select-sm form-select-solid" name="filter_status" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" tabindex="-1" aria-hidden="true">
                     @forelse ($listStatus as $key => $status)
                     <option value="{{$key}}">{{$status}}</option>
                     @empty
@@ -38,7 +38,7 @@
             </div>
             @can('brand.create')
             <!--begin::Add customer-->
-            <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_brand"  class="btn btn-primary">{{__('common.add_new')}}</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_brand"  class="btn btn-sm btn-primary">{{__('common.add_new')}}</button>
             <!--end::Add customer-->
             @endcan
         </div>
