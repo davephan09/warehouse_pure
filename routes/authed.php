@@ -18,6 +18,8 @@ Route::prefix('users')->group(function() {
     Route::get('get-data', [UsersController::class, 'getData'])->name('users.getData');
 });
 
+Route::get('/', [ProductController::class, 'index'])->name('home');
+
 Route::get('dashboard', function () {
     return view('welcome');
 })->name('dashboard');

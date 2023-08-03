@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+{{ Breadcrumbs::render('product_update', $product) }}
 @section('breadcrumb')
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">

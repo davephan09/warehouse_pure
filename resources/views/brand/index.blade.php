@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('breadcrumb')
-{{ Breadcrumbs::render('campaigndetail', $campaign->name, $campaign->id) }}
+{{ Breadcrumbs::render('brand') }}
 @endsection
 
 @section('content')
