@@ -37,7 +37,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <input type="text" data-kt-permissions-table-filter="search" id="search-permission"
-                        class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions" />
+                        class="form-control form-control-sm form-control-solid w-250px ps-15" placeholder="Search Permissions" />
                 </div>
                 <!--end::Search-->
             </div>
@@ -46,7 +46,7 @@
             <div class="card-toolbar">
                 @can('permission.create')
                 <!--begin::Button-->
-                <button type="button" class="btn btn-light-primary" data-bs-toggle="modal"
+                <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                     data-bs-target="#kt_modal_add_permission">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
                     <span class="svg-icon svg-icon-3">

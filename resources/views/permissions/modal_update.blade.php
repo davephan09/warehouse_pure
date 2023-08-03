@@ -72,7 +72,7 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input class="form-control form-control-solid" placeholder="Enter a permission name"
+                    <input class="form-control form-control-sm form-control-solid" placeholder="Enter a permission name"
                         name="permission_name" id="name-permission" />
                     <!--end::Input-->
                     <input type="number" id="permission-id" value="" hidden>
@@ -80,9 +80,9 @@
                 <!--end::Input group-->
                 <!--begin::Actions-->
                 <div class="text-center pt-15">
-                    <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
+                    <button type="reset" class="btn btn-sm btn-light me-3" data-bs-dismiss="modal"
                         data-kt-permissions-modal-action="cancel">{{__('common.discard')}}</button>
-                    <button type="submit" class="btn btn-primary" data-kt-permissions-modal-action="submit" id="update-modal-btn">
+                    <button type="submit" class="btn btn-sm btn-primary" data-kt-permissions-modal-action="submit" id="update-modal-btn">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
