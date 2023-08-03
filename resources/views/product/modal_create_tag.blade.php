@@ -32,14 +32,14 @@
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input class="form-control form-control-solid" placeholder="{{__('product.add_new_tag_des')}}"
+                        <input class="form-control form-control-sm form-control-solid" placeholder="{{__('product.add_new_tag_des')}}"
                             name="tag_name" id="tag-name"/>
                     </div>
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel"
+                        <button type="reset" class="btn btn-sm btn-light me-3" data-kt-roles-modal-action="cancel"
                             data-bs-dismiss="modal">{{ trans('common.discard') }}</button>
-                        <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit" id="submit-tag-btn">
+                        <button type="submit" class="btn btn-sm btn-primary" data-kt-roles-modal-action="submit" id="submit-tag-btn">
                             <span class="indicator-label">{{trans('common.submit')}}</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

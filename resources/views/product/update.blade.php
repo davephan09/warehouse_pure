@@ -86,7 +86,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
                     <option></option>
                     <option value="1" {{$product->active == 1 ? 'selected' : ''}}>{{__('common.active')}}</option>
                     <option value="0" {{$product->active == 0 ? 'selected' : ''}}>{{__('common.inactive')}}</option>
@@ -117,7 +117,7 @@
                 <label class="form-label">{{__('common.category')}}</label>
                 <!--end::Label-->
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
+                <select class="form-select form-select-sm mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
                     <option></option>
                     {!! \App\Helpers\Helper::renderMultilevelOption($categories, 0, '', $product->category->id) !!}
                 </select>
@@ -139,7 +139,7 @@
                 <!--end::Button-->
                 <!--begin::Input group-->
                 <label class="form-label d-block">{{__('common.tags')}}</label>
-                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
+                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
                     @foreach($tags as $key => $tag)
                         <option value="{{$tag->id}}" {{in_array($tag->id, $productTags) ? 'selected' : ''}}>{{$tag->name}}</option>
                     @endforeach
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
                     <option></option>
                     @foreach ($brands as $brand)
                     <option value="{{$brand->id}}" {{$brand->id === $product->brand_id ? 'selected' : ''}}>{{$brand->name}}</option>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
                     <option></option>
                     @foreach ($units as $unit)
                     <option value="{{$unit->id}}" {{$unit->id === $product->unit_id ? 'selected' : ''}}>{{$unit->name}}</option>
@@ -232,7 +232,7 @@
                                 <label class="required form-label">{{__('product.name')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="product_name" class="form-control mb-2" placeholder="{{__('product.name')}}" value="{{$product->product_name}}" />
+                                <input type="text" name="product_name" class="form-control form-control-sm mb-2" placeholder="{{__('product.name')}}" value="{{$product->product_name}}" />
                                 <!--end::Input-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">{{__('product.name_des')}}</div>
@@ -245,7 +245,7 @@
                                 <label class="form-label">{{__('common.summary')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Editor-->
-                                <input type="text" name="summary" class="form-control mb-2" placeholder="{{__('common.summary')}}" value="{{$product->summary}}" />
+                                <input type="text" name="summary" class="form-control form-control-sm mb-2" placeholder="{{__('common.summary')}}" value="{{$product->summary}}" />
                                 <!--end::Editor-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">{{__('product.summary_des')}}</div>
@@ -338,17 +338,17 @@
                                 @endphp
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="price-product">{{__('product.price')}}</label>
-                                    <input type="text" id="price-product" class="form-control mb-2" placeholder="{{__('product.price_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->price}}">
+                                    <input type="text" id="price-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.price_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->price}}">
                                     <div class="text-muted fs-7">{{__('product.price_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="quantity-product">{{__('product.quantity')}}</label>
-                                    <input type="text" id="quantity-product" class="form-control mb-2" placeholder="{{__('product.quantity_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->quantity}}">
+                                    <input type="text" id="quantity-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.quantity_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->quantity}}">
                                     <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
                                     <label class="form-label" for="sku-product">{{__('product.code')}}</label>
-                                    <input type="text" id="sku-product" class="form-control mb-2" placeholder="{{__('product.code_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->sku}}">
+                                    <input type="text" id="sku-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.code_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->sku}}">
                                     <div class="text-muted fs-7">{{__('product.code_des')}}</div>
                                 </div>
                             </div>
@@ -359,7 +359,7 @@
                                             @forelse ($variationsProduct as $key => $var)
                                                 <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option>{{__('product.select_variation')}}</option>
                                                             @foreach ($variations as $variation)
                                                                 <option value="{{$variation->id}}" {{$var == $variation->id ? 'selected' : ''}}>{{$variation->name}}</option>
@@ -367,7 +367,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                        <select class="form-select form-select-sm form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
                                                         @foreach($variations[$var]->options as $opt)
                                                             <option value="{{$opt->id}}" {{in_array($opt->id, $options) ? 'selected' : ''}}>{{$opt->name}}</option>    
                                                         @endforeach
@@ -387,7 +387,7 @@
                                             @empty
                                                 <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option>{{__('product.select_variation')}}</option>
                                                             @foreach ($variations as $variation)
                                                                 <option value="{{$variation->id}}">{{$variation->name}}</option>
@@ -395,7 +395,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                        <select class="form-select form-select-sm form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
                                                             
                                                         </select>
                                                     </div>
@@ -431,11 +431,11 @@
                                                     @if ($product->variations->count() > 1)
                                                         @foreach($product->variations as $item)
                                                             <tr class="variation-item">
-                                                                <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="{{$item->name}}" /></td>
-                                                                <td hidden><input type="text" class="form-control var-options" disabled value='{{$item->options}}' /></td>
-                                                                <td><input type="number" class="form-control var-price mw-100" name="" value="{{$item->price}}" /></td>
-                                                                <td><input type="number" class="form-control var-quantity mw-100" name="" value="{{$item->quantity}}" /></td>
-                                                                <td><input type="text" class="form-control var-code mw-100" name="" value="{{$item->sku}}" /></td>
+                                                                <td><input type="text" class="form-control form-control-sm variation-name mw-100" name="" disabled value="{{$item->name}}" /></td>
+                                                                <td hidden><input type="text" class="form-control form-control-sm var-options" disabled value='{{$item->options}}' /></td>
+                                                                <td><input type="number" class="form-control form-control-sm var-price mw-100" name="" value="{{$item->price}}" /></td>
+                                                                <td><input type="number" class="form-control form-control-sm var-quantity mw-100" name="" value="{{$item->quantity}}" /></td>
+                                                                <td><input type="text" class="form-control form-control-sm var-code mw-100" name="" value="{{$item->sku}}" /></td>
                                                             </tr>
                                                         @endforeach
                                                     @endif
@@ -471,7 +471,7 @@
                                                 <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
                                                     <!--begin::Select2-->
                                                     <div class="w-100 w-md-325px">
-                                                        <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option></option>
                                                             @foreach($taxes as $tax)
                                                             <option value="{{$tax->id}}" {{ isset($product->taxes) && $tax->id == $item->pivot->tax_id ? 'selected' : ''}}>{{$tax->name}}</option>
@@ -480,7 +480,7 @@
                                                     </div>
                                                     <!--end::Select2-->
                                                     <!--begin::Input-->
-                                                    <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" value="{{$item->pivot->value}}"/> 
+                                                    <input type="text" class="form-control form-control-sm mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" value="{{$item->pivot->value}}"/> 
                                                     <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
                                                     {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                         <span class="svg-icon svg-icon-2">
@@ -495,7 +495,7 @@
                                                 <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
                                                     <!--begin::Select2-->
                                                     <div class="w-100 w-md-325px">
-                                                        <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option></option>
                                                             @foreach($taxes as $tax)
                                                             <option value="{{$tax->id}}" {{ isset($product->taxes) && $tax->id == $product->taxes}}>{{$tax->name}}</option>
@@ -504,7 +504,7 @@
                                                     </div>
                                                     <!--end::Select2-->
                                                     <!--begin::Input-->
-                                                    <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                    <input type="text" class="form-control form-control-sm mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
                                                     <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
                                                     {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                         <span class="svg-icon svg-icon-2">
@@ -547,10 +547,10 @@
         <input type="number" name="product_id" hidden id="product-id" value="{{$product->id}}">
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="{{route('product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
+            <a href="{{route('product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="submit" data-type="update" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+            <button type="submit" data-type="update" id="kt_ecommerce_add_product_submit" class="btn btn-sm btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

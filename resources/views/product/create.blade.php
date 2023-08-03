@@ -86,7 +86,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
                     <option></option>
                     <option value="1" selected="selected">{{__('common.active')}}</option>
                     <option value="0">{{__('common.inactive')}}</option>
@@ -117,7 +117,7 @@
                 <label class="form-label">{{__('common.category')}}</label>
                 <!--end::Label-->
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
+                <select class="form-select form-select-sm mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
                     <option></option>
                     {!! \App\Helpers\Helper::renderMultilevelOption($categories) !!}
                 </select>
@@ -127,7 +127,7 @@
                 <!--end::Description-->
                 <!--end::Input group-->
                 <!--begin::Button-->
-                <a href="{{route('category.product.create')}}" class="btn btn-light-primary btn-sm mb-10">
+                <a href="{{route('category.product.create')}}" class="btn btn-sm btn-light-primary btn-sm mb-10">
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr087.svg-->
                 <span class="svg-icon svg-icon-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -139,7 +139,7 @@
                 <!--end::Button-->
                 <!--begin::Input group-->
                 <label class="form-label d-block">{{__('common.tags')}}</label>
-                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
+                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
                     @foreach($tags as $key => $tag)
                         <option value="{{$tag->id}}">{{$tag->name}}</option>
                     @endforeach
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
                     <option></option>
                     @foreach ($brands as $brand)
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
                     <option></option>
                     @foreach ($units as $unit)
                     <option value="{{$unit->id}}">{{$unit->name}}</option>
@@ -232,7 +232,7 @@
                                 <label class="required form-label">{{__('product.name')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="product_name" class="form-control mb-2" placeholder="{{__('product.name')}}" value="" />
+                                <input type="text" name="product_name" class="form-control form-control-sm mb-2" placeholder="{{__('product.name')}}" value="" />
                                 <!--end::Input-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">{{__('product.name_des')}}</div>
@@ -245,7 +245,7 @@
                                 <label class="form-label">{{__('common.summary')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Editor-->
-                                <input type="text" name="summary" class="form-control mb-2" placeholder="{{__('common.summary')}}" value="" />
+                                <input type="text" name="summary" class="form-control form-control-sm mb-2" placeholder="{{__('common.summary')}}" value="" />
                                 <!--end::Editor-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">{{__('product.summary_des')}}</div>
@@ -335,17 +335,17 @@
                             <div id="no-variation">
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="price-product">{{__('product.price')}}</label>
-                                    <input type="text" id="price-product" class="form-control mb-2" placeholder="{{__('product.price_example')}}">
+                                    <input type="text" id="price-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.price_example')}}">
                                     <div class="text-muted fs-7">{{__('product.price_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="quantity-product">{{__('product.quantity')}}</label>
-                                    <input type="text" id="quantity-product" class="form-control mb-2" placeholder="{{__('product.quantity_example')}}">
+                                    <input type="text" id="quantity-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.quantity_example')}}">
                                     <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
                                     <label class="form-label" for="sku-product">{{__('product.code')}}</label>
-                                    <input type="text" id="sku-product" class="form-control mb-2" placeholder="{{__('product.code_example')}}">
+                                    <input type="text" id="sku-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.code_example')}}">
                                     <div class="text-muted fs-7">{{__('product.code_des')}}</div>
                                 </div>
                             </div>
@@ -355,7 +355,7 @@
                                         <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
                                             <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                 <div class="w-100 w-md-400px">
-                                                    <select class="form-select form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                    <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option>{{__('product.select_variation')}}</option>
                                                         @foreach ($variations as $variation)
                                                             <option value="{{$variation->id}}">{{$variation->name}}</option>
@@ -363,7 +363,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="w-100 w-md-400px">
-                                                    <select class="form-select form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
+                                                    <select class="form-select form-select-sm form-select-option" name="var_options[]" data-control="select2" multiple data-placeholder="{{__('product.select_var_options')}}">
                                                         
                                                     </select>
                                                 </div>
@@ -427,7 +427,7 @@
                                             <div data-repeater-item="" class="form-group add-tax-field d-flex flex-wrap gap-5">
                                                 <!--begin::Select2-->
                                                 <div class="w-100 w-md-325px">
-                                                    <select class="form-select form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                    <select class="form-select form-select-sm form-select-tax" name="product_option[]" data-control="select2" data-placeholder="{{__('product.select_tax')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option></option>
                                                         @foreach($taxes as $tax)
                                                         <option value="{{$tax->id}}">{{$tax->name}}</option>
@@ -436,7 +436,7 @@
                                                 </div>
                                                 <!--end::Select2-->
                                                 <!--begin::Input-->
-                                                <input type="text" class="form-control mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                <input type="text" class="form-control form-control-sm mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
                                                 <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
                                                 {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                     <span class="svg-icon svg-icon-2">
@@ -477,10 +477,10 @@
         <!--end::Tab content-->
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="{{route('product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
+            <a href="{{route('product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="submit" data-type="create" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+            <button type="submit" data-type="create" id="kt_ecommerce_add_product_submit" class="btn btn-sm btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

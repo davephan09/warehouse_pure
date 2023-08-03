@@ -33,7 +33,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" data-kt-ecommerce-product-filter="search" id="search-field" class="form-control form-control-solid w-250px ps-14" placeholder="{{__('product.search')}}" />
+                <input type="text" data-kt-ecommerce-product-filter="search" id="search-field" class="form-control form-control-sm form-control-solid w-250px ps-14" placeholder="{{__('product.search')}}" />
             </div>
             <!--end::Search-->
         </div>
@@ -42,7 +42,7 @@
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <div class="w-100 mw-150px">
                 <!--begin::Select2-->
-                <select class="form-select form-select-solid" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" data-kt-ecommerce-product-filter="status" >
+                <select class="form-select form-select-sm form-select-solid" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" data-kt-ecommerce-product-filter="status" >
                     <option value="all">{{__('common.all')}}</option>
                     <option value="{{__('common.active')}}">{{__('common.active')}}</option>
                     <option value="{{__('common.inactive')}}">{{__('common.inactive')}}</option>
@@ -50,7 +50,7 @@
                 <!--end::Select2-->
             </div>
             <!--begin::Add product-->
-            <a href="{{route('product.create')}}" class="btn btn-primary">{{__('product.add_btn')}}</a>
+            <a href="{{route('product.create')}}" class="btn btn-sm btn-primary">{{__('product.add_btn')}}</a>
             <!--end::Add product-->
         </div>
         <!--end::Card toolbar-->
