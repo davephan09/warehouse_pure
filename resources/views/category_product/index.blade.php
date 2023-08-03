@@ -33,7 +33,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="{{__('category.search')}}" />
+                <input type="text" id="search-field" data-kt-ecommerce-category-filter="search" class="form-control form-control-sm form-control-solid w-250px ps-14" placeholder="{{__('category.search')}}" />
             </div>
             <!--end::Search-->
         </div>
@@ -41,14 +41,14 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <div class="w-100 mw-150px">
-                <select class="form-select form-select-solid" name="filter_status" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" tabindex="-1" aria-hidden="true">
+                <select class="form-select form-select-sm form-select-solid" name="filter_status" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" tabindex="-1" aria-hidden="true">
                     <option value="all">{{__('common.all')}}</option>
                     <option value="{{__('common.active')}}">{{__('common.active')}}</option>
                     <option value="{{__('common.inactive')}}">{{__('common.inactive')}}</option>
                 </select>
             </div>
             <!--begin::Add customer-->
-            <a href="{{route('category.product.create')}}" class="btn btn-primary">{{__('common.add_new')}}</a>
+            <a href="{{route('category.product.create')}}" class="btn btn-sm btn-primary">{{__('common.add_new')}}</a>
             <!--end::Add customer-->
         </div>
         <!--end::Card toolbar-->

@@ -87,7 +87,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_category_status_select">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_category_status_select">
                     <option></option>
                     <option value="1" {{$category->active == 1 ? 'selected' : ''}}>{{__('common.active')}}</option>
                     <option value="0" {{$category->active == 0 ? 'selected' : ''}}>{{__('common.inactive')}}</option>
@@ -121,7 +121,7 @@
                     <label class="required form-label">{{__('category.name')}}</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="category_name" class="form-control mb-2" placeholder="{{__('category.type_name')}}" value="{{$category->name}}" />
+                    <input type="text" name="category_name" class="form-control form-control-sm mb-2" placeholder="{{__('category.type_name')}}" value="{{$category->name}}" />
                     <!--end::Input-->
                     <!--begin::Description-->
                     <div class="text-muted fs-7">{{__('category.name_des')}}</div>
@@ -164,7 +164,7 @@
                 <label for="kt_ecommerce_add_category_store_template" class="form-label">{{__('common.choose_parent_category')}}</label>
                 <!--end::Select store template-->
                 <!--begin::Select2-->
-                <select class="form-select mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_store_template">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_store_template">
                     <option value="no_parent" {{$category->parent_id == null ? 'selected' : ''}}>{{__('category.no_parent')}}</option>
                     {!!\App\Helpers\Helper::renderMultilevelOption($productCategories, 0, '', $category->parent_id)!!}
                 </select>
@@ -179,10 +179,10 @@
         <!--end::Automation-->
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="{{route('category.product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">{{__('common.cancel')}}</a>
+            <a href="{{route('category.product.index')}}" id="kt_ecommerce_add_product_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <button type="submit" data-type="update" id="kt_ecommerce_add_category_submit" class="btn btn-primary">
+            <button type="submit" data-type="update" id="kt_ecommerce_add_category_submit" class="btn btn-sm btn-primary">
                 <span class="indicator-label">{{__('common.submit')}}</span>
                 <span class="indicator-progress">Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
