@@ -8,4 +8,5 @@ return [
     'search' => 'Search brands',
     'update_brand' => 'Update brand',
     'delete_brand' => 'Delete brand',
+    'brands' => 'Brands',
 ];

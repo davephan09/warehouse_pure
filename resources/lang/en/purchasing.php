@@ -28,4 +28,5 @@ return [
     'bill' => 'Purchasing Bill',
     'update' => 'Update Purchasing Bill',
     'update_purchasing_order' => 'Update Purchasing Order',
+    'purchasings' => 'Purchasing Bills',
 ];

@@ -32,7 +32,7 @@
             <img src="{{$supplier->bank_code ? $banks[$supplier->bank_code]->logo : ''}}" class="w-35px me-3" alt="{{$supplier->bank_code ? $banks[$supplier->bank_code]->shortName : ''}}" data-toggle="tooltip" data-trigger="click" title="{{$supplier->bank_code ? $banks[$supplier->bank_code]->shortName : ''}}" />{{$supplier->account_number ? json_decode($supplier->account_number) : ''}}
         </td>
         <!--end::Payment method=-->
-        <td><label class="form-check form-switch form-check-custom form-check-solid">
+        <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <!--begin::Input-->
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
                 value="{{$supplier->id}}" {{$supplier->active ? 'checked' : ''}} @if(!auth()->user()->can('supplier.update')) {{'disabled'}} @endif/>

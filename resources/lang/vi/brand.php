@@ -8,4 +8,5 @@ return [
     'update_brand' => 'Cập nhật thương hiệu',
     'search' => 'Tìm kiếm thương hiệu',
     'delete_brand' => 'Xóa thương hiệu',
+    'brands' => 'Thương hiệu',
 ];

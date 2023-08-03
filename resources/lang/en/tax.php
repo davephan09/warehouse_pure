@@ -9,4 +9,5 @@ return [
     'update_tax' => 'Update tax',
     'delete_tax' => 'Delete tax',
     'choose_tax' => 'Select tax',
+    'taxes' => 'Taxes',
 ];

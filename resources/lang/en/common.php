@@ -88,4 +88,8 @@ return [
     'taxes' => 'All Taxes',
     'percent' => 'Percent',
     'pick_date_range' => 'Pick date range',
+    'dashboard' => 'Dashboard',
+    'product_management' => 'Product Management',
+    'access' => 'Access Control',
+    'advanced_options' => 'Advanced Options',
 ];

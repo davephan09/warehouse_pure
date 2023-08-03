@@ -322,7 +322,7 @@
                                 <h2>{{__('common.inventory')}}</h2>
                             </div>
                             <div class="">
-                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                                     <input class="form-check-input me-2" name="is_variation" type="checkbox"
                                         value="1" id="is-variation"/>
                                         {{__('product.has_variation')}}

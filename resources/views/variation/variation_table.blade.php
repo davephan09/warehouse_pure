@@ -23,7 +23,7 @@
                 <div></div>
             @endforelse
         </td>
-        <td><label class="form-check form-switch form-check-custom form-check-solid">
+        <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
                 value="{{$variation->id}}" {{$variation->active ? 'checked' : ''}} @if(!auth()->user()->can('variation.update')) {{'disabled'}} @endif/>
         </label></td>

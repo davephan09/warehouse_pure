@@ -27,4 +27,5 @@ return [
     'pick_date_range' => 'Chọn khoảng thời gian',
     'bill' => 'Đơn nhập hàng',
     'update' => 'Cập nhật đơn hàng',
+    'purchasings' => 'Đơn nhập hàng',
 ];

@@ -43,5 +43,6 @@ return [
     'has_variation' => 'Has Variations?',
     'price_des' => 'Set the product price',
     'price_example' => 'Product price',
-    'quantity_example' => 'Product quantity'
+    'quantity_example' => 'Product quantity',
+    'products' => 'Products',
 ];

@@ -8,4 +8,5 @@ return [
     'search' => 'Search units',
     'update_unit' => 'Update unit',
     'delete_unit' => 'Delete unit',
+    'units' => 'Units',
 ];

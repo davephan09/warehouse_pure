@@ -10,4 +10,5 @@ return [
     'description' => 'Description',
     'update_supplier' => 'Update Supplier',
     'delete_supplier' => 'Remove Supplier',
+    'suppliers' => 'Suppliers',
 ];

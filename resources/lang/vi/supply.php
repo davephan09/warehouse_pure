@@ -10,4 +10,5 @@ return [
     'description' => 'Mô tả',
     'update_supplier' => 'Cập nhật Nhà cung cấp',
     'delete_supplier' => 'Xóa Nhà cung cấp',
+    'suppliers' => 'Nhà cung cấp',
 ];

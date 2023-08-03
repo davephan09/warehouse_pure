@@ -44,4 +44,5 @@ return [
     'price_des' => 'Nhập giá tiền sản phẩm',
     'price_example' => 'Ví dụ: 100000',
     'quantity_example' => 'Ví dụ: 50',
+    'products' => 'Sản phẩm',
 ];

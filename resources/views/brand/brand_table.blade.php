@@ -15,7 +15,7 @@
         <td>
             <img src="{{$brand->thumb ? $brand->thumb : ''}}" class="w-35px me-3" alt="{{$brand->name}}" data-toggle="tooltip" data-trigger="click" title="{{$brand->name}}" />{{$brand->name}}
         </td>
-        <td><label class="form-check form-switch form-check-custom form-check-solid">
+        <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
                 value="{{$brand->id}}" {{$brand->active ? 'checked' : ''}} @if(!auth()->user()->can('brand.update')) {{'disabled'}} @endif/>
         </label></td>

@@ -15,7 +15,7 @@
         <td class="text-start pe-0">
             <span class="fw-bolder">{{$unit->name}}</span>
         </td>
-        <td><label class="form-check form-switch form-check-custom form-check-solid">
+        <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
                 value="{{$unit->id}}" {{$unit->active ? 'checked' : ''}} @if(!auth()->user()->can('unit.update')) {{'disabled'}} @endif/>
         </label></td>

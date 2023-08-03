@@ -15,7 +15,7 @@
         <td class="text-start pe-0">
             <span class="fw-bolder">{{$tax->name}}</span>
         </td>
-        <td><label class="form-check form-switch form-check-custom form-check-solid">
+        <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
             <input class="form-check-input is-active-btn" name="active" type="checkbox"
                 value="{{$tax->id}}" {{$tax->active ? 'checked' : ''}} @if(!auth()->user()->can('tax.update')) {{'disabled'}} @endif/>
         </label></td>

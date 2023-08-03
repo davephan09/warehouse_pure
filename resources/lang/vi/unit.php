@@ -8,4 +8,5 @@ return [
     'search' => 'Tìm kiếm đơn vị tính',
     'update_unit' => 'Cập nhật đơn vị tính',
     'delete_unit' => 'Xóa đơn vị tính',
+    'units' => 'Đơn vị tính',
 ];

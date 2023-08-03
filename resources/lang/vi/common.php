@@ -87,4 +87,8 @@ return [
     'taxes' => 'Danh sách các loại thuế',
     'percent' => 'Phần trăm',
     'pick_date_range' => 'Chọn khoảng thời gian',
+    'dashboard' => 'Trang chủ',
+    'product_management' => 'Quản lý Sản phẩm',
+    'access' => 'Kiểm soát truy cập',
+    'advanced_options' => 'Tùy chọn nâng cao',
 ];
