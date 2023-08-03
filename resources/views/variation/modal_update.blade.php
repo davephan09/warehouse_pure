@@ -22,7 +22,7 @@
                         <label class="fs-6 fw-bold form-label mb-2">
                             <span class="required">{{ __('variation.variation_name') }}</span>
                         </label>
-                        <input class="form-control form-control-solid"
+                        <input class="form-control form-control-sm form-control-solid"
                             placeholder="{{ __('variation.add_new_variation_des') }}" name="variation_name"
                             id="variation-name-update" />
                     </div>
@@ -30,7 +30,7 @@
                         <label class="fs-6 fw-bold form-label mb-2">
                             <span class="required">{{ __('variation.description') }}</span>
                         </label>
-                        <input class="form-control form-control-solid"
+                        <input class="form-control form-control-sm form-control-solid"
                             placeholder="{{ __('variation.description_des') }}" name="variation_description"
                             id="variation-description-update" />
                     </div>
@@ -38,7 +38,7 @@
                         <label class="fs-6 fw-bold form-label mb-2">
                             <span class="required">{{ __('variation.options') }}</span>
                         </label>
-                        <select class="form-select form-select-solid" name="options" id="var-options-update" data-control="select2" data-allow-clear="true" multiple
+                        <select class="form-select form-select-sm form-select-solid" name="options" id="var-options-update" data-control="select2" data-allow-clear="true" multiple
                             data-hide-search="true" data-tags="true" data-placeholder="{{__('variation.add_options')}}" tabindex="-1" aria-hidden="true" >
                         </select>
                     </div>
@@ -67,9 +67,9 @@
                     <input type="number" name="" id="variation-id" val="" hidden>
                 </div>
                 <div class="modal-footer flex-center">
-                    <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel"
+                    <button type="reset" class="btn btn-sm btn-light me-3" data-kt-roles-modal-action="cancel"
                         data-bs-dismiss="modal">{{ trans('common.discard') }}</button>
-                    <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit"
+                    <button type="submit" class="btn btn-sm btn-primary" data-kt-roles-modal-action="submit"
                         id="submit-variation-btn">
                         <span class="indicator-label">{{ trans('common.submit') }}</span>
                         <span class="indicator-progress">Please wait...

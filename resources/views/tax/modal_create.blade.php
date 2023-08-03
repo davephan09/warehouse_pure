@@ -42,7 +42,7 @@
                             <label class="required fs-6 fw-bold mb-2">{{__('tax.tax_name')}}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" id="name-input" placeholder="{{__('tax.type_tax_name')}}" name="name"
+                            <input type="text" class="form-control form-control-sm form-control-solid" id="name-input" placeholder="{{__('tax.type_tax_name')}}" name="name"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -50,7 +50,7 @@
                         <div class="fv-row mb-7">
                             <label class=" fs-6 fw-bold mb-2">{{__('tax.description')}}</label>
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" id="description" placeholder="{{__('tax.type_tax_description')}}" name="description"
+                            <input type="text" class="form-control form-control-sm form-control-solid" id="description" placeholder="{{__('tax.type_tax_description')}}" name="description"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -86,10 +86,10 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" id="kt_modal_add_customer_cancel" data-bs-dismiss="modal"
-                        class="btn btn-light me-3">{{__('common.discard')}}</button>
+                        class="btn btn-sm btn-light me-3">{{__('common.discard')}}</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="submit" id="kt_modal_add_tax_submit" class="btn btn-primary">
+                    <button type="submit" id="kt_modal_add_tax_submit" class="btn btn-sm btn-primary">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
