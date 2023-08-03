@@ -42,7 +42,7 @@
                             <label class="required fs-6 fw-bold mb-2">{{__('supply.supplier_name')}}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" placeholder="{{__('supply.type_supplier_name')}}" name="name"
+                            <input type="text" class="form-control form-control-sm form-control-solid" placeholder="{{__('supply.type_supplier_name')}}" name="name"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -55,7 +55,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="tel" class="form-control form-control-solid" placeholder="{{__('supply.type_supplier_phone')}}" name="phone"
+                            <input type="tel" class="form-control form-control-sm form-control-solid" placeholder="{{__('supply.type_supplier_phone')}}" name="phone"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -70,7 +70,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="email" class="form-control form-control-solid" placeholder="{{__('supply.type_supplier_email')}}" name="email"
+                            <input type="email" class="form-control form-control-sm form-control-solid" placeholder="{{__('supply.type_supplier_email')}}" name="email"
                                 value="" />
                             <!--end::Input-->
                         </div>
@@ -106,7 +106,7 @@
                                 data-placeholder="{{__('common.select_province')}} ..."
                                 data-dropdown-parent="#kt_modal_add_customer" 
                                 id="province-select"
-                                class="form-select form-select-solid fw-bolder">
+                                class="form-select form-select-sm form-select-solid fw-bolder">
                                     <option value=""></option>
                                     @forelse ($address as $province)
                                     <option value="{{$province->code}}">{{$province->name}}</option>
@@ -127,7 +127,7 @@
                                 data-placeholder="{{__('common.select_district')}} ..."
                                 data-dropdown-parent="#kt_modal_add_customer" 
                                 id="district-select"
-                                class="form-select form-select-solid fw-bolder">
+                                class="form-select form-select-sm form-select-solid fw-bolder">
                                     <option value=""></option>
 
                                 </select>
@@ -145,7 +145,7 @@
                                 data-placeholder="{{__('common.select_ward')}} ..."
                                 data-dropdown-parent="#kt_modal_add_customer" 
                                 id="ward-select"
-                                class="form-select form-select-solid fw-bolder">
+                                class="form-select form-select-sm form-select-solid fw-bolder">
                                     <option value=""></option>
                                     
                                 </select>
@@ -158,7 +158,7 @@
                                 <label class="fs-6 fw-bold mb-2">{{__('common.address_detail')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input class="form-control form-control-solid" placeholder="{{__('common.type_address_detail')}}" name="address_detail"
+                                <input class="form-control form-control-sm form-control-solid" placeholder="{{__('common.type_address_detail')}}" name="address_detail"
                                     value="" />
                                 <!--end::Input-->
                             </div>
@@ -193,7 +193,7 @@
                                 data-placeholder="{{__('common.select_bank')}} ..."
                                 data-dropdown-parent="#kt_modal_add_customer" 
                                 id="bank-select"
-                                class="form-select form-select-solid fw-bolder">
+                                class="form-select form-select-sm form-select-solid fw-bolder">
                                     <option value=""></option>
                                     @forelse ($banks as $bank)
                                     <option value="{{$bank->code}}">{{$bank->shortName . ' - ' . $bank->name}}</option>
@@ -209,7 +209,7 @@
                                 <label class=" fs-6 fw-bold mb-2">{{__('common.account_number')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                    <input type="text" class="form-control form-control-solid" placeholder="{{__('common.type_account_number')}}" name="account_number"
+                                    <input type="text" class="form-control form-control-sm form-control-solid" placeholder="{{__('common.type_account_number')}}" name="account_number"
                                     value="" />
                                 <!--end::Input-->
                             </div>
@@ -221,7 +221,7 @@
                             <label class="fs-6 fw-bold mb-2">{{__('supply.description')}}</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid" placeholder=""
+                            <input type="text" class="form-control form-control-sm form-control-solid" placeholder=""
                                 name="description" />
                             <!--end::Input-->
                         </div>
@@ -260,10 +260,10 @@
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
                     <button type="reset" id="kt_modal_add_customer_cancel" data-bs-dismiss="modal"
-                        class="btn btn-light me-3">{{__('common.discard')}}</button>
+                        class="btn btn-sm btn-light me-3">{{__('common.discard')}}</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">
+                    <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-sm btn-primary">
                         <span class="indicator-label">{{__('common.submit')}}</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
