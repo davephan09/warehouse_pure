@@ -181,7 +181,7 @@
                 <label for="kt_ecommerce_add_category_store_template" class="form-label">{{__('common.choose_parent_category')}}</label>
                 <!--end::Select store template-->
                 <!--begin::Select2-->
-                <select class="form-select form-control-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_store_template">
+                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_category_store_template">
                     <option value="no_parent">{{__('category.no_parent')}}</option>
                     {!!\App\Helpers\Helper::renderMultilevelOption($productCategories)!!}
                 </select>

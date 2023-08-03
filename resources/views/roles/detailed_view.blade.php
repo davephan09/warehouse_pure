@@ -55,7 +55,7 @@
                 @can('role.update')
                 <!--begin::Card footer-->
                 <div class="card-footer pt-0">
-                    <button type="button" class="btn btn-light btn-active-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
                         data-bs-target="#kt_modal_update_role">Edit Role</button>
                 </div>
                 <!--end::Card footer-->
@@ -99,7 +99,7 @@
                             </span>
                             <!--end::Svg Icon-->
                             <input type="text" data-kt-roles-table-filter="search" id="seach-field"
-                                class="form-control form-control-solid w-250px ps-15" placeholder="Search Users" />
+                                class="form-control form-control-sm form-control-solid w-250px ps-15" placeholder="Search Users" />
                         </div>
                         <!--end::Search-->
                         <!--begin::Group actions-->
@@ -108,7 +108,7 @@
                             <div class="fw-bolder me-5">
                                 <span class="me-2" data-kt-view-roles-table-select="selected_count"></span>Selected
                             </div>
-                            <button type="button" class="btn btn-danger"
+                            <button type="button" class="btn btn-sm btn-danger"
                                 data-kt-view-roles-table-select="delete_selected">Delete Selected</button>
                         </div>
                         <!--end::Group actions-->

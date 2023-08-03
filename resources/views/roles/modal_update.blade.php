@@ -43,7 +43,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class="form-control form-control-solid" placeholder="Enter a role name" id="role-name-edit"
+                            <input class="form-control form-control-sm form-control-solid" placeholder="Enter a role name" id="role-name-edit"
                                 name="role_name" value="{{isset($roleInfo) ? $roleInfo->name : ''}}" />
                             <!--end::Input-->
                         </div>
@@ -118,9 +118,9 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
+                        <button type="reset" class="btn btn-sm btn-light me-3" data-bs-dismiss="modal"
                             data-kt-roles-modal-action="cancel">{{__('common.discard')}}</button>
-                        <button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit" id="update-btn">
+                        <button type="submit" class="btn btn-sm btn-primary" data-kt-roles-modal-action="submit" id="update-btn">
                             <span class="indicator-label">{{__('common.submit')}}</span>
                             <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
