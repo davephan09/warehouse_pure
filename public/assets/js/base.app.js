@@ -227,7 +227,7 @@
                 }
                 target.LoadingOverlay("show", {
                     fade: false,
-                    maxSize: 50
+                    maxSize: 30
                 });
             }
 
