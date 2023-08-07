@@ -211,12 +211,43 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('customer.delete')) {
+            try {
+                $id = intval($request->input('id'));
+                if (isset($id)) {
+                    $customer = $this->customer->find($id);
+                    $isDelete = $customer->delete();
+                }
+                if ($isDelete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a customer: ' . $customer->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function restore(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('customer.delete')) {
+            try {
+                $id = cleanNumber($request->input('id'));
+                if (isset($id)) {
+                    $customer = $this->customer->restore($id);
+                }
+                if ($customer) \Illuminate\Support\Facades\Log::info($user->username . ' has restored a customer: ' . $customer->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }

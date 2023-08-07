@@ -10,4 +10,5 @@ return [
     'description' => 'Mô tả',
     'payment_method' => 'Phương thức thanh toán',
     'update_customer' => 'Cập nhật khách hàng',
+    'delete_customer' => 'Xóa khách hàng',
 ];

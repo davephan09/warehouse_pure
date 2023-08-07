@@ -53,6 +53,7 @@ var CustomerClass = function () {
         renderDistrictE()
         renderWardE()
         updateCustomer()
+        deleteCustomer()
     }
 
     var getParam = function () {
@@ -330,6 +331,31 @@ var CustomerClass = function () {
                 'unConfirm' : function () {
 
                 }
+            })
+        })
+    }
+
+    var deleteCustomer = function () {
+        $(document).on('click', '.delete-btn', function () {
+            var $id = $(this).data('id')
+            var customer = customers[$id]
+            var params = {
+                id : $id
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('customer.delete_customer') + ': ' + customer.name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/customers/delete', 'POST', params, '', null, _cb)
+                },
             })
         })
     }

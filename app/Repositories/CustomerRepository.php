@@ -34,4 +34,12 @@ class CustomerRepository extends Repository
         }
         return $query->get()->keyBy('id');
     }
+
+    public function restore($id)
+    {
+        $query = $this->model->query();
+        $customer = $query->withTrashed()->find($id);
+        $customer->restore();
+        return $customer;
+    }
 }

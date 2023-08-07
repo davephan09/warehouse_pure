@@ -127,4 +127,5 @@ Route::prefix('customers')->group(function() {
     Route::post('update', [CustomerController::class, 'update'])->name('customers.update');
     Route::post('change-status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
     Route::post('delete', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::post('restore', [CustomerController::class, 'restore'])->name('customers.restore');
 });

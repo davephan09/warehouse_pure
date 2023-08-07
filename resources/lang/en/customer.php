@@ -10,4 +10,5 @@ return [
     'description' => 'Description',
     'payment_method' => 'Payment method',
     'update_customer' => 'Update customer',
+    'delete_customer' => 'Delete customer',
 ];
