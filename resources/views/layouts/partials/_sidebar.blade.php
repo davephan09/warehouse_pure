@@ -68,6 +68,7 @@
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{trans('common.product_management')}}</span>
                     </div>
                 </div>
+                @can('product.read')
                 <div class="menu-item ">
                     <a class="menu-link" href="{{route('product.index')}}">
                         <span class="menu-icon">
@@ -83,6 +84,8 @@
                         <span class="menu-title">{{trans('product.products')}}</span>
                     </a>
                 </div>
+                @endcan
+                @canany(['category_product.read', 'variation.read', 'brand.read', 'unit.read', 'tax.read'])
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -105,6 +108,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        @can('category_product.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{route('category.product.index')}}">
                                 <span class="menu-bullet">
@@ -113,6 +117,8 @@
                                 <span class="menu-title">{{ trans('common.category_product') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('variation.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{route('variation.index')}}">
                                 <span class="menu-bullet">
@@ -121,6 +127,8 @@
                                 <span class="menu-title">{{ trans('common.variation') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('brand.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{route('brand.index')}}">
                                 <span class="menu-bullet">
@@ -129,6 +137,8 @@
                                 <span class="menu-title">{{ trans('brand.brands') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('unit.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{route('unit.index')}}">
                                 <span class="menu-bullet">
@@ -137,6 +147,8 @@
                                 <span class="menu-title">{{ trans('unit.units') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('tax.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{route('tax.index')}}">
                                 <span class="menu-bullet">
@@ -145,13 +157,17 @@
                                 <span class="menu-title">{{ trans('tax.taxes') }}</span>
                             </a>
                         </div>
+                        @endcan
                     </div>
                 </div>
+                @endcanany
+
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-0">
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ trans('common.general') }}</span>
                     </div>
                 </div>
+                @can('supplier.read')
                 <div class="menu-item">
                     <a class="menu-link" href="{{ route('suppliers.index') }}"
                         data-bs-trigger="hover" data-bs-dismiss="click">
@@ -168,6 +184,8 @@
                         <span class="menu-title">{{ trans('supply.suppliers') }}</span>
                     </a>
                 </div>
+                @endcan
+                @can('purchasing.read')
                 <div class="menu-item">
                     <a class="menu-link" href="{{ route('purchasing.index') }}"
                         data-bs-trigger="hover" data-bs-dismiss="click">
@@ -186,6 +204,25 @@
                         <span class="menu-title">{{ trans('purchasing.purchasings') }}</span>
                     </a>
                 </div>
+                @endcan
+                @can('customer.read')
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('customers.index') }}"
+                        data-bs-trigger="hover" data-bs-dismiss="click">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.8254 27.3337H4.17203C3.1536 27.3337 2.17688 26.9291 1.45674 26.2089C0.736602 25.4888 0.332031 24.5121 0.332031 23.4937V4.50699C0.332031 3.48856 0.736602 2.51184 1.45674 1.7917C2.17688 1.07156 3.1536 0.666992 4.17203 0.666992H17.8254C18.8438 0.666992 19.8205 1.07156 20.5407 1.7917C21.2608 2.51184 21.6654 3.48856 21.6654 4.50699V23.4937C21.6654 24.5121 21.2608 25.4888 20.5407 26.2089C19.8205 26.9291 18.8438 27.3337 17.8254 27.3337ZM10.9987 7.33366C10.4713 7.33366 9.95571 7.49006 9.51718 7.78307C9.07865 8.07609 8.73685 8.49257 8.53502 8.97984C8.33319 9.46711 8.28038 10.0033 8.38327 10.5206C8.48616 11.0378 8.74014 11.513 9.11308 11.8859C9.48602 12.2589 9.96117 12.5129 10.4785 12.6158C10.9957 12.7186 11.5319 12.6658 12.0192 12.464C12.5065 12.2622 12.9229 11.9204 13.216 11.4818C13.509 11.0433 13.6654 10.5277 13.6654 10.0003C13.6654 9.29308 13.3844 8.6148 12.8843 8.11471C12.3842 7.61461 11.7059 7.33366 10.9987 7.33366ZM15.3587 19.3337C15.5794 19.347 15.8 19.3052 16.0005 19.2121C16.2011 19.1189 16.3753 18.9774 16.5076 18.8002C16.6398 18.623 16.7259 18.4157 16.7581 18.1969C16.7903 17.9781 16.7676 17.7548 16.692 17.547C16.2027 16.4571 15.3998 15.5378 14.3858 14.9061C13.3718 14.2744 12.1926 13.9591 10.9987 14.0003C9.81328 13.9677 8.64459 14.2856 7.63898 14.9141C6.63337 15.5426 5.83553 16.4538 5.34537 17.5337C4.9987 18.4003 5.70536 19.3337 7.38536 19.3337H15.3587ZM24.332 12.667H22.9987V18.0003H24.332C24.6857 18.0003 25.0248 17.8598 25.2748 17.6098C25.5249 17.3598 25.6654 17.0206 25.6654 16.667V14.0003C25.6654 13.6467 25.5249 13.3076 25.2748 13.0575C25.0248 12.8075 24.6857 12.667 24.332 12.667ZM24.332 4.66699H22.9987V10.0003H24.332C24.6857 10.0003 25.0248 9.85985 25.2748 9.6098C25.5249 9.35975 25.6654 9.02061 25.6654 8.66699V6.00033C25.6654 5.6467 25.5249 5.30756 25.2748 5.05752C25.0248 4.80747 24.6857 4.66699 24.332 4.66699Z" fill="currentColor"/>
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">{{ trans('customer.customers') }}</span>
+                    </a>
+                </div>
+                @endcan
+                @canany(['user.read', 'role.read', 'permission.read'])
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ trans('common.user_management') }}</span>
@@ -208,6 +245,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
+                        @can('user.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{ route('users.index') }}">
                                 <span class="menu-bullet">
@@ -216,6 +254,8 @@
                                 <span class="menu-title">{{ trans('role_permission.user') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('role.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{ route('roles.index') }}">
                                 <span class="menu-bullet">
@@ -224,6 +264,8 @@
                                 <span class="menu-title">{{ trans('role_permission.role') }}</span>
                             </a>
                         </div>
+                        @endcan
+                        @can('permission.read')
                         <div class="menu-item">
                             <a class="menu-link" href="{{ route('permissions.index') }}">
                                 <span class="menu-bullet">
@@ -232,13 +274,16 @@
                                 <span class="menu-title">{{ trans('role_permission.permission') }}</span>
                             </a>
                         </div>
+                        @endcan
                     </div>
                 </div>
+                @endcanany
                 <div class="menu-item">
                     <div class="menu-content">
                         <div class="separator mx-1 my-4"></div>
                     </div>
                 </div>
+                @can('log.read')
                 <div class="menu-item">
                     <a class="menu-link" href="{{ route('log-viewer::dashboard') }}">
                         <span class="menu-icon">
@@ -259,6 +304,7 @@
                         <span class="menu-title">Changelog Checking</span>
                     </a>
                 </div>
+                @endcan
             </div>
             <!--end::Menu-->
         </div>
