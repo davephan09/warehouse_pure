@@ -91,4 +91,5 @@ return [
     'product_management' => 'Quản lý Sản phẩm',
     'access' => 'Kiểm soát truy cập',
     'advanced_options' => 'Tùy chọn nâng cao',
+    'customer_list' => 'Danh sách khách hàng',
 ];

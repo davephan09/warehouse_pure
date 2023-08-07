@@ -92,4 +92,5 @@ return [
     'product_management' => 'Product Management',
     'access' => 'Access Control',
     'advanced_options' => 'Advanced Options',
+    'customer_list' => 'Customer List',
 ];

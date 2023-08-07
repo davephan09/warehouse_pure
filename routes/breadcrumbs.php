@@ -107,3 +107,8 @@ Breadcrumbs::for('permission', function (BreadcrumbTrail $trail) {
     $trail->parent('access_control');
     $trail->push(trans('role_permission.permission'), route('permissions.index'));
 });
+
+Breadcrumbs::for('customer', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push(trans('customer.customers'), route('customers.index'));
+});

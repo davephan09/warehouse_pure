@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchasingController;
@@ -117,4 +118,13 @@ Route::prefix('purchasing')->group(function() {
     Route::get('show/{id}', [PurchasingController::class, 'show'])->name('purchasing.show');
     Route::post('update', [PurchasingController::class, 'update'])->name('purchasing.update');
     Route::post('delete', [PurchasingController::class, 'destroy'])->name('purchasing.destroy');
+});
+
+Route::prefix('customers')->group(function() {
+    Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('get-data', [CustomerController::class, 'getData'])->name('customers.getData');
+    Route::post('store', [CustomerController::class, 'store'])->name('customers.store');
+    Route::post('update', [CustomerController::class, 'update'])->name('customers.update');
+    Route::post('change-status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
+    Route::post('delete', [CustomerController::class, 'destroy'])->name('customers.destroy');
 });
