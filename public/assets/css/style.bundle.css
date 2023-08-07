@@ -4871,6 +4871,7 @@ textarea.form-control-lg {
 }
 .page-link:hover {
   z-index: 2;
+  cursor: pointer;
   color: #009EF7;
   text-decoration: none;
   background-color: #F1FAFF;
