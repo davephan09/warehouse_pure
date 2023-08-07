@@ -30,8 +30,8 @@
             <!--end::Email=-->
             <!--begin::Payment method=-->
             <td data-filter="mastercard">
-                <img src="{{$customer->bank_code ? $banks[$customer->bank_code]->logo : ''}}" class="w-35px me-3" alt="{{$customer->bank_code ? $banks[$customer->bank_code]->shortName : ''}}" 
-                data-toggle="tooltip" data-trigger="click" title="{{$customer->bank_code ? $banks[$customer->bank_code]->shortName : ''}}" />{{$customer->account_number ? $customer->account_number : ''}}
+                <img src="{{$customer->bank_code ? $banks[$customer->bank_code]->logo : ''}}" class="w-35px me-3 bank-icon" alt="{{$customer->bank_code ? $banks[$customer->bank_code]->shortName : ''}}" 
+                data-bs-toggle="tooltip" data-trigger="click" title="{{$customer->bank_code ? $banks[$customer->bank_code]->shortName : ''}}" />{{$customer->account_number ? $customer->account_number : ''}}
             </td>
             <!--end::Payment method=-->
             <td><label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">

@@ -16,7 +16,7 @@ class CustomerRepository extends Repository
         if (!empty($filters['province'])) {
             $query = $query->where('province', $filters['province']);
         }
-        if (!empty($filters['status']) && !($filters['status'] === 'all')) {
+        if (isset($filters['status']) && !($filters['status'] === 'all')) {
             $status = intval($filters['status']);
             $query = $query->where('active', $status);
         }

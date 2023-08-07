@@ -134,14 +134,79 @@ class CustomerController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if($user->can('customer.update')) {
+            $id = intval($request->input('id'));
+            $rules = [
+                'name' => 'required|string|max:255|min:3|unique:suppliers,name,' . $id,
+                'phone' => 'max:40|string|nullable',
+                'email' => 'max:40|string|nullable',
+                'detail_address' => 'max:255|string|nullable',
+                'account_number' => 'max:40|string|nullable',
+                'note' => 'string|nullable',
+                'province' => 'numeric|nullable',
+                'district' => 'numeric|nullable',
+                'ward' => 'numeric|nullable',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $requestInput = cleanInput($request->toArray());
+                $customer = $this->customer->find($id);
+                $isUpdate = $customer->update([
+                    'name' => $requestInput['name'],
+                    'phone' => $requestInput['phone'],
+                    'email' => $requestInput['email'],
+                    'province' => $requestInput['province'],
+                    'district' => $requestInput['district'],
+                    'ward' => $requestInput['ward'],
+                    'detail_address' => $requestInput['detail_address'],
+                    'bank_code' => $requestInput['bank_code'],
+                    'account_number' => $requestInput['account_number'],
+                    'note' => $requestInput['note'],
+                    'active' => filter_var($requestInput['active'], FILTER_VALIDATE_BOOLEAN),
+                    'user_add' => $user->id,
+                ]);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a customer: ' . $customer->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404); 
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('customer.update')) {
+            $rules = [
+                'id' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            try {
+                $id = cleanNumber($request->input('id'));
+                $active = filter_var($request->active, FILTER_VALIDATE_BOOLEAN);
+                $customer = $this->customer->find($id);
+                $isUpdate = $customer->update(['active' => $active]);
+                if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has changed status of a customer: ' . $customer->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**

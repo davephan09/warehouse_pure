@@ -9,4 +9,5 @@ return [
     'type_customer_email' => 'Type customer email',
     'description' => 'Description',
     'payment_method' => 'Payment method',
+    'update_customer' => 'Update customer',
 ];

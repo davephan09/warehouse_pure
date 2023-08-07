@@ -22,6 +22,22 @@ var CustomerClass = function () {
         ele.customerTable = $('#kt_customers_table')
         ele.searchField = $('#search-field')
         ele.filterBtn = $('#filter-btn')
+        ele.provinceSelectE = $('#province-select-update')
+        ele.districtSelectE = $('#district-select-update')
+        ele.wardSelectE = $('#ward-select-update')
+        ele.btnCreate = $('#kt_modal_add_customer_submit')
+        ele.btnUpdate = $('#kt_modal_update_customer_submit')
+        ele.nameUpdate = $('#name-update', ele.modalUpdate)
+        ele.phoneUpdate = $('#phone-update', ele.modalUpdate)
+        ele.emailUpdate = $('#email-update', ele.modalUpdate)
+        ele.addressDetailUpdate = $('#address-detail-update', ele.modalUpdate)
+        ele.bankUpdate = $('#bank-select-update', ele.modalUpdate)
+        ele.accountNumberUpdate = $('#account-number', ele.modalUpdate)
+        ele.descriptionUpdate = $('#description-update', ele.modalUpdate)
+        ele.activeUpdate = $('#kt_modal_update_customer_billing', ele.modalUpdate)
+        ele.modalUpdate = $('#kt_modal_update_customer')
+        ele.idUpdate = $('#id-update')
+        ele.formUpdate = $('#kt_modal_update_customer_form')
 
         loadData()
     }
@@ -32,6 +48,11 @@ var CustomerClass = function () {
         createCustomer()
         paging()
         filter()
+        changeActive()
+        syncUpdateCustomer()
+        renderDistrictE()
+        renderWardE()
+        updateCustomer()
     }
 
     var getParam = function () {
@@ -90,6 +111,8 @@ var CustomerClass = function () {
         ele.searchField.on('keyup', function (e) {
             if(e.which ===  13) loadData()
         });
+
+        $('.bank-icon').tooltip()
     }
 
     var paging = function () {
@@ -166,6 +189,146 @@ var CustomerClass = function () {
                 'text' : Lang.get('customer.add_customer'),
                 'callback' : function () {
                     $.app.ajax($.app.vars.url + '/customers/store', 'POST', params, target, null, _cb)
+                }
+            })
+        })
+    }
+
+    var changeActive = function () {
+        $(document).on('change', '.is-active-btn', function () {
+            var $this = $(this)
+            var params = {
+                id : $this.val(),
+                active : $(this).prop('checked')
+            }
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.update_active'),
+                'text' : (params.active ? Lang.get('common.wanna_active_true') : Lang.get('common.wanna_active_false')),
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/customers/change-status', 'POST', params, '', null, _cb)
+                },
+                'unConfirm' : function () {
+                    if ($this.attr('checked')) {
+                        $this.prop('checked', true)
+                    } else {
+                        $this.prop('checked', false)
+                    }
+                }
+            })
+        })
+    }
+
+    var syncUpdateCustomer = function () {
+        $(document).on('click', '.update-btn', function() {
+            var $id = $(this).data('id')
+            var customer = customers[$id]
+            ele.idUpdate.val(customer.id)
+            ele.nameUpdate.val(customer.name)
+            ele.phoneUpdate.val(customer.phone)
+            ele.emailUpdate.val(customer.email)
+            ele.provinceSelectE.html('')
+            var provinceList = '<option><option>'
+            $.each(address, function(i, val) {
+                provinceList += `<option value="${i}" ${i==customer.province ? 'selected' : ''}>${val.name}</option>`
+            })
+            ele.provinceSelectE.html(provinceList)
+            ele.districtSelectE.html('')
+            var districtList = ''
+            if (customer.district) {
+                $.each(address[customer.province].districts, function(i, val) {
+                    districtList += `<option value="${i}" ${i==customer.district ? 'selected' : ''}>${val.name}</option>`
+                })
+            }
+            ele.districtSelectE.html(districtList)
+            ele.wardSelectE.html('')
+            var wardList = ''
+            if (customer.ward) {
+                $.each(address[customer.province].districts[customer.district].wards, function(i, val) {
+                    wardList += `<option value="${i}" ${i==customer.ward ? 'selected' : ''}>${val.name}</option>`
+                })
+            }
+            ele.wardSelectE.html(wardList)
+            ele.addressDetailUpdate.val(customer.detail_address)
+            ele.bankUpdate.html('')
+            var bankList = '<option></opption>'
+            $.each(banks, function (i, val) {
+                bankList += `<option value=${i} ${i===customer.bank_code ? 'selected' : ''}>${val.shortName + ' - ' + val.name}</option>`
+            })
+            console.log(ele.bankUpdate, bankList)
+            ele.bankUpdate.html(bankList)
+            ele.accountNumberUpdate.val(customer.account_number)
+            ele.descriptionUpdate.val(customer.note)
+            customer.active ? ele.activeUpdate.prop('checked', true) : ele.activeUpdate.prop('checked', false)
+        })
+    }
+
+    var renderDistrictE = function () {
+        ele.provinceSelectE.on('change', function(e) {
+            var html = '<option value=""><option>'
+            var $id = e.target.value
+            $.each(address[$id].districts, function(i, val) {
+                html += `<option value="${i}">${val.name}</option>`
+            })
+            ele.districtSelectE.html(html);
+        })
+    }
+
+    var renderWardE = function () {
+        ele.districtSelectE.on('change', function(e) {
+            var html = '<option value=""><option>'
+            var provinceId = ele.provinceSelectE.val()
+            var $id = e.target.value
+            $.each(address[provinceId].districts[$id].wards, function(i, val) {
+                html += `<option value="${val.code}">${val.name}</option>`
+            })
+            ele.wardSelectE.html(html);
+        })
+    }
+
+    var updateCustomer = function () {
+        ele.formUpdate.on('submit', function () {
+            var $id = ele.idUpdate.val()
+            var customer = customers[$id]
+            var params = {
+                name : ele.nameUpdate.val(),
+                phone : ele.phoneUpdate.val(),
+                email : ele.emailUpdate.val(),
+                province : ele.provinceSelectE.val(),
+                district : ele.districtSelectE.val(),
+                ward : ele.wardSelectE.val(),
+                detail_address : ele.addressDetailUpdate.val(),
+                bank_code : ele.bankUpdate.val(),
+                account_number : ele.accountNumberUpdate.val(),
+                note: ele.descriptionUpdate.val(),
+                active: ele.activeUpdate.prop('checked'),
+                id: $id,
+            }
+            var target = $('.modal-content', ele.modalUpdate)
+            var _cb = function (rs) {
+                if (rs.status) {
+                    loadData()
+                    ele.modalUpdate.modal('hide')
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_sure'),
+                'text' : Lang.get('customer.update_customer') + ' ' + customer.name,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/customers/update', 'POST', params, target, null, _cb)
+                },
+                'unConfirm' : function () {
+
                 }
             })
         })
