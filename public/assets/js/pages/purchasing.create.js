@@ -245,6 +245,7 @@ var PurchasingCreateClass = function () {
 
         if(ele.discountField.hasClass('d-none')) {
             ele.total.html(formatNumber(sum))
+            calcPayment(sum)
             return 0
         }
         
@@ -253,6 +254,14 @@ var PurchasingCreateClass = function () {
         ele.totalDiscount.html(formatNumber(discountTotal))
         let total = sum - discountTotal
         ele.total.html(formatNumber(total))
+
+        calcPayment(total)
+    }
+
+    var calcPayment = function (total) {
+        let moneyPaid = cleanNumber(ele.amountPaid.val())
+        let moneyDebt = total - moneyPaid
+        ele.amountDebt.val(formatNumber(moneyDebt))
     }
 
     var handleRemoveItem = function () {

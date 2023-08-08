@@ -71,7 +71,6 @@ var PurchasingClass = function () {
         var _cb = function (rs) {
             var data = rs.data
             bills = data.billsData
-            console.log(bills)
             drawContent(data)
         }
         $.app.ajax($.app.vars.url + '/purchasing/get-data', 'GET', params, target, null, _cb);

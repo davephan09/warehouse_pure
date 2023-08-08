@@ -40,9 +40,11 @@
                     value="" data-plugin="daterangepicker" data-options="{&quot;opens&quot;:&quot;left&quot;}" id="kt_ecommerce_sales_flatpickr" />
             </div>
             <!--end::Flatpickr-->
+            @can('purchasing.create')
             <!--begin::Add product-->
-            <a href="{{ route('purchasing.create') }}" class="btn btn-sm btn-primary">Add Order</a>
+            <a href="{{ route('purchasing.create') }}" class="btn btn-sm btn-primary">{{ __('common.add_order') }}</a>
             <!--end::Add product-->
+            @endcan
         </div>
         <!--end::Card toolbar-->
     </div>
