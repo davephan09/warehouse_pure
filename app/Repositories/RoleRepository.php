@@ -13,7 +13,7 @@ class RoleRepository extends Repository
     public function filters($filters = [])
     {
         $query = $this->model->query();
-        $query = $query->with('permissions');
+        $query = $query->with('permissions', 'users');
 
         if(!empty($filters['roleId'])) {
             $data = $query->where('id', $filters['roleId'])->first();

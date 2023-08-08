@@ -14,5 +14,6 @@ return [
     'role_detail' => 'Role Detail',
     'permission_list' => 'Permissions List',
     'user' => 'Users',
-    'user_list' => 'Users List'
+    'user_list' => 'Users List',
+    'total_users_role' => 'Total users with this role: ',
 ];

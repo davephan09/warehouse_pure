@@ -93,4 +93,7 @@ return [
     'access' => 'Access Control',
     'advanced_options' => 'Advanced Options',
     'customer_list' => 'Customer List',
+    'add_order' => 'Add Order',
+    'and' => 'and',
+    'more' => 'more',
 ];

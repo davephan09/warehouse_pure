@@ -92,4 +92,7 @@ return [
     'access' => 'Kiểm soát truy cập',
     'advanced_options' => 'Tùy chọn nâng cao',
     'customer_list' => 'Danh sách khách hàng',
+    'add_order' => 'Tạo đơn hàng',
+    'and' => 'và',
+    'more' => 'quyển nữa',
 ];

@@ -73,6 +73,7 @@ class RolesController extends Controller
         $data['listRoles'] = $listRoles;
         $data['rolesInfo'] = $rolesInfo;
         $data['rolePermission'] = $rolePermission;
+        $data['roles'] = $roles->keyBy('id');
         $data['htmlListRoles'] = view('roles.list_role', $data)->render();
         return $this->iRespond(true, "", $data);
     }

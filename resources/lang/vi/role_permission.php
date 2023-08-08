@@ -14,5 +14,6 @@ return [
     'role_detail' => 'Chi tiết vai trò',
     'permission_list' => 'Danh sách quyền',
     'user' => 'Người dùng',
-    'user_list' => 'Danh sách người dùng'
+    'user_list' => 'Danh sách người dùng',
+    'total_users_role' => 'Số lượng người dùng có vai trò này: ',
 ];
