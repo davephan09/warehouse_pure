@@ -44,7 +44,7 @@ class PurchasingRepository extends Repository
                 'price' => cleanNumber($item['price']),
                 'total' => cleanNumber($item['total']),
                 'tax' => $taxTotal,
-                'discount' => empty($request->input('discount_value')) ? 0 : cleanNumber($request->input('discount_amount')),
+                // 'discount' => empty($request->input('discount_value')) ? 0 : cleanNumber($request->input('discount_amount')),
             ]);
             if(!empty($item['taxes'])) {
                 foreach($item['taxes'] as $tax) {
@@ -66,7 +66,11 @@ class PurchasingRepository extends Repository
             ]);
         }
 
-        return $purchasing;
+        $bill = $this->filters([
+            'id' => $purchasing->id,
+            'relations' => ['details'],
+        ]);
+        return $bill;
     }
 
     public function filters($filters = [])

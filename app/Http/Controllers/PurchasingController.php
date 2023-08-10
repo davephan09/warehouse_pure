@@ -263,6 +263,7 @@ class PurchasingController extends Controller
                 $id = cleanNumber($request->input('id'));
                 $bill = $this->purchasing->filters([
                     'id' => $id,
+                    'relations' => ['details'],
                 ]);
                 $delete = $bill->delete();
                 if ($delete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted a purchasing bill: ' . $bill->toJson());

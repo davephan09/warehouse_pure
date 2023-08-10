@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
 
-class UpdateProduct implements ShouldQueue
+class UpdateProductPurchasing implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -62,7 +62,7 @@ class UpdateProduct implements ShouldQueue
 
     public function failed(PurchasingBillCreated $event, Throwable $exception): void
     {
-        \Illuminate\Support\Facades\Log::emergency('Listeners/UpdateProduct failed: ' . collect($event->getPurchasing())->toJson(), $exception->getTrace());
+        \Illuminate\Support\Facades\Log::emergency('Listeners/UpdateProductPurchasing failed: ' . collect($event->getPurchasing())->toJson(), $exception->getTrace());
     }
 
 
