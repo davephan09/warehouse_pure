@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\OrderBillCreated;
 use App\Events\PurchasingBillCreated;
-use App\Listeners\UpdateProduct;
+use App\Listeners\UpdateProductOrder;
+use App\Listeners\UpdateProductPurchasing;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,8 +24,12 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         PurchasingBillCreated::class => [
-            UpdateProduct::class,
-        ]
+            UpdateProductPurchasing::class,
+        ],
+
+        OrderBillCreated::class => [
+            UpdateProductOrder::class,
+        ],
     ];
 
     /**

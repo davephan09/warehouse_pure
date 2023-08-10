@@ -112,3 +112,13 @@ Breadcrumbs::for('customer', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push(trans('customer.customers'), route('customers.index'));
 });
+
+Breadcrumbs::for('order', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push(trans('order.orders'), route('order.index'));
+});
+
+Breadcrumbs::for('order_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('order');
+    $trail->push(trans('order.create'), route('order.create'));
+});

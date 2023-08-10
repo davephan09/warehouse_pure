@@ -3,6 +3,7 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchasingController;
@@ -72,6 +73,7 @@ Route::prefix('products')->group(function() {
     Route::post('delete', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('create-tag', [ProductController::class, 'createTag'])->name('product.createTag');
     Route::get('search-product', [ProductController::class, 'searchProduct'])->name('product.searchProduct');
+    Route::get('sync-product', [ProductController::class, 'syncProductAjax'])->name('product.syncProductAjax');
 });
 
 Route::prefix('brands')->group(function() {
@@ -128,4 +130,14 @@ Route::prefix('customers')->group(function() {
     Route::post('change-status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
     Route::post('delete', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::post('restore', [CustomerController::class, 'restore'])->name('customers.restore');
+});
+
+Route::prefix('orders')->group(function() {
+    Route::get('/', [OrderController::class, 'index'])->name('order.index');
+    Route::get('get-data', [OrderController::class, 'getData'])->name('order.getData');
+    Route::get('create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('show/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::post('update', [OrderController::class, 'update'])->name('order.update');
+    Route::post('delete', [OrderController::class, 'destroy'])->name('order.destroy');
 });

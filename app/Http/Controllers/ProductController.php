@@ -305,4 +305,19 @@ class ProductController extends Controller
         } 
         return response('error', 404, []);
     }
+    
+    public function syncProductAjax(Request $request)
+    {
+        $productId = cleanInput($request->input('productId'));
+        $variationId = cleanInput($request->input('variationId'));
+        if (empty($productId)) return $this->iRespond(true, "", []);
+        $product = $this->product->filters([
+            'status' => true,
+            'productId' => $productId,
+            'relations' => ['taxes', 'variations'],
+        ]);
+        $data['product'] = $product->variations->keyBy('id');
+        $data['taxes'] = $product->taxes->isNotEmpty() ? $product->taxes : [];
+        return $this->iRespond(true, "", $data);
+    }
 }
