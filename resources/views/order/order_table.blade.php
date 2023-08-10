@@ -6,49 +6,49 @@
                     <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_sales_table .form-check-input" value="1" />
                 </div>
             </th>
-            <th class="min-w-50px">{{ __('purchasing.order_id') }}</th>
-            <th class="min-w-175px">{{ __('purchasing.supplier') }}</th>
+            <th class="min-w-50px">{{ __('order.order_id') }}</th>
+            <th class="min-w-175px">{{ __('order.customer') }}</th>
             <th class="text-end min-w-70px">{{ __('common.date') }}</th>
-            <th class="text-end min-w-100px">{{ __('purchasing.total') }}</th>
-            <th class="text-end min-w-100px">{{ __('purchasing.paid') }}</th>
-            <th class="text-end min-w-100px">{{ __('purchasing.debt') }}</th>
+            <th class="text-end min-w-100px">{{ __('order.total') }}</th>
+            <th class="text-end min-w-100px">{{ __('order.paid') }}</th>
+            <th class="text-end min-w-100px">{{ __('order.debt') }}</th>
             <th class="text-end min-w-100px">{{ __('common.actions') }}</th>
         </tr>
     </thead>
     <tbody class="fw-bold text-gray-600">
-        @foreach($bills as $bill)
+        @foreach($orders as $order)
         <tr>
             <td>
                 <div class="form-check form-check-sm form-check-custom form-check-solid">
                     <input class="form-check-input" type="checkbox" value="1" />
                 </div>
             </td>
-            <td data-kt-ecommerce-order-filter="order_id">{{ $bill->id }}</td>
+            <td data-kt-ecommerce-order-filter="order_id">{{ $order->name }}</td>
             <td>
                 <div class="d-flex align-items-center">
                     <div class="ms-5">
-                        <a href="" class="text-gray-800 text-hover-primary fs-5 fw-bolder">{{ json_decode($bill->supplier->name) }}</a>
+                        <a href="" class="text-gray-800 text-hover-primary fs-5 fw-bolder">{{ $order->customer->name }}</a>
                     </div>
                 </div>
             </td>
             <td class="text-end pe-0" data-order="Completed">
-                <div class="badge badge-light-success">{{ date('d/m/Y', strtotime($bill->date)) }}</div>
+                <div class="badge badge-light-success">{{ date('d/m/Y', strtotime($order->date)) }}</div>
             </td>
             <td class="text-end pe-0">
-                <span class="fw-bolder">{{ number_format($bill->cost) }}</span>
+                <span class="fw-bolder">{{ number_format($order->cost) }}</span>
             </td>
             <td class="text-end" >
-                <span class="fw-bolder">{{ number_format($bill->paid) }}</span>
+                <span class="fw-bolder">{{ number_format($order->paid) }}</span>
             </td>
             <!--end::Date Added=-->
             <!--begin::Date Modified=-->
             <td class="text-end" >
-                <span class="fw-bolder">{{ number_format($bill->debt) }}</span>
+                <span class="fw-bolder">{{ number_format($order->debt) }}</span>
             </td>
             <!--end::Date Modified=-->
             <!--begin::Action=-->
             <td class="text-end">
-                <a class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn action-btn" href="{{ route('purchasing.show', ['id' => $bill->id]) }}" data-bs-toggle="tooltip" data-id="{{ $bill->id }}" data-bs-placement="top" title="{{__('common.update')}}">
+                <a class="btn btn-icon btn-active-light-primary w-30px h-30px me-3 update-btn action-btn" href="{{ route('order.show', ['id' => $order->id]) }}" data-bs-toggle="tooltip" data-id="{{ $order->id }}" data-bs-placement="top" title="{{__('common.update')}}">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                     <span class="svg-icon svg-icon-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -58,7 +58,7 @@
                     </span>
                     <!--end::Svg Icon-->
                 </a>
-                <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn action-btn" data-id="{{ $bill->id }}" data-bs-toggle="tooltip" title="{{__('common.delete')}}" data-kt-permissions-table-filter="delete_row">
+                <button class="btn btn-icon btn-active-light-primary w-30px h-30px delete-btn action-btn" data-id="{{ $order->id }}" data-bs-toggle="tooltip" title="{{__('common.delete')}}" data-kt-permissions-table-filter="delete_row">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                     <span class="svg-icon svg-icon-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -77,5 +77,5 @@
     <!--end::Table body-->
 </table>
 <div class="py-2 ml-2">
-    {!! $bills->appends(request()->all())->links('includes.paginations') !!}
+    {!! $orders->appends(request()->all())->links('includes.paginations') !!}
 </div>

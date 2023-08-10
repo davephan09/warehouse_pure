@@ -95,4 +95,5 @@ return [
     'add_order' => 'Tạo đơn hàng',
     'and' => 'và',
     'more' => 'quyển nữa',
+    'date' => 'Ngày',
 ];

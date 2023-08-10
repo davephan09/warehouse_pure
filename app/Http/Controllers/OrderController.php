@@ -119,9 +119,6 @@ class OrderController extends Controller
                 $data['customers'] = $this->customer->filters([
                     'status' => true,
                 ]);
-                $data['taxes'] = $this->tax->filters([
-                    'status' => true,
-                ]);
                 $recentOrder = $this->order->filters([
                     'date' => date('Y-m-d'),
                 ]);

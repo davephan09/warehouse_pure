@@ -168,6 +168,7 @@ var OrderCreateClass = function () {
                     taxHtml += `<div index="${taxIndex}" class="d-flex flex-row align-items-center tax-item mt-4 mb-2">
                             <div class="flex-fill pe-2" style="width: 30%;">
                                 <input disabled class="form-control form-control-sm form-control-solid text-end" value="${tax.name}">
+                                <input hidden class="tax-select" value="${tax.id}"/>
                             </div>
                             <div class="flex-fill pe-2 input-group input-group-sm input-group-solid" style="width: 28%;">
                                 <input disabled type="text" data-plugin="inputmask-numeric" class="form-control form-control-sm form-control-solid text-end tax-value" value="${tax.pivot.value}"/>

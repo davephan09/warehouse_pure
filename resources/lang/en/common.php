@@ -96,4 +96,5 @@ return [
     'add_order' => 'Add Order',
     'and' => 'and',
     'more' => 'more',
+    'date' => 'Date',
 ];

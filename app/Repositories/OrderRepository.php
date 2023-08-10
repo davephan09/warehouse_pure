@@ -45,6 +45,16 @@ class OrderRepository extends Repository
                 'tax' => $taxTotal,
                 // 'discount' => empty($request->input('discount_value')) ? 0 : cleanNumber($request->input('discount_amount')),
             ]);
+            if(!empty($item['taxes'])) {
+                foreach($item['taxes'] as $tax) {
+                    OrderItemTax::query()->create([
+                        'item_id' => $orderItem->id,
+                        'tax_id' => cleanNumber($tax['type']),
+                        'percent' => floatval($tax['value']),
+                        'value' => cleanNumber($tax['amount']),
+                    ]);
+                }
+            }
         }
         if(!empty($request->input('discount_value'))) {
             OrderDiscount::query()->create([

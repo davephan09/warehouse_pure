@@ -676,7 +676,6 @@
             var options = {
                 customers : {!! json_encode($customers) !!},
                 address : {!! json_encode($address) !!},
-                taxes : {!! json_encode($taxes) !!}
             }
             var instance = new OrderCreateClass();
             instance.run(options);
