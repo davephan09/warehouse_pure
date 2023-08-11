@@ -31,9 +31,9 @@
             <div class="w-100 mw-150px">
                 <!--begin::Select2-->
                 <select class="form-select form-select-sm form-select-solid" id="status-filter" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.status')}}" data-kt-ecommerce-product-filter="status" >
-                    <option value="all">{{__('common.all')}}</option>
-                    <option value="{{__('common.active')}}">{{__('common.active')}}</option>
-                    <option value="{{__('common.inactive')}}">{{__('common.inactive')}}</option>
+                    <option value="10">{{__('common.all')}}</option>
+                    <option value="1">{{__('common.active')}}</option>
+                    <option value="0">{{__('common.inactive')}}</option>
                 </select>
                 <!--end::Select2-->
             </div>

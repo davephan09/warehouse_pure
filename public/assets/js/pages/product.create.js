@@ -282,11 +282,11 @@ var ProductCreateClass = function() {
             var mixValues = getMixedValues(optionArr)
             $.each(mixValues, function(i, item) {
                 html += `<tr class="variation-item">
-                    <td><input type="text" class="form-control variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
-                    <td hidden><input type="text" class="form-control var-options" disabled value='${item}' /></td>
-                    <td><input type="number" class="form-control var-price mw-100" name="" value="" /></td>
-                    <td><input type="number" class="form-control var-quantity mw-100" name="" value="" /></td>
-                    <td><input type="text" class="form-control var-code mw-100" name="" value="${getOptionsName(item)}" /></td>
+                    <td><input type="text" class="form-control form-control-sm variation-name mw-100" name="" disabled value="${getOptionsName(item)}" /></td>
+                    <td hidden><input type="text" class="form-control form-control-sm var-options" disabled value='${item}' /></td>
+                    <td><input type="number" class="form-control form-control-sm var-price mw-100" name="" value="" /></td>
+                    <td><input type="number" class="form-control form-control-sm var-quantity mw-100" name="" value="" /></td>
+                    <td><input type="text" class="form-control form-control-sm var-code mw-100" name="" value="${getOptionsName(item)}" /></td>
                 </tr>`
             })
             ele.bodyDetailVarDiv.html(html)

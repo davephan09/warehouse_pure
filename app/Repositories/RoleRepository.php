@@ -18,7 +18,7 @@ class RoleRepository extends Repository
         if(!empty($filters['roleId'])) {
             $data = $query->where('id', $filters['roleId'])->first();
         } else {
-            $data = $query->orderByDesc('id')->get();
+            $data = $query->orderBy('id')->get();
         }
         return $data;
     }

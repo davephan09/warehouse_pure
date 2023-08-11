@@ -51,8 +51,10 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->can('product.read')) {
+            $status = cleanNumber($request->input('status'));
             $products = $this->product->filters([
                 'relations' => ['category'],
+                'status' => $status,
             ]);
             $data['products'] = $products;
             $data['htmlProductTable'] = view('product.product_table', $data)->render();

@@ -20,10 +20,13 @@ var ProductClass = function () {
     this.bindEvents = function () {
         handleUpdate()
         handleDelete()
+        handleFilter()
     }
 
     var getParam = () => {
-        var params = {}
+        var params = {
+            status : ele.statusFilter.val(),
+        }
         return params
     }
 
@@ -66,15 +69,11 @@ var ProductClass = function () {
             var text = e.target.value
             vars.datatable[dttableid].column(1).search(text).draw()
         })
+    }
 
-        ele.statusFilter.on('change', function(e) {
-            var status = e.target.value
-            if (status === 'all') {
-                vars.datatable[dttableid].column(5).search('').draw()
-            } else {
-                val = '^'+status+'$'
-                vars.datatable[dttableid].column(5).search(val, true, true).draw()
-            }
+    var handleFilter = function() {
+        ele.statusFilter.on('change', function (e) {
+            loadData()
         })
     }
 

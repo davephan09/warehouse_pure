@@ -22,19 +22,19 @@ class ProductRepository extends Repository
         $quantity = 0;
         foreach($variations as $item) {
             if (isset($item['options'])) {
-                $quantity += intval($item['quantity']);
+                $quantity += cleanNumber($item['quantity']);
             } else {
-                $quantity = intval($item['quantity']);
+                $quantity = cleanNumber($item['quantity']);
             }
         }
         $product = $this->model->create([
-            'product_name' => trim($request->input('product_name')),
-            'summary' => trim($request->input('summary')),
-            'description' => trim($request->input('description')),
+            'product_name' => cleanInput($request->input('product_name')),
+            'summary' => cleanInput($request->input('summary')),
+            'description' => cleanInput($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
-            'brand_id' => intval($request->input('brand_id')),
-            'unit_id' => intval($request->input('unit_id')),
-            'category_id' => intval($request->input('category_id')),
+            'brand_id' => cleanNumber($request->input('brand_id')),
+            'unit_id' => cleanNumber($request->input('unit_id')),
+            'category_id' => cleanNumber($request->input('category_id')),
             'quantity' => $quantity,
             'user_add' => Auth::user()->id,
         ]);
@@ -72,7 +72,6 @@ class ProductRepository extends Repository
     public function filters($filters = [])
     {
         $query = $this->model->query();
-        $query = $query->select('id', 'product_name', 'category_id', 'quantity', 'thumb', 'summary', 'description', 'active', 'user_add');
 
         if(!empty($filters['relations'])) {
             $query = $query->with($filters['relations']);
@@ -106,20 +105,20 @@ class ProductRepository extends Repository
         $quantity = 0;
         foreach($variations as $item) {
             if (isset($item['options'])) {
-                $quantity += intval($item['quantity']);
+                $quantity += cleanNumber($item['quantity']);
             } else {
-                $quantity = intval($item['quantity']);
+                $quantity = cleanNumber($item['quantity']);
             }
         }
         return $product->update([
-            'product_name' => trim($request->input('product_name')),
-            'summary' => trim($request->input('summary')),
-            'description' => trim($request->input('description')),
+            'product_name' => cleanInput($request->input('product_name')),
+            'summary' => cleanInput($request->input('summary')),
+            'description' => cleanInput($request->input('description')),
             'active' => filter_var($request->active, FILTER_VALIDATE_BOOLEAN),
-            'category_id' => intval($request->input('category_id')),
+            'category_id' => cleanNumber($request->input('category_id')),
             'quantity' => $quantity,
-            'brand_id' => intval($request->input('brand_id')),
-            'unit_id' => intval($request->input('unit_id')),
+            'brand_id' => cleanNumber($request->input('brand_id')),
+            'unit_id' => cleanNumber($request->input('unit_id')),
             'user_add' => Auth::user()->id,
         ]);
     }
@@ -148,11 +147,11 @@ class ProductRepository extends Repository
                 $options = json_encode($options);
             }
             VariationProduct::create([
-                'product_id' => intval($product->id),
+                'product_id' => cleanNumber($product->id),
                 'options' => $options ?? null,
                 'name' => trim(strip_tags(stripslashes($item['variationName']))),
-                'quantity' => intval($item['quantity']),
-                'price' => intval($item['price']),
+                'quantity' => cleanNumber($item['quantity']),
+                'price' => cleanNumber($item['price']),
                 'sku' => trim(strip_tags(stripslashes($item['code']))),
             ]);
         }

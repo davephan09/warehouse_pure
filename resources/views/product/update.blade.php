@@ -338,12 +338,12 @@
                                 @endphp
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="price-product">{{__('product.price')}}</label>
-                                    <input type="text" id="price-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.price_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->price}}">
+                                    <input type="text" id="price-product" data-plugin="inputmask-numeric" class="form-control form-control-sm mb-2" placeholder="{{__('product.price_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->price}}">
                                     <div class="text-muted fs-7">{{__('product.price_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
                                     <label class="form-label required" for="quantity-product">{{__('product.quantity')}}</label>
-                                    <input type="text" id="quantity-product" class="form-control form-control-sm mb-2" placeholder="{{__('product.quantity_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->quantity}}">
+                                    <input type="text" id="quantity-product" data-plugin="inputmask-numeric" class="form-control form-control-sm mb-2" placeholder="{{__('product.quantity_example')}}" value="{{$hasOptions ? '' : $product->variations[0]->quantity}}">
                                     <div class="text-muted fs-7">{{__('product.quantity_des')}}</div>
                                 </div>
                                 <div class="mb-10 fv-row">
@@ -418,7 +418,7 @@
                                     <div class="">
                                         <div class="d-flex align-items-center border border-dashed border-gray-300 rounded min-w-700px p-5">
                                             <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
-                                                <thead>
+                                                <thead class="fw-bold">
                                                     <tr>
                                                         <th>{{__('common.variation')}}</th>
                                                         <th hidden></th>
@@ -433,8 +433,8 @@
                                                             <tr class="variation-item">
                                                                 <td><input type="text" class="form-control form-control-sm variation-name mw-100" name="" disabled value="{{$item->name}}" /></td>
                                                                 <td hidden><input type="text" class="form-control form-control-sm var-options" disabled value='{{$item->options}}' /></td>
-                                                                <td><input type="number" class="form-control form-control-sm var-price mw-100" name="" value="{{$item->price}}" /></td>
-                                                                <td><input type="number" class="form-control form-control-sm var-quantity mw-100" name="" value="{{$item->quantity}}" /></td>
+                                                                <td><input type="input" data-plugin="inputmask-numeric" class="form-control form-control-sm var-price mw-100" name="" value="{{$item->price}}" /></td>
+                                                                <td><input type="input" data-plugin="inputmask-numeric" class="form-control form-control-sm var-quantity mw-100" name="" value="{{$item->quantity}}" /></td>
                                                                 <td><input type="text" class="form-control form-control-sm var-code mw-100" name="" value="{{$item->sku}}" /></td>
                                                             </tr>
                                                         @endforeach
@@ -480,8 +480,10 @@
                                                     </div>
                                                     <!--end::Select2-->
                                                     <!--begin::Input-->
-                                                    <input type="text" class="form-control form-control-sm mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" value="{{$item->pivot->value}}"/> 
-                                                    <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    <div class="input-group input-group-sm mw-100 w-325px">
+                                                        <input type="text" class="form-control form-control-sm " name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" value="{{$item->pivot->value}}"/> 
+                                                        <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    </div>
                                                     {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -504,8 +506,10 @@
                                                     </div>
                                                     <!--end::Select2-->
                                                     <!--begin::Input-->
-                                                    <input type="text" class="form-control form-control-sm mw-100 w-325px" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
-                                                    <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    <div class="input-group input-group-sm  mw-100 w-325px">
+                                                        <input type="text" class="form-control form-control-sm" name="product_option_value[]" multiple placeholder="{{__('product.tax_value')}}" /> 
+                                                        <span class="d-flex input-group-text align-items-center">% ({{__('common.percent')}})</span>
+                                                    </div>
                                                     {{-- <button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger btn-remove-tax">
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
