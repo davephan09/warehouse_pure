@@ -24,4 +24,5 @@ return [
     'paid' => 'Paid',
     'type_price' => 'Type the input paid',
     'debt' => 'Debt',
+    'order' => 'Order',
 ];

@@ -104,19 +104,6 @@ class PurchasingRepository extends Repository
         return $data;
     }
 
-    public function restore($id)
-    {
-        $id = cleanNumber($id);
-        $query = $this->model->query();
-        if (is_array($id)) {
-            $query = $query->whereIn('id', $id);
-        } else {
-            $query = $query->where('id', $id);
-        }
-
-        return $query->restore();
-    }
-
     public function updatePurchasing($request)
     {
         $productIds = cleanNumber($request->input('productIds'));

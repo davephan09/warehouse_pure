@@ -140,4 +140,5 @@ Route::prefix('orders')->group(function() {
     Route::get('show/{id}', [OrderController::class, 'show'])->name('order.show');
     Route::post('update', [OrderController::class, 'update'])->name('order.update');
     Route::post('delete', [OrderController::class, 'destroy'])->name('order.destroy');
+    Route::get('restore', [OrderController::class, 'restore'])->name('order.restore');
 });

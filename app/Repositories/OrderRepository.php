@@ -193,4 +193,18 @@ class OrderRepository extends Repository
 
         return array($order, $newOrder);
     }
+
+    public function restore($id)
+    {
+        $id = cleanNumber($id);
+        $query = $this->model->withTrashed()->with('details')->find($id);
+        if (!$query) {
+            return false;
+        }
+        $result = $query->restore();
+        if($result) {
+            return $query;
+        }
+        return false;
+    }
 }

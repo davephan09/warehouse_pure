@@ -126,7 +126,7 @@ var OrderClass = function () {
     var handleDeleteItem = function () {
         $(document).on('click', '.delete-btn', function(e) {
             let $id = $(this).data('id')
-            let name = orders[$id].order_name
+            let name = orders[$id].name
             var params = {
                 id : $id
             }

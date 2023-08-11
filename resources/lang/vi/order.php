@@ -24,4 +24,5 @@ return [
     'paid' => 'Đã thanh toán',
     'type_price' => 'Nhập số tiền đã thanh toán',
     'debt' => 'Còn nợ',
+    'order' => 'Đơn hàng',
 ];

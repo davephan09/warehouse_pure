@@ -157,7 +157,7 @@ class OrderController extends Controller
                 $order = $this->order->createOrder($request);
                 DB::connection()->commit();
                 event(new OrderBillCreated($order->toArray(), 'create'));
-                if ($order) \Illuminate\Support\Facades\Log::info($user->username . ' has created a order bill: ' . $order->toJson());
+                if ($order) \Illuminate\Support\Facades\Log::info($user->username . ' has created an order bill: ' . $order->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();
@@ -238,7 +238,7 @@ class OrderController extends Controller
                 list($oldOrder, $order) = $this->order->updateOrder($request);
                 DB::connection()->commit();
                 event(new OrderBillCreated($order->toArray(), 'update', $oldOrder->toArray()));
-                if ($order) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a order bill: ' . $order->toJson());
+                if ($order) \Illuminate\Support\Facades\Log::info($user->username . ' has updated an order bill: ' . $order->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 DB::connection()->rollBack();
@@ -252,11 +252,52 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('order.delete')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = cleanNumber($request->input('id'));
+                $order = $this->order->filters([
+                    'id' => $id,
+                    'relations' => ['details'],
+                ]);
+                $delete = $order->delete();
+                if ($delete) \Illuminate\Support\Facades\Log::info($user->username . ' has deleted an order bill: ' . $order->toJson());
+                DB::connection()->commit();
+                event(new OrderBillCreated($order->toArray(), 'delete'));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function restore(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('order.delete')) {
+            try {
+                $id = cleanNumber($request->input('id'));
+                if (isset($id)) {
+                    $order = $this->order->restore($id);
+                }
+                if (!$order) {
+                    return $this->iRespond(false, 'error');
+                }
+                \Illuminate\Support\Facades\Log::info($user->username . ' has restored an order: ' . $order->toJson());
+                event(new OrderBillCreated($order->toArray(), 'create'));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 }

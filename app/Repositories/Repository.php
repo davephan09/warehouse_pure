@@ -88,18 +88,19 @@ abstract class Repository
      * Restore
      *
      * @param $id
-     * @return bool
+     * @return mixed
      */
     public function restore($id)
     {
         $id = cleanNumber($id);
-        $query = $this->model->query();
-        if (is_array($id)) {
-            $query = $query->whereIn('id', $id);
-        } else {
-            $query = $query->where('id', $id);
+        $query = $this->model->withTrashed()->find($id);
+        if (!$query) {
+            return false;
         }
-
-        return $query->restore();
+        $result = $query->restore();
+        if($result) {
+            return $query;
+        }
+        return false;
     }
 }
