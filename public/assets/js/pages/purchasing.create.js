@@ -41,6 +41,7 @@ var PurchasingCreateClass = function () {
         ele.formCreate = $('#kt_ecommerce_edit_order_form')
         ele.noteField = $('#note-field')
         ele.btnSubmit = $('#kt_ecommerce_edit_order_submit')
+        ele.purchasingId = $('#purchasing-id')
 
         var format = 'DD/MM/YYYY';
         ele.dateInput.daterangepicker({
@@ -364,6 +365,7 @@ var PurchasingCreateClass = function () {
             var type = ele.btnSubmit.data('type')
             var target = ele.btnSubmit
             var params = {
+                name        : ele.purchasingId.html(),
                 supplier    : ele.supplierSelect.val(),
                 date        : ele.dateInput.val(),
                 note        : ele.noteField.val(),

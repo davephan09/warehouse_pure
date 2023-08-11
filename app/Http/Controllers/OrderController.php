@@ -123,7 +123,7 @@ class OrderController extends Controller
                     'date' => date('Y-m-d'),
                 ]);
                 $numberOrder = $recentOrder->total() + 1;
-                $data['orderId'] = 'OS-' . date('Ymd') . '-' .  str_pad($numberOrder, 5, '0', STR_PAD_LEFT);
+                $data['orderId'] = 'OE-' . date('Ymd') . '-' .  str_pad($numberOrder, 5, '0', STR_PAD_LEFT);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return response()->view('errors.404', [], 404);
@@ -145,10 +145,10 @@ class OrderController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $rules = [
+                    'name' => 'required|string|max:100|min:3|unique:orders',
                     'customer' => 'required',
                     'date' => 'required',
                     'note' => 'string|nullable',
-                    
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -225,11 +225,12 @@ class OrderController extends Controller
         if ($user->can('order.update')) {
             DB::connection()->beginTransaction();
             try {
+                $id = cleanNumber($request->input('id'));
                 $rules = [
+                    'name' => 'required|string|max:100|min:3|unique:orders,name,' . $id,
                     'customer' => 'required',
                     'date' => 'required',
                     'note' => 'string|nullable',
-                    
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {

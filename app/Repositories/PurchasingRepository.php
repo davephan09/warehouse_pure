@@ -19,7 +19,7 @@ class PurchasingRepository extends Repository
     {
         $productIds = cleanNumber($request->input('productIds'));
         $purchasing = $this->model->create([
-            'purchasing_name' => 'id',
+            'purchasing_name' => cleanInput($request->input('name')),
             'date' => Carbon::createFromFormat('d/m/Y', cleanInput($request->input('date')))->toDateString(),
             'supplier_id' => intval(cleanInput($request->input('supplier'))),
             'cost' => cleanNumber($request->input('total')),
@@ -115,7 +115,7 @@ class PurchasingRepository extends Repository
         ]);
 
         $purchasing->update([
-            'purchasing_name' => 'id',
+            'purchasing_name' => cleanInput($request->input('name')),
             'date' => Carbon::createFromFormat('d/m/Y', cleanInput($request->input('date')))->toDateString(),
             'supplier_id' => intval(cleanInput($request->input('supplier'))),
             'cost' => cleanNumber($request->input('total')),

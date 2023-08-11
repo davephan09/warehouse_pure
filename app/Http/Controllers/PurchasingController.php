@@ -125,7 +125,11 @@ class PurchasingController extends Controller
                 $data['taxes'] = $this->tax->filters([
                     'status' => true,
                 ]);
-                $data['orderId'] = time();
+                $recentBill = $this->purchasing->filters([
+                    'date' => date('Y-m-d'),
+                ]);
+                $numberBill = $recentBill->total() + 1;
+                $data['orderId'] = 'PI-' . date('Ymd') . '-' .  str_pad($numberBill, 5, '0', STR_PAD_LEFT);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return response()->view('errors.404', [], 404);
@@ -145,10 +149,10 @@ class PurchasingController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $rules = [
+                    'name' => 'required|string|max:100|min:3|unique:purchasings',
                     'supplier' => 'required',
                     'date' => 'required',
                     'note' => 'string|nullable',
-                    
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -227,11 +231,12 @@ class PurchasingController extends Controller
         if ($user->can('purchasing.update')) {
             DB::connection()->beginTransaction();
             try {
+                $id = cleanNumber($request->input('id'));
                 $rules = [
+                    'name' => 'required|string|max:100|min:3|unique:purchasings,purchasing_name,' . $id,
                     'supplier' => 'required',
                     'date' => 'required',
                     'note' => 'string|nullable',
-                    
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {

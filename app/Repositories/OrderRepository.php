@@ -19,7 +19,7 @@ class OrderRepository extends Repository
     {
         $productIds = cleanNumber($request->input('productIds'));
         $order = $this->model->create([
-            'name' => cleanInput($request->input('orderId')),
+            'name' => cleanInput($request->input('name')),
             'date' => Carbon::createFromFormat('d/m/Y', cleanInput($request->input('date')))->toDateString(),
             'customer_id' => intval(cleanInput($request->input('customer'))),
             'cost' => cleanNumber($request->input('total')),
@@ -121,7 +121,7 @@ class OrderRepository extends Repository
         ]);
 
         $order->update([
-            'order_name' => 'id',
+            'name' => cleanInput($request->input('name')),
             'date' => Carbon::createFromFormat('d/m/Y', cleanInput($request->input('date')))->toDateString(),
             'supplier_id' => intval(cleanInput($request->input('supplier'))),
             'cost' => cleanNumber($request->input('total')),

@@ -418,7 +418,7 @@ var OrderCreateClass = function () {
             var type = ele.btnSubmit.data('type')
             var target = ele.btnSubmit
             var params = {
-                orderId     : ele.orderId.html(),
+                name        : ele.orderId.html(),
                 customer    : ele.customerSelect.val(),
                 date        : ele.dateInput.val(),
                 note        : ele.noteField.val(),
