@@ -122,3 +122,8 @@ Breadcrumbs::for('order_create', function (BreadcrumbTrail $trail) {
     $trail->parent('order');
     $trail->push(trans('order.create'), route('order.create'));
 });
+
+Breadcrumbs::for('order_update', function (BreadcrumbTrail $trail, $order) {
+    $trail->parent('order');
+    $trail->push($order->name, route('order.show', ['id' => $order->id]));
+});

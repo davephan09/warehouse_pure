@@ -83,4 +83,23 @@ abstract class Repository
 
         return false;
     }
+
+    /**
+     * Restore
+     *
+     * @param $id
+     * @return bool
+     */
+    public function restore($id)
+    {
+        $id = cleanNumber($id);
+        $query = $this->model->query();
+        if (is_array($id)) {
+            $query = $query->whereIn('id', $id);
+        } else {
+            $query = $query->where('id', $id);
+        }
+
+        return $query->restore();
+    }
 }

@@ -96,4 +96,5 @@ return [
     'and' => 'và',
     'more' => 'quyển nữa',
     'date' => 'Ngày',
+    'note' => 'Ghi chú',
 ];

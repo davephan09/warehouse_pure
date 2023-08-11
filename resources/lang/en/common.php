@@ -97,4 +97,5 @@ return [
     'and' => 'and',
     'more' => 'more',
     'date' => 'Date',
+    'note' => 'Notes',
 ];

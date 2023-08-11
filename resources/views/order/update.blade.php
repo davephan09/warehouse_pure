@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('breadcrumb')
-{{ Breadcrumbs::render('purchasing_update', $bill) }}
+{{ Breadcrumbs::render('order_update', $order) }}
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
             <!--begin::Card header-->
             <div class="card-header">
                 <div class="card-title">
-                    <h2>{{__('purchasing.purchasing_details')}}</h2>
+                    <h2>{{__('order.order_details')}}</h2>
                 </div>
             </div>
             <!--end::Card header-->
@@ -23,46 +23,46 @@
                     <!--begin::Input group-->
                     <div class="fv-row">
                         <!--begin::Label-->
-                        <label class="form-label">{{__('purchasing.order_id')}}</label>
+                        <label class="form-label">{{__('order.order_id')}}</label>
                         <!--end::Label-->
                         <!--begin::Auto-generated ID-->
-                        <div class="fw-bolder fs-3">#{{$bill->purchasing_name}}</div>
+                        <div class="fw-bolder fs-3" id="order-id">{{ $order->name }}</div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
                     <div class="fv-row">
                         <!--begin::Label-->
-                        <label class="required form-label">{{__('purchasing.supplier')}}</label>
+                        <label class="required form-label">{{__('order.customer')}}</label>
                         <!--end::Label-->
                         <!--begin::Select2-->
-                        <select class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" data-hide-search="true" data-placeholder="{{__('purchasing.select_supplier')}}"
+                        <select class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" data-placeholder="{{__('order.select_customer')}}"
                             name="payment_method" id="kt_ecommerce_edit_order_payment">
                             <option></option>
-                            @forelse($suppliers as $supplier)
-                                <option value="{{$supplier->id}}" {{ $supplier->id === $bill->supplier_id ? 'selected' : '' }}>{{$supplier->name}}</option>
+                            @forelse($customers as $customer)
+                                <option value="{{$customer->id}}" {{ $customer->id === $order->customer_id ? 'selected' : '' }}>{{$customer->name}}</option>
                             @empty
                                 <option></option>
                             @endforelse
                         </select>
                         <!--end::Select2-->
                         <!--begin::Description-->
-                        <div class="text-muted fs-7">{{__('purchasing.supplier_des')}}</div>
+                        <div class="text-muted fs-7">{{__('order.customer_des')}}</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Input group-->
-                    <div class="fv-row d-none border-dashed rounded p-2" id="supplier-detail">
+                    <div class="fv-row d-none border-dashed rounded p-2" id="customer-detail">
                         
                     </div>
                     <!--begin::Input group-->
                     <div class="fv-row">
                         <!--begin::Label-->
-                        <label class="required form-label">{{__('purchasing.date')}}</label>
+                        <label class="required form-label">{{__('order.date')}}</label>
                         <!--end::Label-->
                         <!--begin::Editor-->
                         <div class="d-flex align-items-center position-relative mb-n7">
-                            <input id="kt_ecommerce_edit_order_date" type="text" name="order_date" placeholder="{{__('purchasing.select_date')}}" data-plugin="daterangepicker" 
-                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control form-control-sm" value="{{ date('d/m/Y', strtotime($bill->date)) }}" />
+                            <input id="kt_ecommerce_edit_order_date" type="text" name="order_date" placeholder="{{__('order.select_date')}}" data-plugin="daterangepicker" 
+                                data-options="{&quot;open&quot;:&quot;left&quot;}" data-single-date-picker="true" data-show-dropdowns="true" data-auto-apply="true" class="form-control form-control-sm" value="{{ date('d/m/Y', strtotime($order->date)) }}" />
                             <span class="svg-icon svg-icon-1 position-absolute me-4 end-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM19 6H5V5H19V6Z" fill="currentColor"></path>
@@ -73,7 +73,7 @@
                         </div>
                         <!--end::Editor-->
                         <!--begin::Description-->
-                        <div class="text-muted fs-7">{{__('purchasing.date_des')}}</div>
+                        <div class="text-muted fs-7">{{__('order.date_des')}}</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Input group-->
@@ -91,7 +91,7 @@
             <!--begin::Card header-->
             <div class="card-header">
                 <div class="card-title">
-                    <h2>{{__('purchasing.update_purchasing_order')}}</h2>
+                    <h2>{{__('order.new_order')}}</h2>
                 </div>
             </div>
             <!--end::Card header-->
@@ -101,7 +101,7 @@
                     <!--begin::Input group-->
                     <div>
                         <!--begin::Label-->
-                        <label class="form-label">{{__('purchasing.order_purchasing_des')}}</label>
+                        <label class="form-label">{{__('order.order_des')}}</label>
                         <!--end::Label-->
                     </div>
                     <!--end::Input group-->
@@ -122,17 +122,17 @@
                                 </colgroup>
                                 <thead>
                                     <tr class="border-bottom fs-7 fw-bolder text-gray-700 text-uppercase">
-                                        <th class="min-w-300px w-475px w-40">{{__('purchasing.item')}}</th>
+                                        <th class="min-w-300px w-475px w-40">{{__('order.item')}}</th>
                                         <th class="min-w-100px w-100px w-10">{{__('product.quantity')}}</th>
                                         <th class="min-w-150px w-150px text-center w-20">{{__('product.price')}}</th>
-                                        <th class="min-w-100px w-150px text-end w-20">{{__('purchasing.total')}}</th>
+                                        <th class="min-w-100px w-150px text-end w-20">{{__('order.total')}}</th>
                                         <th class="min-w-75px w-75px text-end w-10">{{__('common.action')}}</th>
                                     </tr>
                                 </thead>
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody id="list-item">
-                                    @foreach ($bill->details as $item)
+                                    @foreach ($order->details as $item)
                                     <tr class="product-item border-bottom border-bottom-dashed" data-kt-element="item">
                                         <td colspan="5">
                                             <table class="w-100">
@@ -155,7 +155,7 @@
                                                             
                                                         </td>
                                                         <td class=" pb-8 input-group input-group-sm input-group-solid">
-                                                            <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" placeholder="0" value="{{ $item->price }}" data-kt-element="price" />
+                                                            <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end price-input" data-plugin="inputmask-numeric" name="price[]" disabled placeholder="0" value="{{ $item->price }}" data-kt-element="price" />
                                                             <span class="input-group-text">đ</span>
                                                         </td>
                                                         <td class="text-end pb-8 text-nowrap">
@@ -176,50 +176,26 @@
                                                         </td>
                                                     </tr>
                                                     <tr index="0">
-                                                        <td class="py-0"></td>
+                                                        <td class="py-0 text-end fw-bold tax-desc" style='{{ $item->taxes->isEmpty() ? "display: none" : ''}}'><span class="pe-8">{{ __('tax.taxes') }}</span></td>
                                                         <td colspan="4" class="ps-0 py-0 tax-field">
-                                                            <div class="position-relative">
-                                                                <div class="position-absolute" style="top:-1.5rem; left:3rem;">
-                                                                    <div class="d-flex justify-content-end">
-                                                                        <button class="btn btn-link py-1 add-tax-btn" data-bs-toggle="tooltip" type="button" data-bs-trigger="hover" title="">{{__('purchasing.add_tax')}}</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                             @forelse($item->taxes as $taxItem)
                                                             <div index="" class="d-flex flex-row align-items-center tax-item mt-4 mb-2">
                                                                 <div class="flex-fill pe-2" style="width: 30%;">
-                                                                    <select class="form-select form-select-sm form-select-solid tax-select" data-plugin="select2" data-control="select2" tabindex="-1" 
-                                                                        aria-hidden="true" data-placeholder="{{__('tax.choose_tax')}}" >
-                                                                        @forelse($taxes as $tax)
-                                                                            <option value="{{ $tax->id }}" {{ $tax->id === $taxItem->id ? 'selected' : '' }}>{{ $tax->name }}</option>
-                                                                        @empty
-                                                                            <option></option>
-                                                                        @endforelse
-                                                                    </select>
+                                                                    <input disabled class="form-control form-control-sm form-control-solid text-end" value="{{ $taxItem->name }}">
+                                                                    <input hidden class="tax-select" value="{{ $taxItem->id }}"/>
                                                                 </div>
                                                                 <div class="flex-fill pe-2 input-group input-group-sm input-group-solid" style="width: 28%;">
-                                                                    <input type="text" class="form-control form-control-sm form-control-solid text-end tax-value auto-cal" data-plugin="inputmask-numeric" value="{{ $taxItem->pivot->percent }}" placeholder="0"/>
+                                                                    <input disabled type="text" data-plugin="inputmask-numeric" class="form-control form-control-sm form-control-solid text-end tax-value" value="{{ $taxItem->pivot->percent }}"/>
                                                                     <span class="input-group-text">%</span>
                                                                 </div>
                                                                 <div class="flex-fill pe-7 text-end text-nowrap" style="width: 30%;">
-                                                                    <span class="tax-price">{{ formatNumber($taxItem->pivot->value) }}</span> đ
+                                                                    <span class="tax-price">{{ $taxItem->pivot->value }}</span> đ
                                                                 </div>
                                                                 <div class="flex-fill text-end" style="width: 12%;">
-                                                                    <button type="button" class="btn btn-sm btn-icon btn-active-color-primary btn-remove-tax">
-                                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
-                                                                        <span class="svg-icon svg-icon-3">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                                                <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
-                                                                                <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
-                                                                                <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
-                                                                            </svg>
-                                                                        </span>
-                                                                        <!--end::Svg Icon-->
-                                                                    </button>
+                                            
                                                                 </div>
                                                             </div>
-                                                            @empty
-                                                            @endforelse
+                                                            @endforeach    
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -233,13 +209,13 @@
                                 <tfoot>
                                     <tr class="border-top border-top-dashed align-top fs-6 fw-bolder text-gray-700">
                                         <th class="text-primary">
-                                            <button class="btn btn-link py-1" id="add-item" data-kt-element="add-item">{{__('purchasing.add_item')}}</button>
+                                            <button class="btn btn-link py-1" id="add-item" data-kt-element="add-item">{{__('order.add_item')}}</button>
                                         </th>
                                         <th colspan="2" class="border-bottom border-bottom-dashed ps-0" id="sub-total-text-div">
                                             <div class="d-flex flex-column align-items-start">
-                                                <div class="fs-5 pb-2">{{__('purchasing.subtotal')}}</div>
+                                                <div class="fs-5 pb-2">{{__('order.subtotal')}}</div>
                                                 <div class="">
-                                                    <button class="btn btn-link py-1" data-bs-toggle="tooltip" type="button" id="add_discount" data-bs-trigger="hover" title="{{__("purchasing.add_discount")}}">{{__("purchasing.add_discount")}}</button>
+                                                    <button class="btn btn-link py-1" data-bs-toggle="tooltip" type="button" id="add_discount" data-bs-trigger="hover" title="{{__("order.add_discount")}}">{{__("order.add_discount")}}</button>
                                                 </div>
                                             </div>
                                         </th>
@@ -251,30 +227,30 @@
                                             </div>
                                         </th>
                                     </tr>
-                                    <tr class="{{ $bill->discount ? '' : 'd-none' }} align-top fs-6 fw-bolder text-gray-700" id="discount-field">
+                                    <tr class="{{ $order->discount ? '' : 'd-none' }} align-top fs-6 fw-bolder text-gray-700" id="discount-field">
                                         <th class="pt-0"></th>
                                         <th colspan="2" class="pt-0 border-bottom border-bottom-dashed ps-0">
                                             <div class="d-flex flex-column align-items-start">
                                                 <div class="input-group input-group-sm input-group-solid">
-                                                    <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="{{ $bill->discount ? $bill->discount->discount_value : '' }}" data-kt-element="price" />
-                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 0 ? 'checked' : ''}}>
+                                                    <input type="text" class="form-control form-control-sm form-control-solid auto-cal text-end discount-cal" data-plugin="inputmask-numeric" id="discount_value" name="discount[]" placeholder="0" value="{{ $order->discount ? $order->discount->discount_value : '' }}" data-kt-element="price" />
+                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-percent" {{ $order->discount && $order->discount->discount_unit == 0 ? 'checked' : ''}} autocomplete="off" checked>
                                                     <label class="btn btn-outline-primary" for="dc-percent">%</label>
-                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" autocomplete="off" {{ $bill->discount && $bill->discount->discount_unit == 1 ? 'checked' : ''}}>
+                                                    <input type="radio" class="btn-check auto-cal discount-cal" name="discount_options" id="dc-price" {{ $order->discount && $order->discount->discount_unit == 1 ? 'checked' : ''}} autocomplete="off">
                                                     <label class="btn btn-outline-primary" for="dc-price">đ</label>
                                                 </div>
                                             </div>
                                         </th>
                                         <th colspan="2" class="pt-0 border-bottom align-middle border-bottom-dashed">
                                             <div class="float-end">
-                                                <span data-kt-element="sub-total" id="discount-price">{{ $bill->discount ? formatNumber($bill->discount->total) : '' }}</span> đ
+                                                <span data-kt-element="sub-total" id="discount-price">{{ $order->discount ? formatNumber($order->discount->total) : '' }}</span> đ
                                             </div>
                                         </th>
                                     </tr>
                                     <tr class="align-top fw-bolder text-gray-700">
                                         <th></th>
-                                        <th colspan="2" class="fs-4 ps-0">{{__('purchasing.total')}}</th>
+                                        <th colspan="2" class="fs-4 ps-0">{{__('order.total')}}</th>
                                         <th colspan="2" class="text-end fs-4 text-nowrap">
-                                        <span data-kt-element="grand-total" id="total">{{ formatNumber($bill->cost) }}</span> đ</th>
+                                        <span data-kt-element="grand-total" id="total">{{ formatNumber($order->cost) }}</span> đ</th>
                                     </tr>
                                 </tfoot>
                                 <!--end::Table foot-->
@@ -320,7 +296,7 @@
                         <!--begin::Notes-->
                         <div class="mb-0">
                             <label class="form-label fs-6 fw-bolder text-gray-700">{{ __('common.note') }}</label>
-                            <textarea name="notes" class="form-control form-control-solid" id="note-field" rows="3" placeholder="Thanks for your business">{!! $bill->note !!}</textarea>
+                            <textarea name="notes" class="form-control form-control-solid" id="note-field" rows="3" placeholder="Thanks for your business" >{!! $order->note !!}</textarea>
                         </div>
                         <!--end::Notes-->
                     </div>
@@ -332,7 +308,7 @@
             <!--begin::Card header-->
             <div class="card-header">
                 <div class="card-title">
-                    <h2>{{__('purchasing.payment_info')}}</h2>
+                    <h2>{{__('order.payment_info')}}</h2>
                 </div>
             </div>
             <!--end::Card header-->
@@ -342,7 +318,7 @@
                 <!--begin::Billing address-->
                 <div class="d-flex flex-column gap-5 gap-md-7">
                     <!--begin::Title-->
-                    <div class="fs-4 fw-bold mb-n2">{{__('purchasing.paid')}}</div>
+                    <div class="fs-4 fw-bold mb-n2">{{__('order.paid')}}</div>
                     <!--end::Title-->
         
                     <!--begin::Input group-->
@@ -363,7 +339,7 @@
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-sm input-group-solid">
-                                <input class="form-control form-control-sm" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('purchasing.type_price')}}" value="{{ formatNumber($bill->paid) }}">
+                                <input class="form-control form-control-sm" id="amount-paid" data-plugin="inputmask-numeric" type="text" name="billing_order_address_2" placeholder="{{__('order.type_price')}}" value="{{ formatNumber($order->paid) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -373,13 +349,13 @@
                     <!--begin::Input group-->
                     <div class="d-flex flex-column flex-md-row gap-5">
                         <div class="fv-row flex-row-fluid fv-plugins-icon-container col-6">
-                            <div class="fs-4 fw-bold mb-n2">{{__('purchasing.debt')}}</div>
+                            <div class="fs-4 fw-bold mb-n2">{{__('order.debt')}}</div>
                         </div>
         
                         <div class="flex-row-fluid  col-6">
                             {{-- <label class="form-label">Address Line 2</label> --}}
                             <div class="d-flex input-group input-group-sm input-group-solid">
-                                <input class="form-control form-control-sm" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="" value="{{ formatNumber($bill->debt) }}">
+                                <input class="form-control form-control-sm" id="amount-debt" data-plugin="inputmask-numeric" disabled name="billing_order_address_2" placeholder="" value="{{ formatNumber($order->debt) }}">
                                 <span class="input-group-text">đ</span>
                             </div>
                         </div>
@@ -697,7 +673,7 @@
         </div>
         <div class="d-flex justify-content-end">
             <!--begin::Button-->
-            <a href="{{route('purchasing.index')}}" id="kt_ecommerce_edit_order_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
+            <a href="{{route('order.index')}}" id="kt_ecommerce_edit_order_cancel" class="btn btn-sm btn-light me-5">{{__('common.cancel')}}</a>
             <!--end::Button-->
             <!--begin::Button-->
             <button type="submit" id="kt_ecommerce_edit_order_submit" data-type="update" class="btn btn-sm btn-primary">
@@ -713,18 +689,17 @@
 @endsection
 
 @section('pageJs')
-    <script src="{{ url('assets/js/pages/purchasing.create.js') }}"></script>
+    <script src="{{ url('assets/js/pages/order.create.js') }}"></script>
     <script>
         $(document).ready(function() {
             var options = {
-                suppliers : {!! json_encode($suppliers) !!},
+                customers : {!! json_encode($customers) !!},
                 address : {!! json_encode($address) !!},
-                taxes : {!! json_encode($taxes) !!},
-                startDate : '{{ date('d/m/Y', strtotime($bill->date)) }}',
-                billId : {{ $bill->id }},
+                startDate : '{{ date('d/m/Y', strtotime($order->date)) }}',
+                billId : {{ $order->id }},
                 productIdArr : {!! json_encode($productIds) !!},
             }
-            var instance = new PurchasingCreateClass();
+            var instance = new OrderCreateClass();
             instance.run(options);
         });
     </script>

@@ -171,12 +171,36 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('order.update')) {
+            try {
+                $id = cleanNumber($id);
+                $order = $this->order->filters([
+                    'id' => $id,
+                    'relations' => ['details', 'discount', 'details.taxes', 'details.product', 'details.option'],
+                ]);
+                $data['title'] = trans('order.update');
+                $address = Helper::getDetailAddress();
+                $data['address'] = $address;
+                $data['customers'] = $this->customer->filters([
+                    'status' => true,
+                ]);
+                $data['order'] = $order;
+                $productIds = array();
+                foreach ($order->details as $item) {
+                    $productIds[$item->option_id] = $item->product_id; 
+                };
+                $data['productIds'] = $productIds;
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return response()->view('errors.404', [], 404);
+            }
+            return view('order.update', $data);
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -194,12 +218,35 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        if ($user->can('order.update')) {
+            DB::connection()->beginTransaction();
+            try {
+                $rules = [
+                    'customer' => 'required',
+                    'date' => 'required',
+                    'note' => 'string|nullable',
+                    
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                list($oldOrder, $order) = $this->order->updateOrder($request);
+                DB::connection()->commit();
+                event(new OrderBillCreated($order->toArray(), 'update', $oldOrder->toArray()));
+                if ($order) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a order bill: ' . $order->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
