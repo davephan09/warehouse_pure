@@ -1,5 +1,6 @@
 <?php 
 return [
+    'title_main' => 'Warehouse management system',
     'Successfully' => 'Successfully',
     'error_try_again' => 'Error! Please try again',
     'Ok' => 'Ok',

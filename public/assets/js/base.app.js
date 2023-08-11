@@ -225,10 +225,7 @@
                 if (typeof target === 'string') {
                     target = $(target);
                 }
-                target.LoadingOverlay("show", {
-                    fade: false,
-                    maxSize: 30
-                });
+                this.showLoading(target);
             }
 
             var hideLoading = function () {
@@ -568,13 +565,16 @@
 
 
 
-        this.showLoading = function () {
-            if ($('.modal-loading').length == 0) $("body").append('<div class="modal-loading"></div>');
-            $("body").addClass("loading");
+        this.showLoading = function (target) {
+            target.LoadingOverlay("show", {
+                fade: false,
+                maxSize: 30,
+                imageColor: '#009EF7',
+            });
         }
 
-        this.hideLoading = function () {
-            $("body").removeClass("loading")
+        this.hideLoading = function (target) {
+            target.LoadingOverlay("hide")
         }
 
         this.autohideAlert = function () {

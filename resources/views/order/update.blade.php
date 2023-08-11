@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+{{ $title }}
+@endsection
+
 @section('breadcrumb')
 {{ Breadcrumbs::render('order_update', $order) }}
 @endsection
