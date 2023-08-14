@@ -256,7 +256,7 @@ $(document).ready(function() {
   'use strict'
 
   const menuitems = document.querySelectorAll('.menu-link')
-  const curUrl = window.location.href
+  const curUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
   Array.prototype.forEach.call(menuitems, (el) => {
     el.classList.remove('active')
     if(el.getAttribute('href') === curUrl)
