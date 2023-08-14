@@ -250,6 +250,25 @@ $(document).ready(function() {
 
 
 // --------------------------
+// active menu sidebar
+// --------------------------
+$(document).ready(function() {
+  'use strict'
+
+  const menuitems = document.querySelectorAll('.menu-link')
+  const curUrl = window.location.href
+  Array.prototype.forEach.call(menuitems, (el) => {
+    el.classList.remove('active')
+    if(el.getAttribute('href') === curUrl)
+    {
+      el.classList.add('active')
+    }
+  })
+})
+
+
+
+// --------------------------
 //  Number Processing
 // --------------------------
 
