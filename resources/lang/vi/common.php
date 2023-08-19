@@ -98,4 +98,5 @@ return [
     'more' => 'quyển nữa',
     'date' => 'Ngày',
     'note' => 'Ghi chú',
+    'switch' => 'Chuyển',
 ];

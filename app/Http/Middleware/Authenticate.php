@@ -24,7 +24,7 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, ...$guard)
     {
-        $userInfo = Auth::user();
+        $userInfo = Auth::user()->load('roles');
         if (empty($userInfo)) {
             $curUrl = url()->full();
             $curUrl = urlencode($curUrl);

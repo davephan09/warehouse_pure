@@ -4653,9 +4653,9 @@
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
+                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ $userInfo->username }}
                                         <span
-                                            class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span>
+                                            class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{ $userInfo->roles[0]->name }}</span>
                                     </div>
                                     <a href="#"
                                         class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
@@ -4815,10 +4815,23 @@
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="../../demo1/dist/authentication/flows/basic/sign-in.html"
+                            <a href="{{ route('logout') }}"
                                 class="menu-link px-5">Sign Out</a>
                         </div>
                         <!--end::Menu item-->
+                        @if (auth()->check())
+                            @if (app('impersonate')->isImpersonating())
+                                @php 
+                                    $impersonator = app('impersonate')->getImpersonator();
+                                @endphp
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <a href="{{ route('impersonate.leave') }}"
+                                        class="menu-link px-5">{{ __('switch.impersonator') . ': ' . $impersonator->username }}</a>
+                                </div>
+                                <!--end::Menu item-->
+                            @endif
+                        @endif
                         <!--begin::Menu separator-->
                         <div class="separator my-2"></div>
                         <!--end::Menu separator-->

@@ -127,3 +127,8 @@ Breadcrumbs::for('order_update', function (BreadcrumbTrail $trail, $order) {
     $trail->parent('order');
     $trail->push($order->name, route('order.show', ['id' => $order->id]));
 });
+
+Breadcrumbs::for('switch', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push(trans('switch.switch_user'), route('switch.index'));
+});

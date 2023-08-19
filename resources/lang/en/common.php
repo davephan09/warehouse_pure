@@ -99,4 +99,5 @@ return [
     'more' => 'more',
     'date' => 'Date',
     'note' => 'Notes',
+    'switch' => 'Switch',
 ];
