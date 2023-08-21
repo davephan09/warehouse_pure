@@ -24,7 +24,7 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, ...$guard)
     {
-        $userInfo = Auth::user()->load('roles');
+        $userInfo = Auth::user();
         if (empty($userInfo)) {
             $curUrl = url()->full();
             $curUrl = urlencode($curUrl);
@@ -39,6 +39,7 @@ class Authenticate extends Middleware
                 return redirect(url('/login?_b=' . $curUrl));
             }
         }
+        $userInfo = $userInfo->load('roles');
 
         View::share('userInfo', $userInfo);
         return $next($request);
