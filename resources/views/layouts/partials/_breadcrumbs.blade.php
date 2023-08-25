@@ -8,6 +8,11 @@
                 <li class="breadcrumb-item">
                     <span class="bullet bg-gray-300 w-5px h-2px"></span>
                 </li>
+            @elseif (!$loop->last)
+                <li class="breadcrumb-item text-muted">{{ $breadcrumb->title }}</li>
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                </li>
             @else
                 <li class="breadcrumb-item text-dark">{{ $breadcrumb->title }}</li>
             @endif
