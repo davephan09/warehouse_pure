@@ -107,6 +107,6 @@
     <!--end::Table body-->
 </table>
 
-<div class="py-2 ml-2">
+<div class="py-4 ml-2">
     {!! $customers->appends(request()->all())->links('includes.paginations') !!}
 </div>

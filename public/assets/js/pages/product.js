@@ -27,6 +27,9 @@ var ProductClass = function () {
         var params = {
             status : ele.statusFilter.val(),
         }
+        for(var i in params) {
+            if (!params[i]) params[i] = '';
+        }
         return params
     }
 
