@@ -157,6 +157,31 @@ class ProductRepository extends Repository
         }
     }
 
+    public function updateVariationProduct($product, $variations)
+    {
+        foreach ($variations as $item) {
+            if (isset($item['options'])) {
+                $options = json_decode($item['options']);
+                $options = cleanNumber($options);
+                $options = json_encode($options);
+            }
+            VariationProduct::updateOrCreate(
+                [
+                    'product_id' => cleanNumber($product->id),
+                    'options' => $options ?? null,
+                ],
+                [
+                    'product_id' => cleanNumber($product->id),
+                    'options' => $options ?? null,
+                    'name' => trim(strip_tags(stripslashes($item['variationName']))),
+                    'quantity' => cleanNumber($item['quantity']),
+                    'price' => cleanNumber($item['price']),
+                    'sku' => trim(strip_tags(stripslashes($item['code']))),
+                ]
+            );
+        }
+    }
+
     public function deleteVariationProduct($product)
     {
         VariationProduct::where('product_id', $product->id)->delete();

@@ -215,8 +215,7 @@ class ProductController extends Controller
                 $isUpdate = $this->product->updateProduct($request, $product);
                 $this->product->addTag($product, $tags);
                 $this->product->addTaxProduct($product, $taxIds, $taxValues);
-                $this->product->deleteVariationProduct($product);
-                $this->product->addVariationProduct($product, $variations);
+                $this->product->updateVariationProduct($product, $variations);
                 if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
