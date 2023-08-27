@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('users')->group(function() {
     Route::get('/', [UsersController::class, 'index'])->name('users.index');
     Route::get('get-data', [UsersController::class, 'getData'])->name('users.getData');
+    Route::get('show/{id}', [UsersController::class, 'show'])->name('users.show');
+    Route::post('/delete', [UsersController::class, 'destroy'])->name('users.delete');
 });
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
