@@ -99,4 +99,8 @@ return [
     'date' => 'Ngày',
     'note' => 'Ghi chú',
     'switch' => 'Chuyển',
+    'details' => 'Chi tiết',
+    'edit' => 'Sửa',
+    'select_all' => 'Chọn tất cả',
+    'are_you_revoke' => 'Bạn muốn thu hồi quyền này đối với người dùng này?',
 ];

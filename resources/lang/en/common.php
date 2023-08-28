@@ -100,4 +100,8 @@ return [
     'date' => 'Date',
     'note' => 'Notes',
     'switch' => 'Switch',
+    'details' => 'Details',
+    'edit' => 'Edit',
+    'select_all' => 'Select All',
+    'are_you_revoke' => 'You want to revoke this permission for this user?',
 ];

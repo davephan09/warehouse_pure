@@ -93,6 +93,11 @@ Breadcrumbs::for('user', function (BreadcrumbTrail $trail) {
     $trail->push(trans('role_permission.user'), route('users.index'));
 });
 
+Breadcrumbs::for('user_detail', function (BreadcrumbTrail $trail, $user) {
+    $trail->parent('user');
+    $trail->push(trans('user.user_detail'), route('users.show', ['id' => $user->id]));
+});
+
 Breadcrumbs::for('role', function (BreadcrumbTrail $trail) {
     $trail->parent('access_control');
     $trail->push(trans('role_permission.role'), route('roles.index'));

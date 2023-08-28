@@ -20,6 +20,9 @@ Route::prefix('users')->group(function() {
     Route::get('/', [UsersController::class, 'index'])->name('users.index');
     Route::get('get-data', [UsersController::class, 'getData'])->name('users.getData');
     Route::get('show/{id}', [UsersController::class, 'show'])->name('users.show');
+    Route::get('get-detail-data', [UsersController::class, 'getDetailData'])->name('users.getDetailData');
+    Route::post('assign-permissions', [UsersController::class, 'assignPermissions'])->name('users.assignPermissions');
+    Route::post('revoke-permissions', [UsersController::class, 'revokePermissions'])->name('users.revokePermissions');
     Route::post('/delete', [UsersController::class, 'destroy'])->name('users.delete');
 });
 
