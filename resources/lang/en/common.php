@@ -104,4 +104,6 @@ return [
     'edit' => 'Edit',
     'select_all' => 'Select All',
     'are_you_revoke' => 'You want to revoke this permission for this user?',
+    'are_you_change_pass' => 'You want to change password for this user?',
+    'are_you_assign_role' => 'You want to assign role to this user?',
 ];

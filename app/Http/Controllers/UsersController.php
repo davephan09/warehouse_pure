@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Models\User;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -89,6 +92,7 @@ class UsersController extends Controller
                 'id' => $id,
                 'relations' => ['roles', 'permissions'],
             ]);
+            $data['roles'] = $this->role->filters();
             $listPermission = $this->permission->filters()->keyBy('name');
             $listPermission = $listPermission->mapToGroups(function ($value, $key) {
                 list($entity, $action) = explode('.', $key);
@@ -126,6 +130,7 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         if ($user->can('permission.update')) {
+            DB::connection()->beginTransaction();
             try {
                 $id = cleanNumber($request->input('id'));
                 $userAssign = $this->user->find($id);
@@ -133,8 +138,10 @@ class UsersController extends Controller
                 $permissionIds = !empty($permissionIds) ? $permissionIds : [];
                 $assign = $userAssign->syncPermissions($permissionIds);
                 if (isset($assign)) \Illuminate\Support\Facades\Log::info($user->username . ' has assigned permissions for user: ' . $assign->toJson());
+                DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
                 return $this->iRespond(false, 'error');
             }
             return $this->iRespond(true, "");
@@ -155,6 +162,53 @@ class UsersController extends Controller
                 if (isset($revoke)) \Illuminate\Support\Facades\Log::info($user->username . ' has revoked permissions of user: ' . $revoke->toJson());
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, "");
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function changePassword(UpdatePasswordRequest $request)
+    {
+        $user = Auth::user();
+        $id = cleanNumber($request->input('id'));
+        if ($user->can('user_detail.change_password') || $user->id === $id) {
+            try {
+                $userChange = $this->user->find($id);
+                $newPassword = $request->input('newPassword');
+                $isChange = $userChange->update([
+                    'password' => Hash::make($newPassword),
+                ]);
+                if (isset($isChange)) \Illuminate\Support\Facades\Log::info($user->username . ' has changed password of user: ' . $userChange->toJson());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, "");
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function assignRoles(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('user_detail.assign_role')) {
+            DB::connection()->beginTransaction();
+            try {
+                $id = cleanNumber($request->input('id'));
+                $userAssign = $this->user->find($id);
+                $roleIds = cleanNumber($request->input('roles'));
+                $roleIds = !empty($roleIds) ? $roleIds : [];
+                $roles = $this->role->filters([
+                    'roleIds' => $roleIds,
+                ]);
+                $assign = $userAssign->syncRoles($roles);
+                if (isset($assign)) \Illuminate\Support\Facades\Log::info($user->username . ' has assigned roles for user: ' . $assign->toJson());
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
                 return $this->iRespond(false, 'error');
             }
             return $this->iRespond(true, "");

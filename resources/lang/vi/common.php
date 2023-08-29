@@ -10,6 +10,7 @@ return [
     'assign_to' => 'Cấp quyền cho',
     'create_date' => 'Ngày tạo',
     'actions' => 'Hành động',
+    'action' => 'Hành động',
     'are_you_sure' => 'Bạn có chắn chắn thực hiện thao tác này?',
     'update' => 'Cập nhật',
     'agree' => 'Đồng ý',
@@ -103,4 +104,6 @@ return [
     'edit' => 'Sửa',
     'select_all' => 'Chọn tất cả',
     'are_you_revoke' => 'Bạn muốn thu hồi quyền này đối với người dùng này?',
+    'are_you_change_pass' => 'Bạn muốn thay đổi mật khẩu cho người dùng này?',
+    'are_you_assign_role' => 'Bạn muốn trao vai trò cho người dùng này?',
 ];

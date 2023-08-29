@@ -23,6 +23,8 @@ Route::prefix('users')->group(function() {
     Route::get('get-detail-data', [UsersController::class, 'getDetailData'])->name('users.getDetailData');
     Route::post('assign-permissions', [UsersController::class, 'assignPermissions'])->name('users.assignPermissions');
     Route::post('revoke-permissions', [UsersController::class, 'revokePermissions'])->name('users.revokePermissions');
+    Route::post('change-password', [UsersController::class, 'changePassword'])->name('users.changePassword');
+    Route::post('assign-roles', [UsersController::class, 'assignRoles'])->name('users.assignRoles');
     Route::post('/delete', [UsersController::class, 'destroy'])->name('users.delete');
 });
 

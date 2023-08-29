@@ -25,7 +25,7 @@
                     <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ $user->first_name . ' ' . $user->last_name}}</a>
                     <!--end::Name-->
                     <!--begin::Position-->
-                    <div class="mb-9">
+                    <div class="mb-9" id="role-general">
                         @forelse($user->roles as $role)
                         <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="badge badge-lg badge-light-primary d-inline">{{ $role->name }}</a>
                         @empty
@@ -1735,24 +1735,14 @@
                                 <tbody class="fs-6 fw-bold text-gray-600">
                                     <tr>
                                         <td>{{ __('user.username') }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td class="text-end">
-                                            <button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_email">
-                                                <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
-                                                <span class="svg-icon svg-icon-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                        <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
-                                                        <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                                <!--end::Svg Icon-->
-                                            </button>
-                                        </td>
+                                        <td id="profile_username">{{ $user->username }}</td>
+                                        <td class="text-end"></td>
                                     </tr>
                                     <tr>
                                         <td>{{ __('user.password') }}</td>
                                         <td>******</td>
                                         <td class="text-end">
+                                            @if ($user->id === auth()->user()->id || auth()->user()->can('user_detail.change_password')) 
                                             <button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_password">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -1763,11 +1753,12 @@
                                                 </span>
                                                 <!--end::Svg Icon-->
                                             </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>{{ __('role_permission.role') }}</td>
-                                        <td>
+                                        <td id="role-field">
                                             @forelse($user->roles as $role)
                                                 <div class="badge badge-lg badge-light-primary d-inline">{{ $role->name }}</div>
                                             @empty
@@ -2537,93 +2528,7 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
-<!--begin::Modal - Update email-->
-<div class="modal fade" id="kt_modal_update_email" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Update Email Address</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                <!--begin::Form-->
-                <form id="kt_modal_update_email_form" class="form" action="#">
-                    <!--begin::Notice-->
-                    <!--begin::Notice-->
-                    <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
-                        <!--begin::Icon-->
-                        <!--begin::Svg Icon | path: icons/duotune/general/gen044.svg-->
-                        <span class="svg-icon svg-icon-2tx svg-icon-primary me-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor" />
-                                <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor" />
-                                <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor" />
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                        <!--end::Icon-->
-                        <!--begin::Wrapper-->
-                        <div class="d-flex flex-stack flex-grow-1">
-                            <!--begin::Content-->
-                            <div class="fw-bold">
-                                <div class="fs-6 text-gray-700">Please note that a valid email address is required to complete the email verification.</div>
-                            </div>
-                            <!--end::Content-->
-                        </div>
-                        <!--end::Wrapper-->
-                    </div>
-                    <!--end::Notice-->
-                    <!--end::Notice-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Email Address</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input class="form-control form-control-solid" placeholder="" name="profile_email" value="smith@kpmg.com" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Actions-->
-                    <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Update email-->
+@if ($user->id === auth()->user()->id || auth()->user()->can('user_detail.change_password')) 
 <!--begin::Modal - Update password-->
 <div class="modal fade" id="kt_modal_update_password" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -2633,10 +2538,10 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bolder">Update Password</h2>
+                <h2 class="fw-bolder">{{ __('user.update_password') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -2652,11 +2557,11 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_update_password_form" class="form" action="#">
+                <form id="kt_modal_update_password_form" class="form" action="javascript:;">
                     <!--begin::Input group=-->
                     <div class="fv-row mb-10">
-                        <label class="required form-label fs-6 mb-2">Current Password</label>
-                        <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="current_password" autocomplete="off" />
+                        <label class="required form-label fs-6 mb-2">{{ __('user.current_password') }}</label>
+                        <input class="form-control form-control-sm form-control-solid" type="password" placeholder="" name="current_password" autocomplete="off" />
                     </div>
                     <!--end::Input group=-->
                     <!--begin::Input group-->
@@ -2664,11 +2569,11 @@
                         <!--begin::Wrapper-->
                         <div class="mb-1">
                             <!--begin::Label-->
-                            <label class="form-label fw-bold fs-6 mb-2">New Password</label>
+                            <label class="form-label fw-bold fs-6 mb-2">{{ __('user.new_password') }}</label>
                             <!--end::Label-->
                             <!--begin::Input wrapper-->
                             <div class="position-relative mb-3">
-                                <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="new_password" autocomplete="off" />
+                                <input class="form-control form-control-sm form-control-solid" type="password" placeholder="" name="new_password" autocomplete="off" />
                                 <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
                                     <i class="bi bi-eye-slash fs-2"></i>
                                     <i class="bi bi-eye fs-2 d-none"></i>
@@ -2686,21 +2591,21 @@
                         </div>
                         <!--end::Wrapper-->
                         <!--begin::Hint-->
-                        <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</div>
+                        <div class="text-muted">{{ __('user.password_desc') }}</div>
                         <!--end::Hint-->
                     </div>
                     <!--end::Input group=-->
                     <!--begin::Input group=-->
                     <div class="fv-row mb-10">
-                        <label class="form-label fw-bold fs-6 mb-2">Confirm New Password</label>
-                        <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="confirm_password" autocomplete="off" />
+                        <label class="form-label fw-bold fs-6 mb-2">{{ __('user.confirm_new_password') }}</label>
+                        <input class="form-control form-control-sm form-control-solid" type="password" placeholder="" name="confirm_password" autocomplete="off" />
                     </div>
                     <!--end::Input group=-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                        <button type="reset" class="btn btn-sm btn-light me-3" data-kt-users-modal-action="cancel" data-bs-dismiss="modal">{{ __('common.discard') }}</button>
+                        <button type="submit" class="btn btn-sm btn-primary" data-kt-users-modal-action="submit">
+                            <span class="indicator-label">{{ __('common.submit') }}</span>
                             <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
@@ -2716,6 +2621,7 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Update password-->
+@endif
 <!--begin::Modal - Update role-->
 <div class="modal fade" id="kt_modal_update_role" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -2725,10 +2631,10 @@
             <!--begin::Modal header-->
             <div class="modal-header">
                 <!--begin::Modal title-->
-                <h2 class="fw-bolder">Update User Role</h2>
+                <h2 class="fw-bolder">{{ __('user.update_user_role') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -2744,7 +2650,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                 <!--begin::Form-->
-                <form id="kt_modal_update_role_form" class="form" action="#">
+                <form id="kt_modal_update_role_form" class="form" action="javascript:;">
                     <!--begin::Notice-->
                     <!--begin::Notice-->
                     <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
@@ -2763,7 +2669,7 @@
                         <div class="d-flex flex-stack flex-grow-1">
                             <!--begin::Content-->
                             <div class="fw-bold">
-                                <div class="fs-6 text-gray-700">Please note that reducing a user role rank, that user will lose all priviledges that was assigned to the previous role.</div>
+                                <div class="fs-6 text-gray-700">{{ __('user.user_role_desc') }}</div>
                             </div>
                             <!--end::Content-->
                         </div>
@@ -2775,20 +2681,20 @@
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="fs-6 fw-bold form-label mb-5">
-                            <span class="required">Select a user role</span>
+                            <span class="required">{{ __('user.select_roles') }}</span>
                         </label>
                         <!--end::Label-->
+                        @forelse ($roles as $key => $role)
                         <!--begin::Input row-->
                         <div class="d-flex">
                             <!--begin::Radio-->
                             <div class="form-check form-check-custom form-check-solid">
                                 <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="0" id="kt_modal_update_role_option_0" checked='checked' />
+                                <input class="form-check-input me-3 role-input" name="user_role" type="checkbox" value="{{ $role->id }}" id="kt_modal_update_role_option_{{ $key }}" {{ in_array($role->id, $user->roles->pluck('id')->toArray()) ? 'checked' : '' }} />
                                 <!--end::Input-->
                                 <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_0">
-                                    <div class="fw-bolder text-gray-800">Administrator</div>
-                                    <div class="text-gray-600">Best for business owners and company administrators</div>
+                                <label class="form-check-label" for="kt_modal_update_role_option_{{ $key }}">
+                                    <div class="fw-bolder text-gray-800">{{ $role->name }}</div>
                                 </label>
                                 <!--end::Label-->
                             </div>
@@ -2796,84 +2702,14 @@
                         </div>
                         <!--end::Input row-->
                         <div class='separator separator-dashed my-5'></div>
-                        <!--begin::Input row-->
-                        <div class="d-flex">
-                            <!--begin::Radio-->
-                            <div class="form-check form-check-custom form-check-solid">
-                                <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="1" id="kt_modal_update_role_option_1" />
-                                <!--end::Input-->
-                                <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_1">
-                                    <div class="fw-bolder text-gray-800">Developer</div>
-                                    <div class="text-gray-600">Best for developers or people primarily using the API</div>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Radio-->
-                        </div>
-                        <!--end::Input row-->
-                        <div class='separator separator-dashed my-5'></div>
-                        <!--begin::Input row-->
-                        <div class="d-flex">
-                            <!--begin::Radio-->
-                            <div class="form-check form-check-custom form-check-solid">
-                                <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="2" id="kt_modal_update_role_option_2" />
-                                <!--end::Input-->
-                                <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_2">
-                                    <div class="fw-bolder text-gray-800">Analyst</div>
-                                    <div class="text-gray-600">Best for people who need full access to analytics data, but don't need to update business settings</div>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Radio-->
-                        </div>
-                        <!--end::Input row-->
-                        <div class='separator separator-dashed my-5'></div>
-                        <!--begin::Input row-->
-                        <div class="d-flex">
-                            <!--begin::Radio-->
-                            <div class="form-check form-check-custom form-check-solid">
-                                <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="3" id="kt_modal_update_role_option_3" />
-                                <!--end::Input-->
-                                <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_3">
-                                    <div class="fw-bolder text-gray-800">Support</div>
-                                    <div class="text-gray-600">Best for employees who regularly refund payments and respond to disputes</div>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Radio-->
-                        </div>
-                        <!--end::Input row-->
-                        <div class='separator separator-dashed my-5'></div>
-                        <!--begin::Input row-->
-                        <div class="d-flex">
-                            <!--begin::Radio-->
-                            <div class="form-check form-check-custom form-check-solid">
-                                <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="4" id="kt_modal_update_role_option_4" />
-                                <!--end::Input-->
-                                <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_4">
-                                    <div class="fw-bolder text-gray-800">Trial</div>
-                                    <div class="text-gray-600">Best for people who need to preview content data, but don't need to make any updates</div>
-                                </label>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Radio-->
-                        </div>
-                        <!--end::Input row-->
+                        @empty
+                        @endforelse
                     </div>
-                    <!--end::Input group-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
+                        <button type="reset" class="btn btn-sm btn-light me-3" data-kt-users-modal-action="cancel" data-bs-dismiss="modal">{{ __('common.discard') }}</button>
+                        <button type="submit" class="btn btn-sm btn-primary" data-kt-users-modal-action="submit">
+                            <span class="indicator-label">{{ __('common.submit') }}</span>
                             <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>

@@ -18,6 +18,15 @@ var UserDetailClass = function () {
         ele.checkAll = $('#kt_roles_select_all')
         ele.formAssignPermission = $('#kt_modal_assign_permission_form')
         ele.modalAssignPermission = $('#kt_modal_assign_permission')
+        ele.formUpdatePassword = $('#kt_modal_update_password_form')
+        ele.modalUpdatePassword = $('#kt_modal_update_password')
+        ele.currentPassword = $('input[name="current_password"]')
+        ele.newPassword = $('input[name="new_password"]')
+        ele.confirmPassword = $('input[name="confirm_password"]')
+        ele.formAssignRole = $('#kt_modal_update_role_form')
+        ele.modalAssignRole = $('#kt_modal_update_role')
+        ele.roleInput = $('.role-input')
+        ele.profileTable = $('#kt_table_users_login_session')
 
         loadData()
     }
@@ -25,6 +34,8 @@ var UserDetailClass = function () {
     this.bindEvents = function () {
         handleAssignPermission()
         handleRevokePermission()
+        handleUpdatePassword()
+        handleAssignRoles()
     }
 
     var getParam = function () {
@@ -49,6 +60,7 @@ var UserDetailClass = function () {
     var drawContent = function (data) {
         renderPermission(data)
         syncPermissions(data)
+        renderRole(data)
 
         $.app.checkboxAll(ele.checkAll, ele.checkItems)
     }
@@ -81,6 +93,18 @@ var UserDetailClass = function () {
         });
 
         $('.delete-btn').tooltip()
+    }
+
+    var renderRole = function (data) {
+        let roles = data.user.roles
+        let profileHtml = ''
+        let generalHtml = ''
+        $.each(roles, function(i, item) {
+            profileHtml += `<div class="badge badge-lg badge-light-primary d-inline me-2">${ item.name }</div>`
+            generalHtml += `<a href="${ $.app.vars.url + '/roles/' + item.id + '/show' }" class="badge badge-lg badge-light-primary d-inline me-2">${ item.name }</a>`
+        })
+        $('#role-field').html(profileHtml)
+        $('#role-general').html(profileHtml)
     }
 
     var handleAssignPermission = function() {
@@ -144,7 +168,81 @@ var UserDetailClass = function () {
                     $.app.ajax($.app.vars.url + '/users/revoke-permissions', 'POST', params, '', null, _cb);
                 },
                 'unConfirm' : function () {
-                    
+
+                }
+            })
+        })
+    }
+
+    var handleUpdatePassword = function () {
+        ele.formUpdatePassword.on('submit', function() {
+            var params = {
+                id : options.id,
+                currentPassword : ele.currentPassword.val(),
+                newPassword : ele.newPassword.val(),
+                newPassword_confirmation : ele.confirmPassword.val(),
+            }
+
+            if (params.newPassword !== params.newPassword_confirmation) {
+                $.app.pushNoty('error', Lang.get('user.confirm_password_err'))
+                return false
+            }
+
+            var target = ele.formUpdatePassword
+
+            var _cb = function(rs) {
+                if(rs.status) {
+                    ele.modalUpdatePassword.modal('hide')
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+
+            var username = $('#profile_username').html()
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_change_pass'),
+                'text' : Lang.get('user.username') + ': ' + username,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/users/change-password', 'POST', params, target, null, _cb);
+                },
+                'unConfirm' : function () {
+
+                }
+            })
+        })
+    }
+
+    var handleAssignRoles = function () {
+        ele.formAssignRole.on('submit', function () {
+            var params = {
+                id : options.id,
+                roles : [],
+            }
+            $.each(ele.roleInput, function (i, val) {
+                if ($(this).prop('checked')) {
+                    params.roles.push($(this).val())
+                }
+            })
+            var target = ele.formAssignRole
+            var _cb = function(rs) {
+                if(rs.status) {
+                    loadData(ele.profileTable)
+                    ele.modalAssignRole.modal('hide')
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            var username = $('#profile_username').html()
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_assign_role'),
+                'text' : Lang.get('user.username') + ': ' + username,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/users/assign-roles', 'POST', params, target, null, _cb);
+                },
+                'unConfirm' : function () {
+
                 }
             })
         })
