@@ -27,8 +27,13 @@ var UserDetailClass = function () {
         ele.modalAssignRole = $('#kt_modal_update_role')
         ele.roleInput = $('.role-input')
         ele.profileTable = $('#kt_table_users_login_session')
+        ele.orderTable = $('#list-order')
+        ele.purchasingTable = $('#purchasing-table')
+        ele.loadingField = $('.loading_tab')
+        ele.totalOrder = $('#total-order')
+        ele.totalPurchasing = $('#total-purchasing')
 
-        loadData()
+        load(ele.loadingField)
     }
 
     this.bindEvents = function () {
@@ -36,6 +41,7 @@ var UserDetailClass = function () {
         handleRevokePermission()
         handleUpdatePassword()
         handleAssignRoles()
+        paging()
     }
 
     var getParam = function () {
@@ -48,6 +54,11 @@ var UserDetailClass = function () {
         return params
     }
 
+    var load = function (target) {
+        loadData(target)
+        loadPurchasing()
+    }
+
     var loadData = function (target) {
         var params = getParam()
         var _cb = function (rs) {
@@ -57,10 +68,25 @@ var UserDetailClass = function () {
         $.app.ajax($.app.vars.url + '/users/get-detail-data', 'GET', params, target, null, _cb);
     }
 
+    var loadPurchasing = function () {
+        var params = getParam()
+        var target = ele.purchasingTable
+        var _cb = function (rs) {
+            var data = rs.data
+            drawContent(data)
+        }
+        $.app.ajax($.app.vars.url + '/users/get-purchasing-data', 'GET', params, target, null, _cb);
+    }
+
     var drawContent = function (data) {
-        renderPermission(data)
-        syncPermissions(data)
-        renderRole(data)
+        if (data.purchasing) {
+            renderPurchasing(data)
+        } else {
+            renderPermission(data)
+            syncPermissions(data)
+            renderRole(data)
+            renderOrder(data)
+        }
 
         $.app.checkboxAll(ele.checkAll, ele.checkItems)
     }
@@ -93,6 +119,40 @@ var UserDetailClass = function () {
         });
 
         $('.delete-btn').tooltip()
+    }
+
+    var renderOrder = function (data) {
+        let dttableid = 'order-list';
+        if (typeof vars.datatable[dttableid] !== 'undefined') {
+            vars.datatable[dttableid].destroy();
+        }
+        var totalOrder = data.orders.total
+        ele.orderTable.html(data.htmlOrderTable)
+        ele.totalOrder.html(Lang.get('user.total_order', { 'attribute' : totalOrder }))
+        $('.update-btn').tooltip()
+    }
+
+    var renderPurchasing = function (data) {
+        let dttableid = 'purchasing-list'
+        if (typeof vars.datatable[dttableid] !== 'undefined') {
+            vars.datatable[dttableid].destroy();
+        }
+        var totalPurchasing = data.purchasing.total
+        ele.purchasingTable.html(data.htmlPurchasingTable)
+        ele.totalPurchasing.html(Lang.get('user.total_purchasing', { 'attribute' : totalPurchasing }))
+        $('.update-btn').tooltip()
+    }
+
+    var paging = function(target) {
+        $(document).on('click', '.page-link', function() {
+            var $url = $(this).data('href')
+            var target = $(this).closest('.loading_tab')
+            var _cb = function(rs) {
+                var data = rs.data
+                drawContent(data)
+            }
+            $.app.ajax($url, 'GET', '', $(target), null, _cb)
+        })
     }
 
     var renderRole = function (data) {

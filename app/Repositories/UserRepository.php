@@ -25,6 +25,9 @@ class UserRepository extends Repository
         if(!empty($filters['select'])) {
             $query->select($filters['select']);
         }
+        if(!empty($filters['addSelect'])) {
+            $query->addSelect($filters['addSelect']);
+        }
         if(!empty($filters['relations'])) {
             $query->with($filters['relations']);
         }

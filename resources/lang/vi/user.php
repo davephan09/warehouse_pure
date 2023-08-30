@@ -30,4 +30,8 @@ return [
     'user_role_desc' => 'Mỗi người dùng có thể được cấp nhiều vai trò.',
     'select_roles' => 'Chọn vai trò cho người dùng',
     'update_user_role' => 'Cập nhật vai trò người dùng',
+    'user_order' => "Đơn hàng",
+    'purchasing_user' => "Đơn nhập hàng",
+    'total_purchasing' => 'Tổng cộng :attribute đơn nhập hàng',
+    'total_order' => 'Tổng cộng :attribute đơn bán hàng',
 ];

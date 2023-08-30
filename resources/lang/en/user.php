@@ -30,4 +30,8 @@ return [
     'user_role_desc' => 'Each user can be assigned multiple roles.',
     'select_roles' => 'Select user roles',
     'update_user_role' => 'Update User Role',
+    'user_order' => "User's Orders",
+    'purchasing_user' => "User's Purchasing Bills",
+    'total_purchasing' => 'Total :attribute purchasing bills',
+    'total_order' => 'Total :attribute orders',
 ];

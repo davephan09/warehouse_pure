@@ -28,4 +28,5 @@ return [
     'bill' => 'Đơn nhập hàng',
     'update' => 'Cập nhật đơn hàng',
     'purchasings' => 'Đơn nhập hàng',
+    'add_new' => 'Thêm mới',
 ];

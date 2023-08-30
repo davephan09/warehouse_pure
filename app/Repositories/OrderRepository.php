@@ -100,12 +100,20 @@ class OrderRepository extends Repository
             $query->where('date', $filters['date']);
         }
 
+        if (!empty($filters['userId'])) {
+            $query->where('user_add', $filters['userId']);
+        }
+
         $perPage = empty($filters['perPage']) ? 10 : $filters['perPage'];
 
         if (!empty($filters['id'])) {
             $data = $query->where('id', $filters['id'])->first();
         } else {
-            $data = $query->orderByDesc('id')->groupBy('id')->paginate($perPage);
+            if (!empty($filters['orderBy'])) {
+                $data = $query->orderByDesc($filters['orderBy'])->groupBy('id')->paginate($perPage);
+            } else {
+                $data = $query->orderByDesc('id')->groupBy('id')->paginate($perPage);
+            }
         }
         return $data;
     }

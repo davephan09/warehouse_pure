@@ -16,23 +16,24 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [ProductController::class, 'index'])->name('home');
+
+Route::get('dashboard', function () {
+    return view('welcome');
+})->name('dashboard');
+
 Route::prefix('users')->group(function() {
     Route::get('/', [UsersController::class, 'index'])->name('users.index');
     Route::get('get-data', [UsersController::class, 'getData'])->name('users.getData');
     Route::get('show/{id}', [UsersController::class, 'show'])->name('users.show');
     Route::get('get-detail-data', [UsersController::class, 'getDetailData'])->name('users.getDetailData');
+    Route::get('get-purchasing-data', [UsersController::class, 'getPurchasingData'])->name('users.getPurchasingData');
     Route::post('assign-permissions', [UsersController::class, 'assignPermissions'])->name('users.assignPermissions');
     Route::post('revoke-permissions', [UsersController::class, 'revokePermissions'])->name('users.revokePermissions');
     Route::post('change-password', [UsersController::class, 'changePassword'])->name('users.changePassword');
     Route::post('assign-roles', [UsersController::class, 'assignRoles'])->name('users.assignRoles');
     Route::post('/delete', [UsersController::class, 'destroy'])->name('users.delete');
 });
-
-Route::get('/', [ProductController::class, 'index'])->name('home');
-
-Route::get('dashboard', function () {
-    return view('welcome');
-})->name('dashboard');
 
 Route::prefix('roles')->as('roles.')->group(function() {
     Route::get('/', [RolesController::class, 'index'])->name('index');

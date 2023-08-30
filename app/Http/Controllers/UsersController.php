@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\User;
+use App\Repositories\OrderRepository;
 use App\Repositories\PermissionRepository;
+use App\Repositories\PurchasingRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -17,11 +19,15 @@ class UsersController extends Controller
     private $user;
     private $role;
     private $permission;
-    public function __construct(UserRepository $user, RoleRepository $role, PermissionRepository $permission)
+    private $order;
+    private $purchasing;
+    public function __construct(UserRepository $user, RoleRepository $role, PermissionRepository $permission, OrderRepository $order, PurchasingRepository $purchasing)
     {
         $this->user = $user;
         $this->role = $role;
         $this->permission = $permission;
+        $this->order = $order;
+        $this->purchasing = $purchasing;
     }
 
     /**
@@ -91,6 +97,7 @@ class UsersController extends Controller
             $data['user'] = $userDetail = $this->user->filters([
                 'id' => $id,
                 'relations' => ['roles', 'permissions'],
+                'addSelect' => ['phone'],
             ]);
             $data['roles'] = $this->role->filters();
             $listPermission = $this->permission->filters()->keyBy('name');
@@ -113,14 +120,39 @@ class UsersController extends Controller
     public function getDetailData(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('user.update')) {
-            $id = cleanNumber($request->input('id'));
+        $id = cleanNumber($request->input('id'));
+        if ($user->can('user.update') || $user->id === $id) {
             $data['user'] = $userDetail = $this->user->filters([
                 'id' => $id,
                 'relations' => ['roles', 'permissions'],
+                'addSelect' => ['phone'],
             ]);
+            $orders = $this->order->filters([
+                'relations' => [],
+                'userId' => $id,
+                'orderBy' => 'date',
+            ]);
+            $data['orders'] = $orders;
             $data['permissionIds'] = !empty($userDetail->permissions) ? $userDetail->permissions->pluck('id')->toArray() : [];
             $data['htmlPermissionTable'] = view('users.permissions_table', $data)->render();
+            $data['htmlOrderTable'] = view('users.order_table', $data)->render();
+            return $this->iRespond(true, "", $data);
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function getPurchasingData(Request $request)
+    {
+        $user = Auth::user();
+        $id = cleanNumber($request->input('id'));
+        if ($user->can('user.update') || $user->id === $id) {
+            $purchasing = $this->purchasing->filters([
+                'relations' => [],
+                'userId' => $id,
+                'orderBy' => 'date',
+            ]);
+            $data['purchasing'] = $purchasing;
+            $data['htmlPurchasingTable'] = view('users.purchasing_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }
         return response()->view('errors.404', [], 404);
