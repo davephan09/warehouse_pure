@@ -54,4 +54,24 @@ class UserRepository extends Repository
         }
         return $data;
     }
+
+    public function updateInfor($request)
+    {
+        $id = cleanNumber($request->input('id'));
+        $user = $this->find($id);
+        if (isset($user)) {
+            $fullname = cleanInput($request->input('fullname'));
+            $nameParts = explode(' ', $fullname);
+            $lastname = array_pop($nameParts);
+            $firstname = implode(" ", $nameParts);
+            $update = $user->update([
+                'first_name' => $firstname,
+                'last_name' => $lastname,
+                'phone' => cleanInput($request->input('phone')),
+                'email' => cleanInput($request->input('email')),
+            ]);
+            return $update;
+        }
+        return false;
+    }
 }

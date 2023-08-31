@@ -34,4 +34,12 @@ return [
     'purchasing_user' => "User's Purchasing Bills",
     'total_purchasing' => 'Total :attribute purchasing bills',
     'total_order' => 'Total :attribute orders',
+    'update_user_detail' => 'Update User Details',
+    'user_information' => 'User Information',
+    'update_avatar' => 'Update avatar',
+    'change_avatar' => 'Change avatar',
+    'cancel_avatar' => 'Cancel avatar',
+    'remove_avatar' => 'Remove avatar',
+    'email_desc' => 'Email address must be active.',
+    'edit_user_details' => 'Edit user details',
 ];

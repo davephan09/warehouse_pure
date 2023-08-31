@@ -32,6 +32,7 @@ Route::prefix('users')->group(function() {
     Route::post('revoke-permissions', [UsersController::class, 'revokePermissions'])->name('users.revokePermissions');
     Route::post('change-password', [UsersController::class, 'changePassword'])->name('users.changePassword');
     Route::post('assign-roles', [UsersController::class, 'assignRoles'])->name('users.assignRoles');
+    Route::post('update-infor', [UsersController::class, 'updateInfor'])->name('users.updateInfor');
     Route::post('/delete', [UsersController::class, 'destroy'])->name('users.delete');
 });
 

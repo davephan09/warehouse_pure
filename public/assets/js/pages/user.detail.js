@@ -32,6 +32,10 @@ var UserDetailClass = function () {
         ele.loadingField = $('.loading_tab')
         ele.totalOrder = $('#total-order')
         ele.totalPurchasing = $('#total-purchasing')
+        ele.formUpdateInfor = $('#kt_modal_update_user_form')
+        ele.modalUpdateInfor = $('#kt_modal_update_details')
+        ele.inforTable = $('#kt_user_view_details')
+        ele.username = $('#profile_username')
 
         load(ele.loadingField)
     }
@@ -42,6 +46,7 @@ var UserDetailClass = function () {
         handleUpdatePassword()
         handleAssignRoles()
         paging()
+        handleUpdateInfor()
     }
 
     var getParam = function () {
@@ -82,6 +87,7 @@ var UserDetailClass = function () {
         if (data.purchasing) {
             renderPurchasing(data)
         } else {
+            renderUserInfor(data)
             renderPermission(data)
             syncPermissions(data)
             renderRole(data)
@@ -89,6 +95,14 @@ var UserDetailClass = function () {
         }
 
         $.app.checkboxAll(ele.checkAll, ele.checkItems)
+    }
+
+    var renderUserInfor = function(data) {
+        let dttableid = 'infor-list';
+        if (typeof vars.datatable[dttableid] !== 'undefined') {
+            vars.datatable[dttableid].destroy();
+        }
+        ele.inforTable.html(data.htmlInforTable)
     }
     
     var renderPermission = function (data) {
@@ -259,7 +273,7 @@ var UserDetailClass = function () {
                 }
             }
 
-            var username = $('#profile_username').html()
+            var username = ele.username.html()
             $.app.pushConfirmNoti({
                 'title' : Lang.get('common.are_you_change_pass'),
                 'text' : Lang.get('user.username') + ': ' + username,
@@ -294,7 +308,7 @@ var UserDetailClass = function () {
                     $.app.pushNoty('error')
                 }
             }
-            var username = $('#profile_username').html()
+            var username = ele.username.html()
             $.app.pushConfirmNoti({
                 'title' : Lang.get('common.are_you_assign_role'),
                 'text' : Lang.get('user.username') + ': ' + username,
@@ -303,6 +317,38 @@ var UserDetailClass = function () {
                 },
                 'unConfirm' : function () {
 
+                }
+            })
+        })
+    }
+
+    var handleUpdateInfor = function () {
+        ele.formUpdateInfor.on('submit', function () {
+            var params = {
+                id : options.id,
+                fullname : $('input[name="name"]').val(),
+                phone : $('input[name="phone"]').val(),
+                email : $('input[name="email"]').val(),
+            }
+            var target = ele.formUpdateInfor
+            var _cb = function(rs) {
+                if(rs.status) {
+                    loadData(ele.inforTable)
+                    ele.modalUpdateInfor.modal('hide')
+                    $.app.pushNoty('success')
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            var username = ele.username.html()
+            $.app.pushConfirmNoti({
+                'title' : Lang.get('common.are_you_update_infor'),
+                'text' : Lang.get('user.username') + ': ' + username,
+                'callback' : function () {
+                    $.app.ajax($.app.vars.url + '/users/update-infor', 'POST', params, target, null, _cb);
+                },
+                'unConfirm' : function () {
+    
                 }
             })
         })

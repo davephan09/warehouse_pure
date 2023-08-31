@@ -106,4 +106,8 @@ return [
     'are_you_revoke' => 'You want to revoke this permission for this user?',
     'are_you_change_pass' => 'You want to change password for this user?',
     'are_you_assign_role' => 'You want to assign role to this user?',
+    'allowed_file' => 'Allowed file types: png, jpg, jpeg.',
+    'are_you_update_infor' => "You want to update this user's information?",
+    'sign_out' => 'Sign Out',
+    'profile' => 'My profile',
 ];

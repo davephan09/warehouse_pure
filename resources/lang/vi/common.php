@@ -106,4 +106,8 @@ return [
     'are_you_revoke' => 'Bạn muốn thu hồi quyền này đối với người dùng này?',
     'are_you_change_pass' => 'Bạn muốn thay đổi mật khẩu cho người dùng này?',
     'are_you_assign_role' => 'Bạn muốn trao vai trò cho người dùng này?',
+    'allowed_file' => 'Những loại file ảnh được phép tải lên: png, jpg, jpeg.',
+    'are_you_update_infor' => "Bạn muốn cập nhật thông tin người dùng này?",
+    'sign_out' => 'Đăng xuất',
+    'profile' => 'Hồ sơ của tôi',
 ];

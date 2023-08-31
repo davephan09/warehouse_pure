@@ -34,4 +34,12 @@ return [
     'purchasing_user' => "Đơn nhập hàng",
     'total_purchasing' => 'Tổng cộng :attribute đơn nhập hàng',
     'total_order' => 'Tổng cộng :attribute đơn bán hàng',
+    'update_user_detail' => 'Cập nhật chi tiết người dùng',
+    'user_information' => 'Thông tin người dùng',
+    'update_avatar' => 'Cập nhật ảnh đại diện',
+    'change_avatar' => 'Thay đổi ảnh',
+    'cancel_avatar' => 'Hủy bỏ',
+    'remove_avatar' => 'Xóa ảnh',
+    'email_desc' => 'Địa chỉ email phải là email hoạt động.',
+    'edit_user_details' => 'Cập nhật chi tiết người dùng',
 ];

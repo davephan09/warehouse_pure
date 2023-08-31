@@ -4669,7 +4669,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a>
+                            <a href="{{ route('users.show', ['id' => $userInfo->id]) }}" class="menu-link px-5">{{ __('common.profile') }}</a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
@@ -4816,7 +4816,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
                             <a href="{{ route('logout') }}"
-                                class="menu-link px-5">Sign Out</a>
+                                class="menu-link px-5">{{ __('common.sign_out') }}</a>
                         </div>
                         <!--end::Menu item-->
                         @if (auth()->check())

@@ -22,7 +22,7 @@
                     </div>
                     <!--end::Avatar-->
                     <!--begin::Name-->
-                    <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ $user->first_name . ' ' . $user->last_name}}</a>
+                    <a href="javascript:;" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ $user->first_name . ' ' . $user->last_name}}</a>
                     <!--end::Name-->
                     <!--begin::Position-->
                     <div class="mb-9" id="role-general">
@@ -47,38 +47,17 @@
                         </span>
                         <!--end::Svg Icon-->
                     </span></div>
-                    <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit customer details">
+                    @if( auth()->user()->can('user_detail.update_infor') || auth()->user()->id === $user->id)
+                    <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="{{ __('user.edit_user_details') }}">
                         <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details">{{ __('common.edit') }}</a>
                     </span>
+                    @endif
                 </div>
                 <!--end::Details toggle-->
                 <div class="separator"></div>
                 <!--begin::Details content-->
-                <div id="kt_user_view_details" class="collapse show">
-                    <div class="pb-5 fs-6">
-                        <!--begin::Details item-->
-                        <div class="fw-bolder mt-5">{{ __('user.account_id') }}</div>
-                        <div class="text-gray-600">{{ 'ID-' . $user->id }}</div>
-                        <!--begin::Details item-->
-                        <!--begin::Details item-->
-                        <div class="fw-bolder mt-5">{{ __('common.email') }}</div>
-                        <div class="text-gray-600">
-                            <a href="#" class="text-gray-600 text-hover-primary">{{ $user->email }}</a>
-                        </div>
-                        <!--begin::Details item-->
-                        <!--begin::Details item-->
-                        <div class="fw-bolder mt-5">{{ __('common.address') }}</div>
-                        <div class="text-gray-600"></div>
-                        <!--begin::Details item-->
-                        <!--begin::Details item-->
-                        <div class="fw-bolder mt-5">{{ __('common.phone') }}</div>
-                        <div class="text-gray-600">{{ $user->phone }}</div>
-                        <!--begin::Details item-->
-                        <!--begin::Details item-->
-                        <div class="fw-bolder mt-5">{{ __('user.last_login') }}</div>
-                        <div class="text-gray-600">{{ date('d M Y, g:i a', strtotime($user->last_login_at)) }}</div>
-                        <!--begin::Details item-->
-                    </div>
+                <div id="kt_user_view_details" class="collapse show loading_tab">
+                    
                 </div>
                 <!--end::Details content-->
             </div>
@@ -124,6 +103,7 @@
                         <!--end::Card title-->
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
+                            @can('order.create')
                             <a class="btn btn-light-primary btn-sm" href="{{ route('order.create') }}">
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -134,6 +114,7 @@
                                     </svg>
                                 </span>
                             {{ __('order.add_order') }}</a>
+                            @endcan
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -159,17 +140,19 @@
                         <!--end::Card title-->
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
+                            @can('purchasing.create')
                             <a class="btn btn-light-primary btn-sm" href="{{ route('purchasing.create') }}">
                             <!--begin::Svg Icon | path: icons/duotune/files/fil005.svg-->
-                            <span class="svg-icon svg-icon-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM16 13.5L12.5 13V10C12.5 9.4 12.6 9.5 12 9.5C11.4 9.5 11.5 9.4 11.5 10L11 13L8 13.5C7.4 13.5 7 13.4 7 14C7 14.6 7.4 14.5 8 14.5H11V18C11 18.6 11.4 19 12 19C12.6 19 12.5 18.6 12.5 18V14.5L16 14C16.6 14 17 14.6 17 14C17 13.4 16.6 13.5 16 13.5Z" fill="currentColor" />
-                                    <rect x="11" y="19" width="10" height="2" rx="1" transform="rotate(-90 11 19)" fill="currentColor" />
-                                    <rect x="7" y="13" width="10" height="2" rx="1" fill="currentColor" />
-                                    <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="currentColor" />
-                                </svg>
-                            </span>
+                                <span class="svg-icon svg-icon-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM16 13.5L12.5 13V10C12.5 9.4 12.6 9.5 12 9.5C11.4 9.5 11.5 9.4 11.5 10L11 13L8 13.5C7.4 13.5 7 13.4 7 14C7 14.6 7.4 14.5 8 14.5H11V18C11 18.6 11.4 19 12 19C12.6 19 12.5 18.6 12.5 18V14.5L16 14C16.6 14 17 14.6 17 14C17 13.4 16.6 13.5 16 13.5Z" fill="currentColor" />
+                                        <rect x="11" y="19" width="10" height="2" rx="1" transform="rotate(-90 11 19)" fill="currentColor" />
+                                        <rect x="7" y="13" width="10" height="2" rx="1" fill="currentColor" />
+                                        <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="currentColor" />
+                                    </svg>
+                                </span>
                             <!--end::Svg Icon-->{{ __('purchasing.add_new') }}</a>
+                            @endcan
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -236,6 +219,7 @@
                                             @endforelse
                                         </td>
                                         <td class="text-end">
+                                            @can('user_detail.assign_role')
                                             <button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -246,6 +230,7 @@
                                                 </span>
                                                 <!--end::Svg Icon-->
                                             </button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 </tbody>
@@ -273,7 +258,7 @@
                         <!--end::Card title-->
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
-                            @can('permission.update')
+                            @can('user_detail.assign_permission')
                             <!--begin::Filter-->
                             <button type="button" class="btn btn-sm btn-flex btn-light-primary" id="kt_modal_sign_out_sesions" data-bs-toggle="modal" data-bs-target="#kt_modal_assign_permission">
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr077.svg-->
@@ -285,7 +270,7 @@
                             </span>
                             <!--end::Svg Icon-->{{ __('user.assign_permissions') }}</button>
                             <!--end::Filter-->
-                            @endcan('permission.update')
+                            @endcan
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -314,6 +299,7 @@
 </div>
 <!--end::Layout-->
 <!--begin::Modals-->
+@if(auth()->user()->can('user_detail.update_infor') || auth()->user()->id === $user->id)
 <!--begin::Modal - Update user details-->
 <div class="modal fade" id="kt_modal_update_details" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -321,14 +307,14 @@
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" action="#" id="kt_modal_update_user_form">
+            <form class="form" action="javascript:;" id="kt_modal_update_user_form">
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_update_user_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bolder">Update User Details</h2>
+                    <h2 class="fw-bolder">{{ __('user.update_user_detail') }}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close" data-bs-dismiss="modal">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                         <span class="svg-icon svg-icon-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -346,7 +332,7 @@
                     <!--begin::Scroll-->
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_user_header" data-kt-scroll-wrappers="#kt_modal_update_user_scroll" data-kt-scroll-offset="300px">
                         <!--begin::User toggle-->
-                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_user_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_user_info">User Information
+                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_user_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_user_info">{{ __('user.user_information') }}
                         <span class="ms-2 rotate-180">
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                             <span class="svg-icon svg-icon-3">
@@ -363,8 +349,8 @@
                             <div class="mb-7">
                                 <!--begin::Label-->
                                 <label class="fs-6 fw-bold mb-2">
-                                    <span>Update Avatar</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Allowed file types: png, jpg, jpeg."></i>
+                                    <span>{{ __('user.update_avatar') }}</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('common.allowed_file') }}"></i>
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Image input wrapper-->
@@ -375,7 +361,7 @@
                                         <div class="image-input-wrapper w-125px h-125px" style="background-image: url(assets/media/avatars/300-6.jpg"></div>
                                         <!--end::Preview existing avatar-->
                                         <!--begin::Edit-->
-                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="{{ __('user.change_avatar') }}">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <!--begin::Inputs-->
                                             <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
@@ -384,12 +370,12 @@
                                         </label>
                                         <!--end::Edit-->
                                         <!--begin::Cancel-->
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="{{ __('user.cancel_avatar') }}">
                                             <i class="bi bi-x fs-2"></i>
                                         </span>
                                         <!--end::Cancel-->
                                         <!--begin::Remove-->
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="{{ __('user.remove_avatar') }}">
                                             <i class="bi bi-x fs-2"></i>
                                         </span>
                                         <!--end::Remove-->
@@ -402,10 +388,10 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-bold mb-2">Name</label>
+                                <label class="fs-6 fw-bold mb-2">{{ __('common.full_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder="" name="name" value="Emma Smith" />
+                                <input type="text" class="form-control form-control-sm form-control-solid" placeholder="" name="name" value="{{ $user->first_name . ' ' . $user->last_name }}" />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -413,80 +399,22 @@
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
                                 <label class="fs-6 fw-bold mb-2">
-                                    <span>Email</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Email address must be active"></i>
+                                    <span>{{ __('common.email') }}</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="{{ __('user.email_desc') }}"></i>
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="email" class="form-control form-control-solid" placeholder="" name="email" value="smith@kpmg.com" />
+                                <input type="email" class="form-control form-control-sm form-control-solid" placeholder="" name="email" value="{{ $user->email }}" />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-bold mb-2">Description</label>
+                                <label class="fs-6 fw-bold mb-2">{{ __('common.phone') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder="" name="description" />
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-15">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-bold mb-2">Language</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <select name="language" aria-label="Select a Language" data-control="select2" data-placeholder="Select a Language..." class="form-select form-select-solid" data-dropdown-parent="#kt_modal_update_details">
-                                    <option></option>
-                                    <option value="id">Bahasa Indonesia - Indonesian</option>
-                                    <option value="msa">Bahasa Melayu - Malay</option>
-                                    <option value="ca">Català - Catalan</option>
-                                    <option value="cs">Čeština - Czech</option>
-                                    <option value="da">Dansk - Danish</option>
-                                    <option value="de">Deutsch - German</option>
-                                    <option value="en">English</option>
-                                    <option value="en-gb">English UK - British English</option>
-                                    <option value="es">Español - Spanish</option>
-                                    <option value="fil">Filipino</option>
-                                    <option value="fr">Français - French</option>
-                                    <option value="ga">Gaeilge - Irish (beta)</option>
-                                    <option value="gl">Galego - Galician (beta)</option>
-                                    <option value="hr">Hrvatski - Croatian</option>
-                                    <option value="it">Italiano - Italian</option>
-                                    <option value="hu">Magyar - Hungarian</option>
-                                    <option value="nl">Nederlands - Dutch</option>
-                                    <option value="no">Norsk - Norwegian</option>
-                                    <option value="pl">Polski - Polish</option>
-                                    <option value="pt">Português - Portuguese</option>
-                                    <option value="ro">Română - Romanian</option>
-                                    <option value="sk">Slovenčina - Slovak</option>
-                                    <option value="fi">Suomi - Finnish</option>
-                                    <option value="sv">Svenska - Swedish</option>
-                                    <option value="vi">Tiếng Việt - Vietnamese</option>
-                                    <option value="tr">Türkçe - Turkish</option>
-                                    <option value="el">Ελληνικά - Greek</option>
-                                    <option value="bg">Български език - Bulgarian</option>
-                                    <option value="ru">Русский - Russian</option>
-                                    <option value="sr">Српски - Serbian</option>
-                                    <option value="uk">Українська мова - Ukrainian</option>
-                                    <option value="he">עִבְרִית - Hebrew</option>
-                                    <option value="ur">اردو - Urdu (beta)</option>
-                                    <option value="ar">العربية - Arabic</option>
-                                    <option value="fa">فارسی - Persian</option>
-                                    <option value="mr">मराठी - Marathi</option>
-                                    <option value="hi">हिन्दी - Hindi</option>
-                                    <option value="bn">বাংলা - Bangla</option>
-                                    <option value="gu">ગુજરાતી - Gujarati</option>
-                                    <option value="ta">தமிழ் - Tamil</option>
-                                    <option value="kn">ಕನ್ನಡ - Kannada</option>
-                                    <option value="th">ภาษาไทย - Thai</option>
-                                    <option value="ko">한국어 - Korean</option>
-                                    <option value="ja">日本語 - Japanese</option>
-                                    <option value="zh-cn">简体中文 - Simplified Chinese</option>
-                                    <option value="zh-tw">繁體中文 - Traditional Chinese</option>
-                                </select>
+                                <input type="text" class="form-control form-control-sm form-control-solid" placeholder="" name="phone"  value="{{ $user->phone }}"/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -505,7 +433,7 @@
                         </span></div>
                         <!--end::Address toggle-->
                         <!--begin::Address form-->
-                        <div id="kt_modal_update_user_address" class="collapse show">
+                        {{-- <div id="kt_modal_update_user_address" class="collapse show">
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                                 <!--begin::Label-->
@@ -799,7 +727,7 @@
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
-                        </div>
+                        </div> --}}
                         <!--end::Address form-->
                     </div>
                     <!--end::Scroll-->
@@ -808,11 +736,11 @@
                 <!--begin::Modal footer-->
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
-                    <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                    <button type="reset" class="btn btn-sm btn-light me-3" data-kt-users-modal-action="cancel" data-bs-dismiss="modal">{{ __('common.discard') }}</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                        <span class="indicator-label">Submit</span>
+                    <button type="submit" class="btn btn-sm btn-primary" data-kt-users-modal-action="submit">
+                        <span class="indicator-label">{{ __('common.submit') }}</span>
                         <span class="indicator-progress">Please wait...
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
@@ -825,180 +753,7 @@
     </div>
 </div>
 <!--end::Modal - Update user details-->
-<!--begin::Modal - Add schedule-->
-<div class="modal fade" id="kt_modal_add_schedule" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Add an Event</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                <!--begin::Form-->
-                <form id="kt_modal_add_schedule_form" class="form" action="#">
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="required fs-6 fw-bold form-label mb-2">Event Name</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" name="event_name" value="" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Date &amp; Time</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Select a date &amp; time."></i>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input class="form-control form-control-solid" placeholder="Pick date &amp; time" name="event_datetime" id="kt_modal_add_schedule_datepicker" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="required fs-6 fw-bold form-label mb-2">Event Organiser</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" name="event_org" value="" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="required fs-6 fw-bold form-label mb-2">Send Event Details To</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input id="kt_modal_add_schedule_tagify" type="text" class="form-control form-control-solid" name="event_invitees" value="smith@kpmg.com, melody@altbox.com" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Actions-->
-                    <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add schedule-->
-<!--begin::Modal - Add task-->
-<div class="modal fade" id="kt_modal_add_task" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Add a Task</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                <!--begin::Form-->
-                <form id="kt_modal_add_task_form" class="form" action="#">
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="required fs-6 fw-bold form-label mb-2">Task Name</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" name="task_name" value="" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Task Due Date</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Select a due date."></i>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input class="form-control form-control-solid" placeholder="Pick date" name="task_duedate" id="kt_modal_add_task_datepicker" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">Task Description</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <textarea class="form-control form-control-solid rounded-3"></textarea>
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Actions-->
-                    <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add task-->
+@endif
 @if ($user->id === auth()->user()->id || auth()->user()->can('user_detail.change_password')) 
 <!--begin::Modal - Update password-->
 <div class="modal fade" id="kt_modal_update_password" tabindex="-1" aria-hidden="true">
@@ -1093,6 +848,7 @@
 </div>
 <!--end::Modal - Update password-->
 @endif
+@can('user_detail.assign_role')
 <!--begin::Modal - Update role-->
 <div class="modal fade" id="kt_modal_update_role" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -1196,6 +952,7 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Update role-->
+@endcan
 <!--begin::Modal - Add task-->
 <div class="modal fade" id="kt_modal_add_auth_app" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -1257,98 +1014,7 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
-<!--begin::Modal - Add task-->
-<div class="modal fade" id="kt_modal_add_one_time_password" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Enable One Time Password</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                <!--begin::Form-->
-                <form class="form" id="kt_modal_add_one_time_password_form">
-                    <!--begin::Label-->
-                    <div class="fw-bolder mb-9">Enter the new phone number to receive an SMS to when you log in.</div>
-                    <!--end::Label-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Mobile number</span>
-                            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="A valid mobile number is required to receive the one-time password to validate your account login."></i>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" name="otp_mobile_number" placeholder="+6123 456 789" value="" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Separator-->
-                    <div class="separator saperator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Email</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="email" class="form-control form-control-solid" name="otp_email" value="smith@kpmg.com" readonly="readonly" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <!--begin::Label-->
-                        <label class="fs-6 fw-bold form-label mb-2">
-                            <span class="required">Confirm password</span>
-                        </label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="password" class="form-control form-control-solid" name="otp_confirm_password" value="" />
-                        <!--end::Input-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Actions-->
-                    <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Cancel</button>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add task-->
+@can('user_detail.assign_permission')
 <!--begin::Modal - Assign Permission-->
 <div class="modal fade" id="kt_modal_assign_permission" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -1473,6 +1139,7 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Assign Permission-->
+@endcan
 <!--end::Modals-->
 @endsection
 

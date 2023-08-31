@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -92,8 +93,8 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = Auth::user();
-        if ($user->can('user.update')) {
-            $id = cleanNumber($id);
+        $id = cleanNumber($id);
+        if ($user->can('user.read') || $user->id === $id) {
             $data['user'] = $userDetail = $this->user->filters([
                 'id' => $id,
                 'relations' => ['roles', 'permissions'],
@@ -121,7 +122,7 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         $id = cleanNumber($request->input('id'));
-        if ($user->can('user.update') || $user->id === $id) {
+        if ($user->can('user.read') || $user->id === $id) {
             $data['user'] = $userDetail = $this->user->filters([
                 'id' => $id,
                 'relations' => ['roles', 'permissions'],
@@ -136,6 +137,7 @@ class UsersController extends Controller
             $data['permissionIds'] = !empty($userDetail->permissions) ? $userDetail->permissions->pluck('id')->toArray() : [];
             $data['htmlPermissionTable'] = view('users.permissions_table', $data)->render();
             $data['htmlOrderTable'] = view('users.order_table', $data)->render();
+            $data['htmlInforTable'] = view('users.user_infor_table', $data)->render();
             return $this->iRespond(true, "", $data);
         }
         return response()->view('errors.404', [], 404);
@@ -145,7 +147,7 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         $id = cleanNumber($request->input('id'));
-        if ($user->can('user.update') || $user->id === $id) {
+        if ($user->can('user.read') || $user->id === $id) {
             $purchasing = $this->purchasing->filters([
                 'relations' => [],
                 'userId' => $id,
@@ -161,7 +163,7 @@ class UsersController extends Controller
     public function assignPermissions(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('permission.update')) {
+        if ($user->can('user_detail.assign_permission')) {
             DB::connection()->beginTransaction();
             try {
                 $id = cleanNumber($request->input('id'));
@@ -184,7 +186,7 @@ class UsersController extends Controller
     public function revokePermissions(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('permission.update')) {
+        if ($user->can('user_detail.assign_permission')) {
             try {
                 $id = cleanNumber($request->input('id'));
                 $userRevoke = $this->user->find($id);
@@ -237,6 +239,39 @@ class UsersController extends Controller
                 ]);
                 $assign = $userAssign->syncRoles($roles);
                 if (isset($assign)) \Illuminate\Support\Facades\Log::info($user->username . ' has assigned roles for user: ' . $assign->toJson());
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, "");
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    public function updateInfor(Request $request)
+    {
+        $user = Auth::user();
+        $id = cleanNumber($request->input('id'));
+        if ($user->can('user.update') || $user->id === $id) {
+            DB::connection()->beginTransaction();
+            try {
+                $rules = [
+                    'fullname' => 'required|string|regex:/^[\pL\s\.\-]+$/u|max:191',
+                    'phone' => 'max:40|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
+                    'email' => 'email|nullable',
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                $userUpdate = $this->user->find($id);
+                $isUpdate = $this->user->updateInfor($request);
+                if (empty($isUpdate)) {
+                    return $this->iRespond(false, 'error');
+                }
+                \Illuminate\Support\Facades\Log::info($user->username . ' has updated information for user: ' . $userUpdate->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
