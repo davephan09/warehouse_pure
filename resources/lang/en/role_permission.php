@@ -16,4 +16,11 @@ return [
     'user' => 'Users',
     'user_list' => 'Users List',
     'total_users_role' => 'Total users with this role: ',
+    'edit_role' => 'Edit Role',
+    'view_role' => 'View Role',
+    'add_new_role' => 'Add New Role',
+    'users_assigned' => 'Users Assigned',
+    'assign_user' => 'Assign User',
+    'assign_role_user' => 'Assign Role to User',
+    'select_users' => 'Please select users',
 ];

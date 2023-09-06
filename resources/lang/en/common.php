@@ -110,4 +110,6 @@ return [
     'are_you_update_infor' => "You want to update this user's information?",
     'sign_out' => 'Sign Out',
     'profile' => 'My profile',
+    'view' => 'View',
+    'remove' => 'Remove',
 ];

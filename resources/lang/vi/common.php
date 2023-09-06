@@ -110,4 +110,6 @@ return [
     'are_you_update_infor' => "Bạn muốn cập nhật thông tin người dùng này?",
     'sign_out' => 'Đăng xuất',
     'profile' => 'Hồ sơ của tôi',
+    'view' => 'Xem',
+    'remove' => 'Xóa',
 ];

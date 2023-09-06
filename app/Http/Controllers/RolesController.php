@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\DetailedPermission;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -16,10 +17,11 @@ class RolesController extends Controller
     private $role;
     private $permission;
     private $user;
-    public function __construct(RoleRepository $role, PermissionRepository $permission)
+    public function __construct(RoleRepository $role, PermissionRepository $permission, UserRepository $user)
     {
         $this->role = $role;
         $this->permission = $permission;
+        $this->user = $user;
     }
     /**
      * Display a listing of the resource.
@@ -156,10 +158,66 @@ class RolesController extends Controller
     public function getDataDetailed(Request $request, $id)
     {
         $data = array();
-        $listUsers = $this->role->find($id)->users()->get(['id', 'username', 'first_name', 'last_name', 'email', 'created_at']);
+        $listUsers = $this->role->find($id)->users()->get(['id', 'username', 'first_name', 'last_name', 'email', 'avatar', 'created_at']);
         $data['listUsers'] = $listUsers;
         $data['htmlUserTable'] = view('roles.detailed_user_table', $data)->render();
         return $this->iRespond(true, '', $data);
+    }
+
+    public function searchUser(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('user.read')) {
+            try {
+                $text = cleanInput($request->input('keyword')['term']);
+                $data = $this->user->searchUser($text);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, '', $data);
+        }
+        return $this->iRespond(false, 'error');
+    }
+
+    public function assignUsers(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('user_detail.assign_role')) {
+            $id = intval(cleanInput($request->input('id')));
+            $rules = [
+                'roleId' => 'required',
+                'userIds' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+            }
+            DB::connection()->beginTransaction();
+            try {
+                $roleId = cleanNumber($request->input('roleId'));
+                $userIds = cleanNumber($request->input('userIds'));
+                $role = $this->role->find($roleId);
+                $users = $this->user->filters([
+                    'ids' => $userIds,
+                ]);
+                if (isset($users) && isset($role)) {
+                    foreach($users as $userItem) {
+                        if (!$userItem->hasRole($role)) {
+                            $userItem->assignRole($role);
+                        }
+                    }
+                    \Illuminate\Support\Facades\Log::info($user->username . ' has assigned a user to a role: ' . $role->toJson());
+                }
+                DB::connection()->commit();
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                DB::connection()->rollBack();
+                return $this->iRespond(false, 'error');
+            }
+            return $this->iRespond(true, 'success');
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**

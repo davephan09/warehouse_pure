@@ -40,7 +40,7 @@
                 <!--begin::Card footer-->
                 <div class="card-footer pt-0">
                     <button type="button" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_update_role">Edit Role</button>
+                        data-bs-target="#kt_modal_update_role">{{ __('role_permission.edit_role') }}</button>
                 </div>
                 <!--end::Card footer-->
                 @endcan
@@ -59,7 +59,7 @@
                 <div class="card-header pt-5">
                     <!--begin::Card title-->
                     <div class="card-title">
-                        <h2 class="d-flex align-items-center">Users Assigned
+                        <h2 class="d-flex align-items-center">{{ __('role_permission.users_assigned') }}
                             <span class="text-gray-600 fs-6 ms-1" id="user-quantity"></span>
                         </h2>
                     </div>
@@ -67,6 +67,18 @@
                     @can('user.read')
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
+                        @can('user_detail.assign_role')
+                        <div class="d-flex align-items-center position-relative my-1 me-20">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_assign_user">
+                                <span class="svg-icon svg-icon-muted svg-icon-3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/>
+                                    <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"/>
+                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"/>
+                                    </svg>
+                                </span>{{ __('role_permission.assign_user') }}
+                            </button>
+                        </div>
+                        @endcan
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1"
                             data-kt-view-roles-table-toolbar="base">
@@ -83,7 +95,7 @@
                             </span>
                             <!--end::Svg Icon-->
                             <input type="text" data-kt-roles-table-filter="search" id="seach-field"
-                                class="form-control form-control-sm form-control-solid w-250px ps-15" placeholder="Search Users" />
+                                class="form-control form-control-sm form-control-solid w-250px ps-15" placeholder="{{ __('user.search_user') }}" />
                         </div>
                         <!--end::Search-->
                         <!--begin::Group actions-->
@@ -116,6 +128,7 @@
         <!--end::Content-->
     </div>
     <!--end::Layout-->
+    @include('roles.modal_assign_user')
 @endsection
 
 @section('pageJs')

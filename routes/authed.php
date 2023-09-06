@@ -43,6 +43,8 @@ Route::prefix('roles')->as('roles.')->group(function() {
     Route::post('update', [RolesController::class, 'update'])->name('update');
     Route::get('{role}/show', [RolesController::class, 'show'])->name('show');
     Route::get('{role}/get-data-detail', [RolesController::class, 'getDataDetailed'])->name('getDataDetailed');
+    Route::get('/search-user', [RolesController::class, 'searchUser'])->name('searchUser');
+    Route::post('/assign-users', [RolesController::class, 'assignUsers'])->name('assignUsers');
     Route::post('delete', [RolesController::class, 'destroy'])->name('destroy');
 });
 

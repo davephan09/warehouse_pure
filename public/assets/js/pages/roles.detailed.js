@@ -22,6 +22,9 @@ var RolesDetailedClass = function () {
         ele.idRole = $('#id-role')
         ele.updateBtn = $('#update-btn', $('#kt_modal_update_role'))
         ele.formUpdate = $('#kt_modal_update_role_form')
+        ele.modalAssign = $('#kt_modal_assign_user')
+        ele.formAssign = $('#kt_modal_assign_role_form')
+        ele.assignUserField = $('#user-name')
 
         loadData(ele.roleUserTable)
     }
@@ -29,6 +32,7 @@ var RolesDetailedClass = function () {
     this.bindEvents = function () {
         checkAll()
         updateRole()
+        handleAssignUser()
     }
 
     var getParam = function () {
@@ -117,4 +121,58 @@ var RolesDetailedClass = function () {
         $.app.checkboxAll(ele.checkAll, ele.checkItems)
     }
 
+    var handleAssignUser = function() {
+        ele.assignUserField.select2({
+            minimumInputLength : 3,
+            placeholder : Lang.get('role_permission.select_users'),
+            multiple : true,
+            ajax : {
+                url : $.app.vars.url + '/roles/search-user',
+                dataType : 'json',
+                quietMillis : 100,
+                data : function (term) {
+                    return {
+                        keyword : term
+                    }
+                },
+                processResults : function (data) {
+                    if (data.status) {
+                        return {
+                            results : $.map(data.data, function(item) {
+                                return {
+                                    id : item.id,
+                                    text : item.title
+                                }
+                            })
+                        }
+                    }
+                }
+            },
+            templateResult : function (data) {
+                return data.text
+            },
+            templateSelection : function (data) {
+                return data.text
+            },
+        })
+
+        ele.formAssign.on('submit', function() {
+            var params = {
+                roleId : roleId,
+                userIds : ele.assignUserField.val(),
+            }
+            var target = ele.formAssign
+            var _cb = function (rs) {
+                if (rs.status) {
+                    ele.modalAssign.modal('hide')
+                    loadData()
+                    $.app.pushNoty('success')
+                    ele.assignUserField.val('')
+                } else {
+                    $.app.pushNoty('error', rs.message)
+                }
+            }
+            $.app.ajax($.app.vars.url + '/roles/assign-users', 'POST', params, target, null, _cb);
+        })
+    }
 }

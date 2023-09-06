@@ -43,14 +43,14 @@
         <div class="card-footer flex-wrap pt-0">
             @can('role.read')
             <a href="{{route('roles.show', ['role' => $key])}}"
-                class="btn btn-sm btn-light btn-active-primary my-1 me-2">View Role</a>
+                class="btn btn-sm btn-light btn-active-primary my-1 me-2">{{ __('role_permission.view_role') }}</a>
             @endcan
             @can('role.update')
             <button type="button" class="btn btn-sm btn-light btn-active-light-primary my-1 edit-btn" data-bs-toggle="modal" data-id="{{$key}}"
-                data-bs-target="#kt_modal_update_role">Edit Role</button>
+                data-bs-target="#kt_modal_update_role">{{ __('role_permission.edit_role') }}</button>
             @endcan
             @can('role.delete')
-            <button type="button" class="btn btn-sm btn-light btn-active-light-danger my-1 remove-role" data-id="{{$key}}">Remove</button>
+            <button type="button" class="btn btn-sm btn-light btn-active-light-danger my-1 remove-role" data-id="{{$key}}">{{ __('common.remove') }}</button>
             @endcan
             </div>
         <!--end::Card footer-->
@@ -74,7 +74,7 @@
                 <img src="assets/media/illustrations/sketchy-1/4.png" alt="" class="mw-100 mh-150px mb-7" />
                 <!--end::Illustration-->
                 <!--begin::Label-->
-                <div class="fw-bolder fs-3 text-gray-600 text-hover-primary">Add New Role</div>
+                <div class="fw-bolder fs-3 text-gray-600 text-hover-primary">{{ __('role_permission.add_new_role') }}</div>
                 <!--end::Label-->
             </button>
             <!--begin::Button-->

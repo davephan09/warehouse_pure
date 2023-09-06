@@ -16,4 +16,11 @@ return [
     'user' => 'Người dùng',
     'user_list' => 'Danh sách người dùng',
     'total_users_role' => 'Số lượng người dùng có vai trò này: ',
+    'edit_role' => 'Chỉnh sửa',
+    'view_role' => 'Xem',
+    'add_new_role' => 'Thêm vai trò mới',
+    'users_assigned' => 'Danh sách người dùng',
+    'assign_user' => 'Thêm người dùng',
+    'assign_role_user' => 'Gán vai trò cho người dùng',
+    'select_users' => 'Nhập tên người dùng',
 ];

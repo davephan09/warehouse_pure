@@ -44,13 +44,18 @@ class UserRepository extends Repository
                     ->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . strtolower($text) . '%']);
             });
         }
+        if(!empty($filters['ids'])) {
+            $query->whereIn('id', $filters['ids']);
+        }
         
         if(!empty($filters['id'])) {
             $data = $query->where('id', $filters['id'])->first();
         } else if(!empty($filters['username'])) {
             $data = $query->where('username', $filters['username'])->first();
-        } else {
+        } else if(!empty($filters['perPage'])) {
             $data = $query->orderByDesc('id')->paginate($filters['perPage']);
+        } else {
+            $data = $query->orderByDesc('id')->get();
         }
         return $data;
     }
@@ -74,5 +79,21 @@ class UserRepository extends Repository
             return $update;
         }
         return false;
+    }
+
+    public function searchUser($text, $limit = 20) 
+    {
+        $users = $this->model->select('id', 'username', 'first_name', 'last_name', 'email')->where(function($query) use ($text) {
+            $query->whereRaw('LOWER(username) LIKE ?', ['%' . strtolower($text) . '%'])
+                ->orWhereRaw('LOWER(email) LIKE ?', ['%' . strtolower($text) . '%'])
+                ->orWhereRaw('CONCAT(LOWER(first_name), " ", LOWER(last_name)) LIKE ?', ['%' . strtolower($text) . '%']);
+        })->limit($limit)->get()->map(function($user) {
+            return [
+                'id' => $user->id,
+                'title' => $user->username . ' - ' . $user->email,
+                'textSelected' => $user->username . ' - ' . $user->email,
+            ];
+        });
+        return $users;
     }
 }

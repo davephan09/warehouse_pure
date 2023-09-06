@@ -9,10 +9,10 @@
                     value="1" />
             </div>
         </th>
-        <th class="min-w-50px">ID</th>
-        <th class="min-w-150px">User</th>
-        <th class="min-w-125px">Joined Date</th>
-        <th class="text-end min-w-100px">Actions</th>
+        <th class="min-w-50px">{{ __('user.user_id') }}</th>
+        <th class="min-w-150px">{{ __('user.user') }}</th>
+        <th class="min-w-125px">{{ __('user.joined_date') }}</th>
+        <th class="text-end min-w-100px">{{ __('common.actions') }}</th>
     </tr>
     <!--end::Table row-->
 </thead>
@@ -29,23 +29,27 @@
         </td>
         <!--end::Checkbox-->
         <!--begin::ID-->
-        <td>{{'ID' . $user->id}}</td>
+        <td>{{'ID-' . $user->id}}</td>
         <!--begin::ID-->
         <!--begin::User=-->
         <td class="d-flex align-items-center">
             <!--begin:: Avatar -->
             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                <a href="../../demo1/dist/apps/user-management/users/view.html">
+                <a href="{{ route('users.show', ['id' => $user->id]) }}">
                     <div class="symbol-label">
-                        <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith"
+                        @if (isset($user->avatar))
+                            <img src="{{ config('custom.image_api') . $user->avatar }}" alt="{{ $user->first_name . ' ' . $user->last_name }}"
                             class="w-100" />
+                        @else
+                            <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($user->username, 0, 1)) }}</span>
+                        @endif
                     </div>
                 </a>
             </div>
             <!--end::Avatar-->
             <!--begin::User details-->
             <div class="d-flex flex-column">
-                <a href="../../demo1/dist/apps/user-management/users/view.html"
+                <a href="{{ route('users.show', ['id' => $user->id]) }}"
                     class="text-gray-800 text-hover-primary mb-1">{{ $user->first_name . ' ' . $user->last_name }}</a>
                 <span>{{ $user->email }}</span>
             </div>
@@ -58,7 +62,7 @@
         <!--begin::Action=-->
         <td class="text-end">
             <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="dropdown" aria-expanded="false"
-                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">{{__('common.actions')}}
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                 <span class="svg-icon svg-icon-5 m-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -75,14 +79,14 @@
                 data-kt-menu="true">
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <a href="../../demo1/dist/apps/user-management/users/view.html"
-                        class="menu-link px-3">View</a>
+                    <a href="{{ route('users.show', ['id' => $user->id]) }}"
+                        class="menu-link px-3">{{ __('common.view') }}</a>
                 </div>
                 <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <a href="#" class="menu-link px-3 delete-user"
-                        data-kt-roles-table-filter="delete_row">Delete</a>
+                    <a href="javascript:;" class="menu-link px-3 delete-user"
+                        data-kt-roles-table-filter="delete_row">{{ __('common.delete') }}</a>
                 </div>
                 <!--end::Menu item-->
             </div>
