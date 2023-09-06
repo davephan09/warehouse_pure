@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\User;
 use App\Repositories\OrderRepository;
@@ -9,6 +10,7 @@ use App\Repositories\PermissionRepository;
 use App\Repositories\PurchasingRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use App\Services\UploadFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -261,16 +263,26 @@ class UsersController extends Controller
                     'fullname' => 'required|string|regex:/^[\pL\s\.\-]+$/u|max:191',
                     'phone' => 'max:40|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|nullable',
                     'email' => 'email|nullable',
+                    'avatar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
                     return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
                 }
                 $userUpdate = $this->user->find($id);
+                if ($request->hasFile('avatar')) {
+                    $file = $request->file('avatar');
+                    $img = UploadFile::saveImage($file, 'avatars/' . $userUpdate->username);
+                    $request->merge(['avatar_url' => $img]);
+                }
+                if (cleanInput($request->input('type')) === 'change' && isset($userUpdate->avatar)) {
+                    $isRemove = UploadFile::removeImage($userUpdate->avatar);
+                }
                 $isUpdate = $this->user->updateInfor($request);
                 if (empty($isUpdate)) {
                     return $this->iRespond(false, 'error');
                 }
+                $data['user'] = $this->user->find($id);
                 \Illuminate\Support\Facades\Log::info($user->username . ' has updated information for user: ' . $userUpdate->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
@@ -278,7 +290,7 @@ class UsersController extends Controller
                 DB::connection()->rollBack();
                 return $this->iRespond(false, 'error');
             }
-            return $this->iRespond(true, "");
+            return $this->iRespond(true, "", $data);
         }
         return response()->view('errors.404', [], 404);
     }

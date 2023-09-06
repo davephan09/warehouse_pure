@@ -20,7 +20,7 @@ class UserRepository extends Repository
     {
         $userRoleTable = 'model_has_roles';
         $query = $this->model->query();
-        $query->select('id', 'username', 'first_name', 'last_name', 'email', 'created_at', 'last_login_at', 'last_login_ip', 'last_logout_at');
+        $query->select('id', 'username', 'first_name', 'last_name', 'email', 'avatar', 'created_at', 'last_login_at', 'last_login_ip', 'last_logout_at');
 
         if(!empty($filters['select'])) {
             $query->select($filters['select']);
@@ -69,6 +69,7 @@ class UserRepository extends Repository
                 'last_name' => $lastname,
                 'phone' => cleanInput($request->input('phone')),
                 'email' => cleanInput($request->input('email')),
+                'avatar' => cleanInput($request->input('type')) === 'change' ? $request->input('avatar_url') : $user->avatar,
             ]);
             return $update;
         }

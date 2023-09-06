@@ -4,6 +4,7 @@ var UserDetailClass = function () {
         datatable : {}
     }
     var options = {}
+    var user = {}
 
     this.run = function (opt) {
         options = opt
@@ -36,6 +37,8 @@ var UserDetailClass = function () {
         ele.modalUpdateInfor = $('#kt_modal_update_details')
         ele.inforTable = $('#kt_user_view_details')
         ele.username = $('#profile_username')
+        ele.avatarInfo = $('#avatar-info')
+        ele.avatarBackground  = $('.avatar-background')
 
         load(ele.loadingField)
     }
@@ -68,6 +71,7 @@ var UserDetailClass = function () {
         var params = getParam()
         var _cb = function (rs) {
             var data = rs.data
+            user = data.user
             drawContent(data)
         }
         $.app.ajax($.app.vars.url + '/users/get-detail-data', 'GET', params, target, null, _cb);
@@ -103,6 +107,15 @@ var UserDetailClass = function () {
             vars.datatable[dttableid].destroy();
         }
         ele.inforTable.html(data.htmlInforTable)
+        $('input[name="name"]').val(data.user.first_name + ' ' + data.user.last_name)
+        $('input[name="phone"]').val(data.user.phone)
+        $('input[name="email"]').val(data.user.email)
+
+        if (data.user.avatar !== null) {
+            ele.avatarBackground.css("background-image", `url("${ options.imageUrl + data.user.avatar }")`)
+        } else {
+            $('.image-input').addClass('image-input-empty')
+        }
     }
     
     var renderPermission = function (data) {
@@ -324,28 +337,49 @@ var UserDetailClass = function () {
 
     var handleUpdateInfor = function () {
         ele.formUpdateInfor.on('submit', function () {
-            var params = {
-                id : options.id,
-                fullname : $('input[name="name"]').val(),
-                phone : $('input[name="phone"]').val(),
-                email : $('input[name="email"]').val(),
-            }
+            var params = new FormData(ele.formUpdateInfor[0])
+            params.append('id', options.id)
             var target = ele.formUpdateInfor
             var _cb = function(rs) {
                 if(rs.status) {
+                    var dataRs = rs.data
+                    var htmlAvatar = ''
                     loadData(ele.inforTable)
+                    if (dataRs.user.avatar !== null) {
+                        htmlAvatar += `<img src="${ options.imageUrl + dataRs.user.avatar }" alt="image" />`
+                    } else {
+                        htmlAvatar += `<span class="symbol-label bg-light-danger text-danger fw-bold">${ dataRs.user.username.charAt(0).toUpperCase() }</span>`
+                    }
+                    ele.avatarInfo.html(htmlAvatar)
+                    $.app.hideLoading(target)
                     ele.modalUpdateInfor.modal('hide')
                     $.app.pushNoty('success')
                 } else {
+                    $.app.hideLoading(target)
                     $.app.pushNoty('error')
                 }
             }
+            let avatarBg = ele.avatarBackground.css('background-image')
+            if (avatarBg === `url("${ options.imageUrl + user.avatar }")`) {
+                var type = 'current'
+            } else {
+                var type = 'change'
+            }
+            params.append('type', type)
             var username = ele.username.html()
             $.app.pushConfirmNoti({
                 'title' : Lang.get('common.are_you_update_infor'),
                 'text' : Lang.get('user.username') + ': ' + username,
                 'callback' : function () {
-                    $.app.ajax($.app.vars.url + '/users/update-infor', 'POST', params, target, null, _cb);
+                    $.app.showLoading(target);
+                    $.ajax({
+                        url: $.app.vars.url + '/users/update-infor',
+                        type: 'POST',
+                        data: params,
+                        processData: false,
+                        contentType: false,
+                        success: _cb,
+                    })
                 },
                 'unConfirm' : function () {
     

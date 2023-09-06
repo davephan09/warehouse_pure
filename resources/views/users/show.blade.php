@@ -17,8 +17,12 @@
                 <!--begin::User Info-->
                 <div class="d-flex flex-center flex-column py-5">
                     <!--begin::Avatar-->
-                    <div class="symbol symbol-100px symbol-circle mb-7">
-                        <img src="assets/media/avatars/300-6.jpg" alt="image" />
+                    <div class="symbol symbol-100px symbol-circle mb-7" id="avatar-info">
+                        @if (isset($user->avatar))
+                            <img src="{{ config('custom.image_api') . $user->avatar }}" alt="image" />
+                        @else
+                            <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($user->username, 0, 1)) }}</span>
+                        @endif
                     </div>
                     <!--end::Avatar-->
                     <!--begin::Name-->
@@ -333,15 +337,16 @@
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_user_header" data-kt-scroll-wrappers="#kt_modal_update_user_scroll" data-kt-scroll-offset="300px">
                         <!--begin::User toggle-->
                         <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_user_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_user_info">{{ __('user.user_information') }}
-                        <span class="ms-2 rotate-180">
-                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-                            <span class="svg-icon svg-icon-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
-                                </svg>
+                            <span class="ms-2 rotate-180">
+                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                <span class="svg-icon svg-icon-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
                             </span>
-                            <!--end::Svg Icon-->
-                        </span></div>
+                        </div>
                         <!--end::User toggle-->
                         <!--begin::User form-->
                         <div id="kt_modal_update_user_user_info" class="collapse show">
@@ -358,13 +363,13 @@
                                     <!--begin::Image input-->
                                     <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                         <!--begin::Preview existing avatar-->
-                                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url(assets/media/avatars/300-6.jpg"></div>
+                                        <div class="image-input-wrapper w-125px h-125px avatar-background" style=""></div>
                                         <!--end::Preview existing avatar-->
                                         <!--begin::Edit-->
                                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="{{ __('user.change_avatar') }}">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <!--begin::Inputs-->
-                                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                            <input type="file" name="avatar" id="update_avatar" accept=".png, .jpg, .jpeg" />
                                             <input type="hidden" name="avatar_remove" />
                                             <!--end::Inputs-->
                                         </label>
@@ -391,7 +396,7 @@
                                 <label class="fs-6 fw-bold mb-2">{{ __('common.full_name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-sm form-control-solid" placeholder="" name="name" value="{{ $user->first_name . ' ' . $user->last_name }}" />
+                                <input type="text" class="form-control form-control-sm form-control-solid" placeholder="" name="fullname" value="{{ $user->first_name . ' ' . $user->last_name }}" />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -421,7 +426,7 @@
                         </div>
                         <!--end::User form-->
                         <!--begin::Address toggle-->
-                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_address" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_address">Address Details
+                        {{-- <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_address" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_address">Address Details
                         <span class="ms-2 rotate-180">
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                             <span class="svg-icon svg-icon-3">
@@ -430,7 +435,7 @@
                                 </svg>
                             </span>
                             <!--end::Svg Icon-->
-                        </span></div>
+                        </span></div> --}}
                         <!--end::Address toggle-->
                         <!--begin::Address form-->
                         {{-- <div id="kt_modal_update_user_address" class="collapse show">
@@ -1150,6 +1155,7 @@
             var instance = new UserDetailClass();
             instance.run({
                 id : {{ $user->id }},
+                imageUrl : "{{ config('custom.image_api') }}",
             });
         })
     </script>

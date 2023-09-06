@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Libraries\Address;
+use Illuminate\Support\Facades\Storage;
 
 class Helper 
 {
@@ -117,5 +118,5 @@ class Helper
             return $province;
         });
         return $address;
-    } 
+    }
 }
