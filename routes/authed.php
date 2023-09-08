@@ -86,6 +86,7 @@ Route::prefix('products')->as('product.')->group(function() {
     Route::post('create-tag', [ProductController::class, 'createTag'])->name('createTag');
     Route::get('search-product', [ProductController::class, 'searchProduct'])->name('searchProduct');
     Route::get('sync-product', [ProductController::class, 'syncProductAjax'])->name('syncProductAjax');
+    Route::post('upload-files', [ProductController::class, 'uploadFiles'])->name('uploadFiles');
 });
 
 Route::prefix('brands')->as('brand.')->group(function() {

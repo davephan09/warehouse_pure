@@ -10,6 +10,7 @@ use App\Repositories\ProductRepository;
 use App\Repositories\TaxRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\VariationRepository;
+use App\Services\UploadFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -102,6 +103,7 @@ class ProductController extends Controller
                     'variations' => 'required',
                     'summary' => 'max:255|string',
                     'description' => 'max:10000',
+                    'avatar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -111,10 +113,19 @@ class ProductController extends Controller
                 $taxValues = $request->input('tax_value');
                 $tags = $request->input('tags');
                 $variations = $request->input('variations');
+
+                if ($request->hasFile('avatar')) {
+                    $file = $request->file('avatar');
+                    list($img, $url) = UploadFile::saveImage($file, 'products/thumbs');
+                    $request->merge(['avatar_url' => $img]);
+                }
                 $product = $this->product->addProduct($request);
                 $this->product->addTag($product, $tags);
                 $this->product->addTaxProduct($product, $taxIds, $taxValues);
                 $this->product->addVariationProduct($product, $variations);
+                $images = $request->input('medias');
+                $imagePaths = UploadFile::moveImagesToCloud($images, 'products/' . $product->product_name);
+                $this->product->addMediaProduct($product, $imagePaths);
                 if ($product) \Illuminate\Support\Facades\Log::info($user->username . ' has created a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
@@ -140,8 +151,8 @@ class ProductController extends Controller
             $data['title'] = trans('product.update');
             $product = $this->product->filters([
                 'productId' => $id, 
-                'relations' => ['category', 'tags', 'taxes', 'variations'],
-            ]); 
+                'relations' => ['category', 'tags', 'taxes', 'variations', 'medias'],
+            ]);
             $variations = $product->variations;
             if ($variations->count() > 1) {
                 $options = $variations->pluck('options');
@@ -202,6 +213,7 @@ class ProductController extends Controller
                     'variations' => 'required',
                     'summary' => 'max:255|string',
                     'description' => 'max:10000',
+                    'avatar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
                 ];
                 $validator = Validator::make($request->all(), $rules);
                 if ($validator->fails()) {
@@ -211,11 +223,24 @@ class ProductController extends Controller
                 $taxValues = $request->input('tax_value');
                 $tags = $request->input('tags');
                 $variations = $request->input('variations');
+                $currentImages = $request->input('current_images');
+
                 $product = $this->product->find($id);
+                if ($request->hasFile('avatar')) {
+                    $file = $request->file('avatar');
+                    list($img, $url) = UploadFile::saveImage($file, 'products/thumbs');
+                    $request->merge(['avatar_url' => $img]);
+                    if (isset($product->thumb)) {
+                        UploadFile::removeImage($product->thumb);
+                    } 
+                }
                 $isUpdate = $this->product->updateProduct($request, $product);
                 $this->product->addTag($product, $tags);
                 $this->product->addTaxProduct($product, $taxIds, $taxValues);
                 $this->product->updateVariationProduct($product, $variations);
+                $images = $request->input('medias');
+                $imagePaths = UploadFile::moveImagesToCloud($images, 'products/' . $product->product_name);
+                $this->product->updateMediaProduct($product, $imagePaths, $currentImages);
                 if ($isUpdate) \Illuminate\Support\Facades\Log::info($user->username . ' has updated a product: ' . $product->toJson());
                 DB::connection()->commit();
             } catch (\Exception $e) {
@@ -320,5 +345,37 @@ class ProductController extends Controller
         $data['product'] = $product->variations->keyBy('id');
         $data['taxes'] = $product->taxes->isNotEmpty() ? $product->taxes : [];
         return $this->iRespond(true, "", $data);
+    }
+
+    public function uploadFiles(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->can('product.create')) {
+            try {
+                $rules = [
+                    'files.*' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return $this->iRespond(false, trans('common.error_try_again'), null, $validator->errors());
+                }
+                $temporaryFolder = 'temp';
+                $imagePaths = [];
+
+                foreach ($request->file('files') as $image) {
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->storeAs($temporaryFolder, $imageName);
+                    $imagePaths[] = $temporaryFolder . '/' . $imageName;
+                }
+                $uploadedFiles = session('uploaded_files', []);
+                $uploadedFiles[] = $imagePaths;
+                session(['uploaded_files' => $uploadedFiles]);
+                return $this->iRespond(true, "", $imagePaths);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return $this->iRespond(false, 'error');
+            }
+        }
+        return $this->iRespond(false);
     }
 }

@@ -37,7 +37,7 @@
                 <!--begin::Image input-->
                 <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" style="background-image: url(assets/media/svg/files/blank-image.svg)">
                     <!--begin::Preview existing avatar-->
-                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <div class="image-input-wrapper w-150px h-150px" style="background-image: url({{ config('custom.image_api') . $product->thumb }})"></div>
                     <!--end::Preview existing avatar-->
                     <!--begin::Label-->
                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="{{__('common.change_avatar')}}">
@@ -86,7 +86,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
+                <select class="form-select form-select-sm mb-2" name="active" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
                     <option></option>
                     <option value="1" {{$product->active == 1 ? 'selected' : ''}}>{{__('common.active')}}</option>
                     <option value="0" {{$product->active == 0 ? 'selected' : ''}}>{{__('common.inactive')}}</option>
@@ -117,9 +117,12 @@
                 <label class="form-label">{{__('common.category')}}</label>
                 <!--end::Label-->
                 <!--begin::Select2-->
-                <select class="form-select form-select-sm mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
+                <select class="form-select form-select-sm mb-2" data-control="select2" name="category_id" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
                     <option></option>
-                    {!! \App\Helpers\Helper::renderMultilevelOption($categories, 0, '', $product->category->id) !!}
+                    @php
+                        $categoryId = !empty($product->category) ? $product->category->id : '';
+                    @endphp
+                    {!! \App\Helpers\Helper::renderMultilevelOption($categories, 0, '', $categoryId) !!}
                 </select>
                 <!--end::Select2-->
                 <!--begin::Description-->
@@ -139,7 +142,7 @@
                 <!--end::Button-->
                 <!--begin::Input group-->
                 <label class="form-label d-block">{{__('common.tags')}}</label>
-                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
+                <select id="kt_ecommerce_add_product_tags" name="tags[]" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
                     @foreach($tags as $key => $tag)
                         <option value="{{$tag->id}}" {{in_array($tag->id, $productTags) ? 'selected' : ''}}>{{$tag->name}}</option>
                     @endforeach
@@ -167,7 +170,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
+                <select class="form-select form-select-sm mb-2" name="brand_id" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
                     <option></option>
                     @foreach ($brands as $brand)
                     <option value="{{$brand->id}}" {{$brand->id === $product->brand_id ? 'selected' : ''}}>{{$brand->name}}</option>
@@ -183,7 +186,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
+                <select class="form-select form-select-sm mb-2" name="unit_id" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
                     <option></option>
                     @foreach ($units as $unit)
                     <option value="{{$unit->id}}" {{$unit->id === $product->unit_id ? 'selected' : ''}}>{{$unit->name}}</option>
@@ -285,7 +288,7 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-2">
                                 <!--begin::Dropzone-->
-                                <div class="dropzone" id="kt_ecommerce_add_product_media">
+                                <div class="dropzone  {{ $product->medias->isNotEmpty() ? 'dz-started' : '' }}" id="kt_ecommerce_add_product_media">
                                     <!--begin::Message-->
                                     <div class="dz-message needsclick">
                                         <!--begin::Icon-->
@@ -298,6 +301,27 @@
                                         </div>
                                         <!--end::Info-->
                                     </div>
+                                    @forelse ($product->medias as $media)
+                                    @php
+                                        $urlArr = explode('/', $media->url);
+                                        $fileName = end($urlArr);
+                                    @endphp
+                                    <div class="dz-preview dz-processing dz-image-preview dz-complete custom-dropzone-img">
+                                        <div class="dz-image">
+                                            <img data-dz-thumbnail="" alt="senvoi_preview_rev_1.png" src="{{ $media->url }}" width="120" height="120">
+                                        </div> 
+                                        <div class="dz-details"> 
+                                            <div class="dz-size">
+                                                {{-- <span data-dz-size=""><strong>0.1</strong> MB</span> --}}
+                                            </div> 
+                                            <div class="dz-filename">
+                                                <span data-dz-name="">{{ $fileName }}</span>
+                                            </div> 
+                                        </div> 
+                                        <a class="dz-remove" href="javascript:undefined;" data-dz-remove="">Remove file</a>
+                                    </div>
+                                    @empty
+                                    @endforelse
                                 </div>
                                 <!--end::Dropzone-->
                             </div>
@@ -359,7 +383,7 @@
                                             @forelse ($variationsProduct as $key => $var)
                                                 <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-variation" name="list_variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option>{{__('product.select_variation')}}</option>
                                                             @foreach ($variations as $variation)
                                                                 <option value="{{$variation->id}}" {{$var == $variation->id ? 'selected' : ''}}>{{$variation->name}}</option>
@@ -387,7 +411,7 @@
                                             @empty
                                                 <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                     <div class="w-100 w-md-400px">
-                                                        <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                        <select class="form-select form-select-sm form-select-variation" name="list_variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                             <option>{{__('product.select_variation')}}</option>
                                                             @foreach ($variations as $variation)
                                                                 <option value="{{$variation->id}}">{{$variation->name}}</option>
@@ -563,6 +587,10 @@
         </div>
     </div>
     <!--end::Main column-->
+    @forelse ($product->medias as $media)
+    <input type='hidden' name="current_images[]" value="{{ $media->url }}">
+    @empty
+    @endforelse
 </form>
 <!--end::Form-->
 

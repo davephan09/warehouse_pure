@@ -74,7 +74,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Select2-->
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
+                <select class="form-select form-select-sm mb-2" name="active" data-control="select2" data-hide-search="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_status_select">
                     <option></option>
                     <option value="1" selected="selected">{{__('common.active')}}</option>
                     <option value="0">{{__('common.inactive')}}</option>
@@ -105,7 +105,7 @@
                 <label class="form-label">{{__('common.category')}}</label>
                 <!--end::Label-->
                 <!--begin::Select2-->
-                <select class="form-select form-select-sm mb-2" data-control="select2" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
+                <select class="form-select form-select-sm mb-2" data-control="select2" name="category_id" id="product-category" data-placeholder="{{__('common.select_an_option')}}" data-allow-clear="true">
                     <option></option>
                     {!! \App\Helpers\Helper::renderMultilevelOption($categories) !!}
                 </select>
@@ -127,7 +127,7 @@
                 <!--end::Button-->
                 <!--begin::Input group-->
                 <label class="form-label d-block">{{__('common.tags')}}</label>
-                <select id="kt_ecommerce_add_product_tags" name="kt_ecommerce_add_product_tags" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
+                <select id="kt_ecommerce_add_product_tags" name="tags[]" data-placeholder="{{__('common.select_an_option')}}" class="form-select form-select-sm mb-2" data-control="select2" data-allow-clear="true" multiple="multiple">
                     @foreach($tags as $key => $tag)
                         <option value="{{$tag->id}}">{{$tag->name}}</option>
                     @endforeach
@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
+                <select class="form-select form-select-sm mb-2" name="brand_id" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_brand_select">
                     <option></option>
                     @foreach ($brands as $brand)
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
@@ -171,7 +171,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <select class="form-select form-select-sm mb-2" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
+                <select class="form-select form-select-sm mb-2" name="unit_id" data-control="select2" data-hide-search="true" data-allow-clear="true" data-placeholder="{{__('common.select_an_option')}}" id="kt_ecommerce_add_product_unit_select">
                     <option></option>
                     @foreach ($units as $unit)
                     <option value="{{$unit->id}}">{{$unit->name}}</option>
@@ -343,7 +343,7 @@
                                         <div data-repeater-list="kt_ecommerce_add_product_options" id="list-add-variation" class="d-flex flex-column gap-3">
                                             <div data-repeater-item="" class="form-group add-variation-field d-flex flex-wrap gap-5">
                                                 <div class="w-100 w-md-400px">
-                                                    <select class="form-select form-select-sm form-select-variation" name="variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
+                                                    <select class="form-select form-select-sm form-select-variation" name="list_variations[]" data-control="select2" data-placeholder="{{__('product.select_variation')}}" data-kt-ecommerce-catalog-add-product="product_option">
                                                         <option>{{__('product.select_variation')}}</option>
                                                         @foreach ($variations as $variation)
                                                             <option value="{{$variation->id}}">{{$variation->name}}</option>

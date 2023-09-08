@@ -272,7 +272,7 @@ class UsersController extends Controller
                 $userUpdate = $this->user->find($id);
                 if ($request->hasFile('avatar')) {
                     $file = $request->file('avatar');
-                    $img = UploadFile::saveImage($file, 'avatars/' . $userUpdate->username);
+                    list($img, $url) = UploadFile::saveImage($file, 'avatars/' . $userUpdate->username);
                     $request->merge(['avatar_url' => $img]);
                 }
                 if (cleanInput($request->input('type')) === 'change' && isset($userUpdate->avatar)) {

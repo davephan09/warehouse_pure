@@ -1,11 +1,13 @@
 <?php 
 namespace App\Repositories;
 
+use App\Models\MediaProduct;
 use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Tax;
 use App\Models\Variation;
 use App\Models\VariationProduct;
+use App\Services\UploadFile;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -35,6 +37,7 @@ class ProductRepository extends Repository
             'brand_id' => cleanNumber($request->input('brand_id')),
             'unit_id' => cleanNumber($request->input('unit_id')),
             'category_id' => cleanNumber($request->input('category_id')),
+            'thumb' => $request->input('avatar_url'),
             'quantity' => $quantity,
             'user_add' => Auth::user()->id,
         ]);
@@ -119,6 +122,7 @@ class ProductRepository extends Repository
             'quantity' => $quantity,
             'brand_id' => cleanNumber($request->input('brand_id')),
             'unit_id' => cleanNumber($request->input('unit_id')),
+            'thumb' => $request->input('avatar_url'),
             'user_add' => Auth::user()->id,
         ]);
     }
@@ -214,5 +218,33 @@ class ProductRepository extends Repository
 
         $data = $query->orderByDesc('id')->get();
         return $data;
+    }
+
+    public function addMediaProduct($product, $imagePaths)
+    {
+        if (!empty($imagePaths)) {
+            foreach($imagePaths as $path) {
+                MediaProduct::create([
+                    'product_id' => $product->id,
+                    'url' => $path,
+                ]);
+            }
+        }
+    }
+
+    public function updateMediaProduct($product, $imagePaths, $currentImages = [])
+    {
+        if ($product->medias->isNotEmpty()) {
+            $currentImages = is_array($currentImages) ? $currentImages : [];
+            $oldPathsArr = $product->medias->pluck('url')->toArray();
+            foreach ($oldPathsArr as $oldPath) {
+                if (!in_array($oldPath, $currentImages)) {
+                    UploadFile::removeImage($oldPath);
+                    MediaProduct::where('product_id', $product->id)->where('url', $oldPath)->delete();
+                }
+            }
+        }
+
+        $this->addMediaProduct($product, $imagePaths);
     }
 }

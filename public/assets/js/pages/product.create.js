@@ -63,6 +63,8 @@ var ProductCreateClass = function() {
         handleRemoveVar()
         handleSelectOptions()
         syncDetailProduct()
+        handleUploadImage()
+        handleRemoveImgUpdate()
     }
 
     var drawContent = () => {
@@ -108,46 +110,48 @@ var ProductCreateClass = function() {
     var createProduct = () => {
         ele.formSubmit.on('submit', function() {
             var type = $(ele.btnCreate, $(this)).data('type')
-            var params = {
-                'thumb' : ele.thumb.val(),
-                'active' : ele.status.val(),
-                'category_id' : ele.category.val(),
-                'tags' : ele.tagField.val(),
-                'brand_id' : ele.brandField.val(),
-                'unit_id' : ele.unitField.val(),
-                'product_name' : ele.name.val(),
-                'summary' : ele.summary.val(),
-                'description' : ele.description.val(),
-                'tax' : [],
-                'tax_value' : [],
-                'variations' : [],
-            }
+            var params = new FormData(ele.formSubmit[0])
             let target = ele.btnCreate
+            $.app.showLoading(target)
             $('select[name="product_option[]"]').each((i, el) => {
-                params.tax.push($(el).val())
+                params.append('tax['+ i +']', $(el).val())
             })
             $('input[name="product_option_value[]"]').each((i, el) => {
-                params.tax_value.push($(el).val())
+                params.append('tax_value['+ i +']', $(el).val())
+            })
+            $('input[name="images[]"]').each((i, el) => {
+                params.append('medias['+ i +']', $(el).val())
             })
             if(ele.noVariation.hasClass('d-none')) {
                 $.each($('.variation-item'), function(i, item) {
-                    params.variations.push({
+                    let variants = {
                         'variationName' : $('.variation-name', $(this)).val(),
                         'options' : $('.var-options', $(this)).val(),
                         'price' : $('.var-price', $(this)).val(),
                         'quantity' : $('.var-quantity', $(this)).val(),
                         'code' : $('.var-code', $(this)).val(),
-                    })
+                    }
+                    for (var key in variants) {
+                        if (variants.hasOwnProperty(key)) {
+                            params.append('variations['+ i +']['+ key +']', variants[key])
+                        }
+                    }
                 })
             } else {
-                params.variations.push({
+                let variants = {
                     'variationName' : ele.name.val(),
                     'price' : ele.price.val(),
                     'quantity' : ele.quantity.val(),
                     'code' : ele.sku.val(),
-                })
+                }
+                for (var key in variants) {
+                    if (variants.hasOwnProperty(key)) {
+                        params.append('variations[0]['+ key +']', variants[key])
+                    }
+                }
             }
             let _cb = (rs) => {
+                $.app.hideLoading(target)
                 if (rs.status) {
                     $.app.pushNotyCallback({
                         'type' : 'success',
@@ -161,11 +165,24 @@ var ProductCreateClass = function() {
             }
 
             if(type === 'create') {
-                $.app.ajax($.app.vars.url + '/products/store', 'POST', params, target, null, _cb);
+                var url = $.app.vars.url + '/products/store'
             } else {
-                params.id = ele.productId.val()
-                $.app.ajax($.app.vars.url + '/products/update', 'POST', params, target, null, _cb);
+                params.append('id', ele.productId.val())
+                var url = $.app.vars.url + '/products/update'
             }
+
+            $.ajax({
+                url : url,
+                type : 'POST',
+                data : params,
+                processData: false,
+                contentType: false,
+                success : _cb,
+                error : function (rs) {
+                    $.app.hideLoading(target)
+                    $.app.pushNoty('error')
+                }
+            })
         })
     }
 
@@ -343,5 +360,57 @@ var ProductCreateClass = function() {
                 ele.detailVarDiv.removeClass('d-none')
             }
         }
+    }
+
+    var uploadedFileMap = {}
+    var handleUploadImage = function () {
+        var myDropzone = new Dropzone("#kt_ecommerce_add_product_media", {
+            url : $.app.vars.url + '/products/upload-files', // Set the url for your upload script location
+            paramName : "files", // The name that will be used to transfer the file
+            maxFiles : 10,
+            maxFilesize : 2, // MB
+            parallelUploads : 5,
+            addRemoveLinks : true,
+            uploadMultiple : true,
+            acceptedFiles : 'image/png, image/jpeg, image/jpg, image/gif',
+            headers : {
+                'X-CSRF-TOKEN' : $.app.vars.token,
+            },
+            success : function (file, rs) {
+                let inputHtml = ''
+                if (rs.status) {
+                    rs.data.forEach(function(item) {
+                        if (!uploadedFileMap.hasOwnProperty(file.name) && !Object.values(uploadedFileMap).includes(item)) {
+                            inputHtml += `<input type='hidden' name="images[]" value="${item}">`
+                            uploadedFileMap[file.name] = item
+                        }
+                    })
+                    ele.formSubmit.append(inputHtml)
+                }
+            },
+            errormultiple : function (files, rs) {
+                $.app.pushNoty('error')
+            },
+            removedfile : function (file) {
+                file.previewElement.remove()
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedFileMap[file.name]
+                }
+                ele.formSubmit.find('input[name="images[]"][value="'+ name +'"]').remove()
+            }
+        });
+    }
+
+    var handleRemoveImgUpdate = function() {
+        $('.dz-remove', $('.custom-dropzone-img')).on('click', function(e) {
+            e.preventDefault()
+            let imgTab = $(this).closest('.dz-preview')
+            let thisUrl = $('img', $(imgTab)).attr('src')
+            $(imgTab).remove()
+            $('input[name="current_images[]"][value="'+ thisUrl +'"]').remove()
+        })
     }
 }
