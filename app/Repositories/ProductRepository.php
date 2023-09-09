@@ -122,7 +122,7 @@ class ProductRepository extends Repository
             'quantity' => $quantity,
             'brand_id' => cleanNumber($request->input('brand_id')),
             'unit_id' => cleanNumber($request->input('unit_id')),
-            'thumb' => $request->input('avatar_url'),
+            'thumb' => !empty($request->input('avatar_url')) ? $request->input('avatar_url') : $product->thumb,
             'user_add' => Auth::user()->id,
         ]);
     }

@@ -149,7 +149,7 @@ class PurchasingController extends Controller
             DB::connection()->beginTransaction();
             try {
                 $rules = [
-                    'name' => 'required|string|max:100|min:3|unique:purchasings',
+                    'name' => 'required|string|max:100|min:3|unique:purchasings,purchasing_name',
                     'supplier' => 'required',
                     'date' => 'required',
                     'note' => 'string|nullable',
