@@ -112,4 +112,7 @@ return [
     'profile' => 'Hồ sơ của tôi',
     'view' => 'Xem',
     'remove' => 'Xóa',
+    'vi' => 'Tiếng Việt',
+    'en' => 'Tiếng Anh',
+    'language' => 'Ngôn ngữ',
 ];

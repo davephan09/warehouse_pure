@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 	@include('layouts.partials._head')
 	<!--begin::Body-->
 	<body id="kt_body" class="auth-bg">

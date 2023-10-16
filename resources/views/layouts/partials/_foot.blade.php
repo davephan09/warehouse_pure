@@ -35,5 +35,23 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $('.switch-lang').on('click', function() {
+        let lang = $(this).data('lang')
+        let langAttribute = $('html').attr('lang');
+        if (lang != langAttribute) {
+            var params = {
+                lang : lang,
+            }
+            var _cb = function(rs) {
+                if (rs.status) {
+                    location.reload()
+                } else {
+                    $.app.pushNoty('error')
+                }
+            }
+            $.app.ajax($.app.vars.url + '/change-locale', 'GET', params, $(this), null, _cb);
+        }
+    })
 </script>
 @yield('pageJs')
