@@ -112,4 +112,7 @@ return [
     'profile' => 'My profile',
     'view' => 'View',
     'remove' => 'Remove',
+    'vi' => 'Vietnamese',
+    'en' => 'English',
+    'language' => 'Language',
 ];
