@@ -4638,7 +4638,11 @@
                     <!--begin::Menu wrapper-->
                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click"
                         data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        <img src="assets/media/avatars/300-1.jpg" alt="user" />
+                        @if (isset($userInfo->avatar))
+                            <img src="{{ config('custom.get_image_api') . $userInfo->avatar }}" alt="user" />
+                        @else
+                            <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($userInfo->username, 0, 1)) }}</span>
+                        @endif
                     </div>
                     <!--begin::User account menu-->
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px"
@@ -4648,7 +4652,11 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="assets/media/avatars/300-1.jpg" />
+                                    @if (isset($userInfo->avatar))
+                                        <img src="{{ config('custom.get_image_api') . $userInfo->avatar }}" alt="Logo" />
+                                    @else
+                                        <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($userInfo->username, 0, 1)) }}</span>
+                                    @endif
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->

@@ -38,7 +38,7 @@
                 <a href="{{ route('users.show', ['id' => $user->id]) }}">
                     <div class="symbol-label">
                         @if (isset($user->avatar))
-                            <img src="{{ config('custom.image_api') . $user->avatar }}" alt="{{ $user->first_name . ' ' . $user->last_name }}"
+                            <img src="{{ config('custom.get_image_api') . $user->avatar }}" alt="{{ $user->first_name . ' ' . $user->last_name }}"
                             class="w-100" />
                         @else
                             <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($user->username, 0, 1)) }}</span>

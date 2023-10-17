@@ -37,7 +37,11 @@
                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                     <a href="../../demo1/dist/apps/user-management/users/view.html">
                         <div class="symbol-label">
-                            <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
+                            @if (isset($user->avatar))
+                                <img src="{{ config('custom.get_image_api') . $user->avatar }}" alt="{{ $user->first_name . ' ' . $user->last_name }}" class="w-100" />
+                            @else
+                                <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($user->username, 0, 1)) }}</span>
+                            @endif
                         </div>
                     </a>
                 </div>

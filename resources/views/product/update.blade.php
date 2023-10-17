@@ -24,7 +24,7 @@
                 <!--begin::Image input-->
                 <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" style="background-image: url(assets/media/svg/files/blank-image.svg)">
                     <!--begin::Preview existing avatar-->
-                    <div class="image-input-wrapper w-150px h-150px" style="background-image: url({{ config('custom.image_api') . $product->thumb }})"></div>
+                    <div class="image-input-wrapper w-150px h-150px" style="background-image: url({{ config('custom.get_image_api') . $product->thumb }})"></div>
                     <!--end::Preview existing avatar-->
                     <!--begin::Label-->
                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="{{__('common.change_avatar')}}">
@@ -295,7 +295,7 @@
                                     @endphp
                                     <div class="dz-preview dz-processing dz-image-preview dz-complete custom-dropzone-img">
                                         <div class="dz-image">
-                                            <img data-dz-thumbnail="" alt="senvoi_preview_rev_1.png" src="{{ $media->url }}" width="120" height="120">
+                                            <img data-dz-thumbnail="" alt="{{ $media->alt }}" src="{{ $media->url }}" width="120" height="120">
                                         </div> 
                                         <div class="dz-details"> 
                                             <div class="dz-size">

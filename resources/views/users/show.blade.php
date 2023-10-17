@@ -19,7 +19,7 @@
                     <!--begin::Avatar-->
                     <div class="symbol symbol-100px symbol-circle mb-7" id="avatar-info">
                         @if (isset($user->avatar))
-                            <img src="{{ config('custom.image_api') . $user->avatar }}" alt="image" />
+                            <img src="{{ config('custom.get_image_api') . $user->avatar }}" alt="image" />
                         @else
                             <span class="symbol-label bg-light-danger text-danger fw-bold">{{ strtoupper(substr($user->username, 0, 1)) }}</span>
                         @endif
@@ -1155,7 +1155,7 @@
             var instance = new UserDetailClass();
             instance.run({
                 id : {{ $user->id }},
-                imageUrl : "{{ config('custom.image_api') }}",
+                imageUrl : "{{ config('custom.get_image_api') }}",
             });
         })
     </script>

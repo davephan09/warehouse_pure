@@ -34,7 +34,7 @@
             <div class="d-flex align-items-center">
                 <!--begin::Thumbnail-->
                 <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
-                    <span class="symbol-label" style="background-image:url({{ config('custom.image_api') . $product->thumb }});"></span>
+                    <span class="symbol-label" style="background-image:url({{ config('custom.get_image_api') . $product->thumb }});"></span>
                 </a>
                 <!--end::Thumbnail-->
                 <div class="ms-5">
