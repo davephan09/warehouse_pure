@@ -26,7 +26,7 @@
                         <label class="form-label">{{__('purchasing.order_id')}}</label>
                         <!--end::Label-->
                         <!--begin::Auto-generated ID-->
-                        <div class="fw-bolder fs-3">#{{$bill->purchasing_name}}</div>
+                        <div class="fw-bolder fs-3" id="purchasing-id">{{$bill->purchasing_name}}</div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
