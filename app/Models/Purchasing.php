@@ -28,4 +28,9 @@ class Purchasing extends Model
     {
         return $this->hasOne(PurchasingDiscount::class, 'purchasing_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_add', 'id');
+    }
 }

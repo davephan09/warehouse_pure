@@ -27,6 +27,12 @@ return [
     'pick_date_range' => 'Chọn khoảng thời gian',
     'bill' => 'Đơn nhập hàng',
     'update' => 'Cập nhật đơn hàng',
+    'update_purchasing_order' => 'Cập nhật đơn nhập hàng',
     'purchasings' => 'Đơn nhập hàng',
     'add_new' => 'Thêm mới',
+    'show_invoice' => 'Thông tin đơn nhập hàng',
+    'invoice' => 'Hóa đơn',
+    'user_add' => 'Người tạo',
+    'sum_price' => 'Thành tiền',
+    'discount' => 'Khuyến mãi',
 ];

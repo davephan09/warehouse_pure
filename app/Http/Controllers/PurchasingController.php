@@ -283,4 +283,31 @@ class PurchasingController extends Controller
         }
         return response()->view('errors.404', [], 404);
     }
+
+    public function showInvoice(Request $request, $id)
+    {
+        $user = Auth::user();
+        if ($user->can('purchasing.read')) {
+            try {
+                $id = cleanNumber($id);
+                $bill = $this->purchasing->filters([
+                    'id' => $id,
+                    'relations' => ['details', 'supplier', 'user', 'discount', 'details.taxes', 'details.product', 'details.option'],
+                ]);
+                $address = Helper::getDetailAddress();
+
+                $data['address'] = $address;
+                $data['title'] = trans('purchasing.show_invoice');
+                $data['bill'] = $bill;
+                $data['taxes'] = $this->tax->filters([
+                    'status' => true,
+                ])->keyBy('id');
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error($e);
+                return response()->view('errors.404', [], 404);
+            }
+            return view('purchasing.show', $data);
+        }
+        return response()->view('errors.404', [], 404);
+    }
 }

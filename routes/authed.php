@@ -131,6 +131,7 @@ Route::prefix('purchasing')->as('purchasing.')->group(function() {
     Route::get('create', [PurchasingController::class, 'create'])->name('create');
     Route::post('store', [PurchasingController::class, 'store'])->name('store');
     Route::get('show/{id}', [PurchasingController::class, 'show'])->name('show');
+    Route::get('show-invoice/{id}', [PurchasingController::class, 'showInvoice'])->name('showInvoice');
     Route::post('update', [PurchasingController::class, 'update'])->name('update');
     Route::post('delete', [PurchasingController::class, 'destroy'])->name('destroy');
 });

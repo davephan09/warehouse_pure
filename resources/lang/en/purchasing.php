@@ -30,4 +30,9 @@ return [
     'update_purchasing_order' => 'Update Purchasing Order',
     'purchasings' => 'Purchasing Bills',
     'add_new' => 'Add Purchasing',
+    'show_invoice' => 'Purchasing Information',
+    'invoice' => 'Invoice',
+    'user_add' => 'Added by',
+    'sum_price' => 'Total',
+    'discount' => 'Discount',
 ];

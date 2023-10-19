@@ -83,6 +83,11 @@ Breadcrumbs::for('purchasing_update', function (BreadcrumbTrail $trail, $purchas
     $trail->push($purchasing->purchasing_name, route('purchasing.show', ['id' => $purchasing->id]));
 });
 
+Breadcrumbs::for('purchasing_show', function (BreadcrumbTrail $trail, $purchasing) {
+    $trail->parent('purchasing');
+    $trail->push($purchasing->purchasing_name, route('purchasing.showInvoice', ['id' => $purchasing->id]));
+});
+
 Breadcrumbs::for('access_control', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push(trans('common.access'));

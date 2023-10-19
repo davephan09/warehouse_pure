@@ -23,11 +23,11 @@
                     <input class="form-check-input" type="checkbox" value="1" />
                 </div>
             </td>
-            <td data-kt-ecommerce-order-filter="order_id">{{ $bill->id }}</td>
+            <td data-kt-ecommerce-order-filter="order_id">{{ $bill->name }}</td>
             <td>
                 <div class="d-flex align-items-center">
                     <div class="ms-5">
-                        <a href="" class="text-gray-800 text-hover-primary fs-5 fw-bolder">{{ json_decode($bill->supplier->name) }}</a>
+                        <a href="{{ route('purchasing.showInvoice', ['id' => $bill->id]) }}" class="text-gray-800 text-hover-primary fs-5 fw-bolder">{{ json_decode($bill->supplier->name) }}</a>
                     </div>
                 </div>
             </td>

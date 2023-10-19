@@ -96,7 +96,7 @@ return [
     'customer_list' => 'Danh sách khách hàng',
     'add_order' => 'Tạo đơn hàng',
     'and' => 'và',
-    'more' => 'quyển nữa',
+    'more' => 'quyền nữa',
     'date' => 'Ngày',
     'note' => 'Ghi chú',
     'switch' => 'Chuyển',
