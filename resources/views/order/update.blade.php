@@ -155,7 +155,7 @@
                                                             </select>
                                                         </td>
                                                         <td class="ps-0 pb-8">
-                                                            <input class="form-control form-control-sm form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" name="quantity[]" placeholder="1" value="{{ $item->quantity }}" data-kt-element="quantity" />
+                                                            <input class="form-control form-control-sm form-control-solid auto-cal quantity-input" data-plugin="inputmask-numeric" type="text" data-maxqty="{{ $item->quantity + $item->option->quantity }}" name="quantity[]" placeholder="1" value="{{ $item->quantity }}" data-kt-element="quantity" />
                                                             
                                                         </td>
                                                         <td class=" pb-8 input-group input-group-sm input-group-solid">

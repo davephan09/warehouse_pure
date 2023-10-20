@@ -26,4 +26,5 @@ return [
     'debt' => 'Debt',
     'order' => 'Order',
     'add_order' => 'Add Order',
+    'update' => 'Update order',
 ];

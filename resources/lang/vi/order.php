@@ -26,4 +26,5 @@ return [
     'debt' => 'Còn nợ',
     'order' => 'Đơn hàng',
     'add_order' => 'Thêm mới',
+    'update' => 'Cập nhật đơn hàng',
 ];

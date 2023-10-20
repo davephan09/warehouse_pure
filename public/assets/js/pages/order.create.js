@@ -130,6 +130,10 @@ var OrderCreateClass = function () {
                 return data.text
             },
             templateSelection: function (data, $this) {
+                let thisTr = $($this).closest('tr')
+                let qtyField = $('.quantity-input', $(thisTr))
+                let maxQty = data.quantity ? data.quantity : qtyField.data('maxqty')
+                qtyField.addMaskNumeric({max: maxQty})
                 productIds[data.id] = data.productId ?? productIds[data.id]
                 syncProductData(productIds[data.id], data.id, $this)
                 return data.textSelected ?? data.text

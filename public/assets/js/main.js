@@ -230,11 +230,13 @@ $(document).ready(function() {
 
 /* global extend */
 (function ($) {
-  $.fn.addMaskNumeric = function() {
+  $.fn.addMaskNumeric = function(options = {}) {
     Inputmask({
       alias: "numeric",
       groupSeparator: " ",
-      autoGroup: !0
+      autoGroup: !0,
+      min: 0,
+      max: options.max ? options.max : undefined,
     }).mask(this)
     return this
   }
@@ -243,7 +245,8 @@ $(document).ready(function() {
 /* execute */
 $(document).ready(function() {
   $('input[data-plugin="inputmask-numeric"]').each(function() {
-    $(this).addMaskNumeric()
+    let options = {}
+    $(this).addMaskNumeric(options)
   })
 })
 

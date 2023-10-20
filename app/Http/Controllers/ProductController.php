@@ -318,6 +318,7 @@ class ProductController extends Controller
                                 'productId' => $product->id,
                                 'text' => $item->name,
                                 'textSelected' => $product->product_name . ' - ' . $item->name,
+                                'quantity' => $item->quantity,
                             ];
                         })->all(),
                     ];
