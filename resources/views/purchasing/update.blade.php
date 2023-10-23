@@ -723,6 +723,7 @@
                 startDate : '{{ date('d/m/Y', strtotime($bill->date)) }}',
                 billId : {{ $bill->id }},
                 productIdArr : {!! json_encode($productIds) !!},
+                optionIds : {!! json_encode($optionIds) !!},
             }
             var instance = new PurchasingCreateClass();
             instance.run(options);

@@ -308,17 +308,19 @@ class ProductController extends Controller
             try {
                 $text = $request->input('keyword');
                 $text = trim(strip_tags(stripslashes($text['term'])));
+                $optionIds = cleanInput($request->input('optionIds'));
                 $products = $this->product->searchProduct($text);
-                $products = $products->map(function($product) {
+                $products = $products->map(function($product) use ($optionIds) {
                     return [
                         'text' => $product->product_name . ' (' . $product->category->name . ')',
-                        'children' => $product->variations->map(function($item) use($product) {
+                        'children' => $product->variations->map(function($item) use($product, $optionIds) {
                             return [
                                 'id' => $item->id,
                                 'productId' => $product->id,
                                 'text' => $item->name,
                                 'textSelected' => $product->product_name . ' - ' . $item->name,
                                 'quantity' => $item->quantity,
+                                'disabled' => in_array($item->id, $optionIds),
                             ];
                         })->all(),
                     ];

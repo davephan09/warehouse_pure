@@ -6,6 +6,7 @@ var OrderCreateClass = function () {
     var options = {}
     var taxIndex = 0
     var productIds = []
+    var optionIds = []
 
     this.run = function (opt) {
         options = opt
@@ -114,7 +115,8 @@ var OrderCreateClass = function () {
                 quietMillis: 100,
                 data: function (term) {
                     return {
-                        keyword: term
+                        keyword: term,
+                        optionIds: optionIds,
                     }
                 },
                 processResults: function (data) {
@@ -136,6 +138,14 @@ var OrderCreateClass = function () {
                 qtyField.addMaskNumeric({max: maxQty})
                 productIds[data.id] = data.productId ?? productIds[data.id]
                 syncProductData(productIds[data.id], data.id, $this)
+
+                optionIds = []
+                $.each($('.product-input'), function(i, item) {
+                    let $id = $(item).val()
+                    if ($id >= 0 && !optionIds.includes($id)) {
+                        optionIds.push($id)
+                    }
+                })
                 return data.textSelected ?? data.text
             }
         })

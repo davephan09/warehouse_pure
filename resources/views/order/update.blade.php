@@ -702,6 +702,7 @@
                 startDate : '{{ date('d/m/Y', strtotime($order->date)) }}',
                 billId : {{ $order->id }},
                 productIdArr : {!! json_encode($productIds) !!},
+                optionIds : {!! json_encode($optionIds) !!},
             }
             var instance = new OrderCreateClass();
             instance.run(options);

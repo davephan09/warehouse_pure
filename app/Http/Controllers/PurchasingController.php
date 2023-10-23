@@ -196,10 +196,13 @@ class PurchasingController extends Controller
                 ]);
                 $data['bill'] = $bill;
                 $productIds = array();
+                $optionIds = array();
                 foreach ($bill->details as $item) {
-                    $productIds[$item->option_id] = $item->product_id; 
+                    $productIds[$item->option_id] = $item->product_id;
+                    $optionIds[] = $item->option_id;
                 };
                 $data['productIds'] = $productIds;
+                $data['optionIds'] = $optionIds;
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return response()->view('errors.404', [], 404);

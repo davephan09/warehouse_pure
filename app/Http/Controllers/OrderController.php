@@ -190,10 +190,13 @@ class OrderController extends Controller
                 ]);
                 $data['order'] = $order;
                 $productIds = array();
+                $optionIds = array();
                 foreach ($order->details as $item) {
                     $productIds[$item->option_id] = $item->product_id; 
+                    $optionIds[] = $item->option_id;
                 };
                 $data['productIds'] = $productIds;
+                $data['optionIds'] = $optionIds;
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error($e);
                 return response()->view('errors.404', [], 404);
