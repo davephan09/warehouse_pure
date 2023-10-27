@@ -4871,7 +4871,6 @@ textarea.form-control-lg {
 }
 .page-link:hover {
   z-index: 2;
-  cursor: pointer;
   color: #009EF7;
   text-decoration: none;
   background-color: #F1FAFF;
@@ -28523,6 +28522,7 @@ a:hover {
 }
 .page-item:hover:not(.offset) .page-link {
   color: #009EF7;
+  cursor: pointer;
   /*rtl:options:{"autoRename":false}*/
 }
 .page-item:hover:not(.offset) .page-link i {

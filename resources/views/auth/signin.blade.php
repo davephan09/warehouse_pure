@@ -9,7 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
-		<meta property="og:title" content="DW &amp; Warehouse management application" />
+		<meta property="og:title" content="{{ __('common.store_name')}} &amp; Warehouse management application" />
 		{{-- <meta property="og:url" content="https://keenthemes.com/metronic" /> --}}
 		<meta property="og:site_name" content="David Phan | Warehouse Management" />
 		{{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
@@ -34,7 +34,7 @@
 				<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
 					<!--begin::Logo-->
 					<a href="../../demo1/dist/index.html" class="mb-12">
-						<img alt="Logo" src="assets/media/logos/logo-1.svg" class="h-40px" />
+						<img alt="Logo" src="assets/media/logos/logo-1.png" class="h-50px" />
 					</a>
 					<!--end::Logo-->
 					<!--begin::Wrapper-->
@@ -44,7 +44,7 @@
 							<!--begin::Heading-->
 							<div class="text-center mb-10">
 								<!--begin::Title-->
-								<h1 class="text-dark mb-3">Sign In to DW</h1>
+								<h1 class="text-dark mb-3">Sign In to Storagist</h1>
 								<!--end::Title-->
 								<!--begin::Link-->
 								<div class="text-gray-400 fw-bold fs-4">New Here?

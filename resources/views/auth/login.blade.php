@@ -7,7 +7,7 @@
                         <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                     </a> --}}
                     <a href="/" class="mb-12">
-                        <img alt="Logo" src="{{ asset('assets/media/logos/logo-1.svg') }}" class="h-40px" />
+                        <img alt="Logo" src="{{ asset('assets/media/logos/logo-1.png') }}" class="h-50px" />
                     </a>
                 {{-- </x-slot> --}}
 
@@ -23,7 +23,7 @@
                         <!--begin::Heading-->
                         <div class="text-center mb-10">
                             <!--begin::Title-->
-                            <h1 class="text-dark mb-3">{{__('Sign In to DW')}}</h1>
+                            <h1 class="text-dark mb-3">{{__('common.sign_in_to') . ' ' . __('common.store_name')}}</h1>
                             <!--end::Title-->
                             <!--begin::Link-->
                             <div class="text-gray-400 fw-bold fs-4">{{__('New Here?')}}

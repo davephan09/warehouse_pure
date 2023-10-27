@@ -109,7 +109,8 @@
 	&:hover:not(.offset) {
 		.page-link {
 			color: $pagination-hover-color;
-
+			cursor: pointer;
+			
 			i {
 				color: $pagination-hover-color;
 			}

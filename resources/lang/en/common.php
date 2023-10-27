@@ -115,4 +115,9 @@ return [
     'vi' => 'Vietnamese',
     'en' => 'English',
     'language' => 'Language',
+    'notifications' => 'Notifications',
+    'num_reports' => 'reports',
+    'view_all' => 'View All',
+    'store_name' => 'Storagist',
+    'sign_in_to' => 'Sign In to',
 ];

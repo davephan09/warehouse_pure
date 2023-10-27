@@ -9,7 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
-		<meta property="og:title" content="DW &amp; Warehouse management application" />
+		<meta property="og:title" content="{{ __('common.store_name')}} &amp; Warehouse management application" />
 		{{-- <meta property="og:url" content="https://keenthemes.com/metronic" /> --}}
 		<meta property="og:site_name" content="David Phan | Warehouse Management" />
         <meta name="csrf-token" content="{{ csrf_token() }}">

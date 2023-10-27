@@ -115,4 +115,9 @@ return [
     'vi' => 'Tiếng Việt',
     'en' => 'Tiếng Anh',
     'language' => 'Ngôn ngữ',
+    'notifications' => 'Thông báo',
+    'num_reports' => 'thông báo',
+    'view_all' => 'Xem tất cả',
+    'store_name' => 'Storagist',
+    'sign_in_to' => 'Đăng nhập vào',
 ];
