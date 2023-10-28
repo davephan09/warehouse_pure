@@ -16,9 +16,9 @@
 
 <script src="{{ url('assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ url('assets/js/scripts.bundle.js') }}"></script>
-<script src="{{ url('assets/js/libs/Datatables/datatables.min.js') }}"></script>
+<script src="{{ url('assets/js/libs/DataTables/datatables.min.js') }}"></script>
 <script src="{{ url('assets/js/libs/datatables.bundle.js') }}"></script>
-<script src="{{ url('assets/js/libs/Datatables/sum().js') }}"></script>
+<script src="{{ url('assets/js/libs/DataTables/sum().js') }}"></script>
 <script src="{{ url('assets/js/libs/loadingoverlay.min.js') }}"></script>
 <script src="{{ url('assets/js/main.js') }}"></script>
 <!--end::Global Javascript Bundle-->
