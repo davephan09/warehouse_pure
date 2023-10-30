@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('dashboard', function () {
-    return view('welcome');
+    return redirect()->route('product.index');
 })->name('dashboard');
 
 Route::prefix('users')->group(function() {
