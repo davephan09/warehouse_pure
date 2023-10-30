@@ -11,7 +11,7 @@
     <meta property="og:site_name" content="David Phan | Warehouse Management" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
-    <link rel="shortcut icon" href="{{ url('assets/media/logos/favicon.ico')}}" />
+    <link rel="shortcut icon" href="{{ url('assets/media/logos/logo.png')}}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link href="{{ url('assets/js/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
 	{{-- <link href="{{ url('assets/js/libs/DataTables/datatables.min.css')}}" rel="stylesheet" type="text/css" /> --}}
