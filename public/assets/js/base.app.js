@@ -601,6 +601,40 @@
             });
         }
 
+        this.pushToastr = function (type, msg, title) {
+            if (!type) type = 'success';
+            if (type == 'success' && !msg) msg = Lang.get('common.Successfully');
+            if (type == 'error' && !msg) msg = Lang.get('common.error_try_again');
+            if (typeof title == 'undefined') title = null;
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            switch (type) {
+                case 'success':
+                    toastr.success(msg, title)
+                    break;
+                case 'error':
+                    toastr.error(msg, title)
+                    break;
+                default:
+                    toastr.info(msg, title)
+            }
+        }
+
         addPrototype();
     };
 
