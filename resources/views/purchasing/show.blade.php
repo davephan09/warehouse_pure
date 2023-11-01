@@ -129,7 +129,7 @@
                                                             <td>
                                                                 <div class="d-flex align-items-center">
                                                                     <!--begin::Thumbnail-->
-                                                                    <a href="javascript;" class="symbol symbol-50px">
+                                                                    <a href="javascript:;" class="symbol symbol-50px">
                                                                         <span class="symbol-label" style="background-image:url({{ config('custom.get_image_api') . $item->product->thumb }});"></span>
                                                                     </a>
                                                                     <!--end::Thumbnail-->

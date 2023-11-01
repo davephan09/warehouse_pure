@@ -6,6 +6,7 @@ use App\Events\OrderBillCreated;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class UpdateProductOrder implements ShouldQueue
@@ -39,25 +40,31 @@ class UpdateProductOrder implements ShouldQueue
      */
     public function handle(OrderBillCreated $event)
     {
-        $order = $event->getOrder();
-        $type = $event->getType();
-        $oldOrder = $event->getOldOrder();
-        switch ($type)
-        {
-            case 'create':
-                $this->modifyQuantity($order, false);
-                break;
-            case 'update':
-                $this->modifyQuantity($oldOrder);
-                $this->modifyQuantity($order, false);
-                break;
-            case 'delete':
-                $this->modifyQuantity($order);
-                break;
-            default:
-                break;
+        DB::connection()->beginTransaction();
+        try {
+            $order = $event->getOrder();
+            $type = $event->getType();
+            $oldOrder = $event->getOldOrder();
+            switch ($type)
+            {
+                case 'create':
+                    $this->modifyQuantity($order, false);
+                    break;
+                case 'update':
+                    $this->modifyQuantity($oldOrder);
+                    $this->modifyQuantity($order, false);
+                    break;
+                case 'delete':
+                    $this->modifyQuantity($order);
+                    break;
+                default:
+                    break;
+            }
+            DB::connection()->commit();
+            \Illuminate\Support\Facades\Log::info("Queue has updated products follow order bill ({$type}): " . collect($oldOrder)->toJson());
+        } catch (\Exception $e) {
+            DB::connection()->rollBack();
         }
-        \Illuminate\Support\Facades\Log::info("Queue has updated products follow order bill ({$type}): " . collect($oldOrder)->toJson());
     }
 
     public function failed(OrderBillCreated $event, Throwable $exception): void

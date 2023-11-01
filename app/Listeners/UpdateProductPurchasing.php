@@ -6,6 +6,7 @@ use App\Events\PurchasingBillCreated;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class UpdateProductPurchasing implements ShouldQueue
@@ -39,25 +40,31 @@ class UpdateProductPurchasing implements ShouldQueue
      */
     public function handle(PurchasingBillCreated $event)
     {
-        $purchasing = $event->getPurchasing();
-        $type = $event->getType();
-        $oldPurchasing = $event->getOldPurchasing();
-        switch ($type)
-        {
-            case 'create':
-                $this->modifyQuantity($purchasing);
-                break;
-            case 'update':
-                $this->modifyQuantity($oldPurchasing, false);
-                $this->modifyQuantity($purchasing);
-                break;
-            case 'delete':
-                $this->modifyQuantity($purchasing, false);
-                break;
-            default:
-                break;
+        DB::connection()->beginTransaction();
+        try {
+            $purchasing = $event->getPurchasing();
+            $type = $event->getType();
+            $oldPurchasing = $event->getOldPurchasing();
+            switch ($type)
+            {
+                case 'create':
+                    $this->modifyQuantity($purchasing);
+                    break;
+                case 'update':
+                    $this->modifyQuantity($oldPurchasing, false);
+                    $this->modifyQuantity($purchasing);
+                    break;
+                case 'delete':
+                    $this->modifyQuantity($purchasing, false);
+                    break;
+                default:
+                    break;
+            }
+            DB::connection()->commit();
+            \Illuminate\Support\Facades\Log::info("Queue has updated products follow purchasing bill ({$type}): " . collect($oldPurchasing)->toJson());
+        } catch (\Exception $e) {
+            DB::connection()->rollBack();
         }
-        \Illuminate\Support\Facades\Log::info("Queue has updated products follow purchasing bill ({$type}): " . collect($oldPurchasing)->toJson());
     }
 
     public function failed(PurchasingBillCreated $event, Throwable $exception): void
