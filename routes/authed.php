@@ -3,6 +3,7 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProductController;
@@ -164,3 +165,9 @@ Route::prefix('switches')->as('switch.')->group(function() {
 });
 
 Route::impersonate();
+
+Route::prefix('notifications')->as('notification.')->group(function() {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::get('get-data', [NotificationController::class, 'getData'])->name('getData');
+    Route::post('store', [NotificationController::class, 'store'])->name('store');
+});

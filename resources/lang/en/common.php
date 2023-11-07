@@ -120,4 +120,5 @@ return [
     'view_all' => 'View All',
     'store_name' => 'Storagist',
     'sign_in_to' => 'Sign In to',
+    'stt' => '#',
 ];

@@ -10,13 +10,13 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderBillCreated
+class OrderBillCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $order;
-    private $type;
-    private $oldOrder;
+    public $order;
+    public $type;
+    public $oldOrder;
 
     public function getOrder()
     {
@@ -52,6 +52,6 @@ class OrderBillCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('orders');
     }
 }

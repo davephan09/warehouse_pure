@@ -120,4 +120,5 @@ return [
     'view_all' => 'Xem tất cả',
     'store_name' => 'Storagist',
     'sign_in_to' => 'Đăng nhập vào',
+    'stt' => 'STT',
 ];

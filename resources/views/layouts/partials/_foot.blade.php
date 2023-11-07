@@ -20,6 +20,7 @@
 <script src="{{ url('assets/js/libs/datatables.bundle.js') }}"></script>
 <script src="{{ url('assets/js/libs/DataTables/sum().js') }}"></script>
 <script src="{{ url('assets/js/libs/loadingoverlay.min.js') }}"></script>
+<script src="{{ url('js/app.js') }}"></script>
 <script src="{{ url('assets/js/main.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 <script src="{{ url('assets/js/base.app.js') }}"></script>
@@ -35,6 +36,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    var userId = '{{ auth()->user()->id }}'
 
     $('.switch-lang').on('click', function() {
         let lang = $(this).data('lang')
@@ -53,5 +56,12 @@
             $.app.ajax($.app.vars.url + '/change-locale', 'GET', params, $(this), null, _cb);
         }
     })
+
+    // -------------------------
+    // Notifications
+    Echo.private('App.Models.User.' + userId)
+        .notification((notification) => {
+            addNotifications([notification], '.noti-item-header');
+        })
 </script>
 @yield('pageJs')

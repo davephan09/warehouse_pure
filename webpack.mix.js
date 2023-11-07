@@ -5,6 +5,7 @@ const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const rimraf = require('rimraf');
 const del = require('del');
 const fs = require('fs');
+require("dotenv").config();
 
 /*
  |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ mix.options({
 
 // Remove existing generated assets from public folder
 del.sync(['public/css/*', 'public/js/*', 'public/media/*', 'public/plugins/*',]);
+mix.js('resources/js/app.js', 'public/js');
+    // .sass('resources/sass/app.scss', 'public/css');
 
 // Build 3rd party plugins css/js
 mix.sass(`resources/src/webpack/plugins/plugins.scss`, `public/assets/plugins/global/plugins.bundle.css`).then(() => {

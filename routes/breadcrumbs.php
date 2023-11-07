@@ -142,3 +142,8 @@ Breadcrumbs::for('switch', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push(trans('switch.switch_user'), route('switch.index'));
 });
+
+Breadcrumbs::for('notification', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push(trans('notify.notifications'), route('notification.index'));
+});

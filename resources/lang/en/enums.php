@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ActiveStatus;
+use App\Enums\NotificationType;
 use App\Enums\NumRowPage;
 
 return [
@@ -18,5 +19,12 @@ return [
         NumRowPage::Fifty => 50,
         NumRowPage::Hundred => 100,
         NumRowPage::TwoHundred => 200,
+    ],
+
+    NotificationType::class => [
+        NotificationType::all => 'All notifications',
+        NotificationType::purchasing => 'Purchasing',
+        NotificationType::order => 'Order',
+        NotificationType::other => 'Other',
     ],
 ];
