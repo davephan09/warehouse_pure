@@ -100,9 +100,12 @@ var RolesClass = function () {
             var $id = $(this).data('id')
             ele.roleNameEdit.val(listRoles[$id])
             ele.idRole.val($id)
+            console.log(rolePermission)
             $.each(ele.checkItemsE, function(i, val) {
                 if (rolePermission[$id].includes($(this).data('id'))) {
                     $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
                 }
             })
         })
