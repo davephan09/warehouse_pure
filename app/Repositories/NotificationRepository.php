@@ -23,21 +23,21 @@ class NotificationRepository extends Repository
             ->leftJoin($notiUserModel->getTable() . ' as B', function($join) use ($table, $user) {
                 $join->on('B.noti_id', '=', $table.'.id')
                     ->where('B.user_id', $user->id);
-            })
-            ->where(function ($sQuery) use ($table) {
-                $sQuery->where($table.'.module_name', '!=', 'purchasing')
-                    ->where($table.'.module_name', '!=', 'order');
             });
-
+           
         if (!$user->hasAnyRole(['Super Admin', 'Manager'])) {
-            $query->orWhere($table.'.user_id', $user->id);
+            $query->where($table.'.user_id', $user->id)
+                ->where(function ($sQuery) use ($table) {
+                    $sQuery->where($table.'.module_name', '!=', 'purchasing')
+                        ->where($table.'.module_name', '!=', 'order');
+                });
         } else {
-            $query->orWhere($table.'.module_name', 'purchasing')
-                ->orWhere($table.'.module_name', 'order');
+            // $query->orWhere($table.'.module_name', 'purchasing')
+            //     ->orWhere($table.'.module_name', 'order');
         }
 
         if (!empty($filters['method']) && $filters['method'] != 'all') {
-            $query->where($table.'method_name', $filters['method']);
+            $query->where($table.'.module_name', $filters['method']);
         }
 
         if (!empty($filters['seen'])) {

@@ -28,7 +28,6 @@ class NotificationController extends Controller
         $user = Auth::user();
         if ($user) {
             try {
-                $test = User::permission('notification.order')->get();dd($test);
                 $data['title'] = trans('notify.list_noti');
                 $data['notify_type'] = NotificationType::asSelectArray();
             } catch (\Exception $e) {
